@@ -4,10 +4,12 @@
 #include "SDL_image.h"
 #include "TextureManager.h"
 #include "Flags.h"
+#include "SpriteList.h"
 struct Game {
 	Window Window;
 	Renderer Renderer;
 	Flags Flags;
+	SpriteList SpriteList;
 	//store arrray of maps? store the map im on?
 	//store preloaded assets here? maybe under a asset class?
 	bool IsRunning = false;

@@ -138,7 +138,9 @@
     <ClCompile Include="mapTile.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="renderer.cpp" />
+    <ClCompile Include="sprite.cpp" />
     <ClCompile Include="textureManager.cpp" />
+    <ClCompile Include="vec2.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -150,7 +152,10 @@
     <ClInclude Include="MapTileType.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Sprite.h" />
+    <ClInclude Include="SpriteList.h" />
     <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="Vec2.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

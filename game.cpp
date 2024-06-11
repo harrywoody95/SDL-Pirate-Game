@@ -39,6 +39,8 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	MapTileAssets mapass;
 	mapass.LoadMapTileAssets();
 	map.LoadMap("Assets/Maps/Map1.txt", "", "", mapass);
+	Sprite* s = new Sprite();
+	s->CreateSprite(0.0, 0.0, "Assets/Player/1.png", 16, 1, &SpriteList);
 }
 
 void Game::HandleWindowEvent()
@@ -64,6 +66,7 @@ void Game::Render()
 	SDL_RenderClear(Renderer::MainRenderer);
 	//add stuff to be rendered
 	map.DrawMap();
+	SpriteList.Draw();
 	SDL_RenderPresent(Renderer::MainRenderer);
 }
 
@@ -80,5 +83,5 @@ void Game::DestroyGame()
 
 void Game::UpdateGame()
 {
-
+	SpriteList.Update();
 }
