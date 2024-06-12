@@ -7,6 +7,9 @@
 #include "SpriteList.h"
 #include "UserInput.h"
 #include "Player.h"
+#include "Scenes.h"
+#include "Audio.h"
+#include <vector>
 struct Game {
 
 	static SDL_Event Event;
@@ -16,6 +19,8 @@ struct Game {
 	Flags Flags;
 	SpriteList SpriteList;
 	Player Player;
+	std::vector <Scene> Scenes;
+	Audio Audio;
 
 	bool IsRunning = false;
 	//store arrray of maps? store the map im on?

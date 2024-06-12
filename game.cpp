@@ -1,23 +1,31 @@
 #include "Game.h"
 #include <iostream>
 #include "Map.h"
+#include "Scenes.h"
+#include "SDL_mixer.h"
 
 Map map;
 SDL_Event Game::Event;
 
 void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Height, bool Fullscreen)
 {
+
 	int Flags = 0;
 	if (Fullscreen)
 	{
 		Flags = SDL_WINDOW_FULLSCREEN;
 	}
-
-	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
+	//SDL_setenv("SDL_AUDIODRIVER", "directsound", 1);
+	//SDL_SetHint("SDL_AUDIODRIVER", "directsound");
+	//init mixer
+	if (SDL_Init(SDL_INIT_EVERYTHING | SDL_INIT_AUDIO) != 0)
 	{
 		std::cout << "SDL SUBSYSTEMS FAILED TO INITALISED" << std::endl;
 		return;
 	}
+	//init mixer
+	Mix_Init(0);
+
 	std::cout << "SDL SUBSYSTEMS INITALISED" << std::endl;
 
 	Window.InitWindow(Title, xpos, ypos, Width, Height, Flags);
@@ -42,6 +50,12 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	map.LoadMap("Assets/Maps/Map1.txt", "", "", mapass);
 	Player.Sprite = new Sprite();
 	Player.Sprite->CreateSprite(0.0, 0.0, "Assets/Player/1.png", 16, 1, &SpriteList);
+	//create main menu
+	Scene MainMenu;
+	MainMenu.CreateScene(SceneType::Mainmenu);
+	Scenes.push_back(MainMenu);
+	//add music
+	Audio.MusicList.AddMusic("Assets/Audio/Music/m.ogg", "MainMenu");
 }
 
 void Game::HandleWindowEvent()
@@ -65,8 +79,21 @@ void Game::Render()
 {
 	SDL_RenderClear(Renderer::MainRenderer);
 	//add stuff to be rendered
-	map.DrawMap();
-	SpriteList.Draw();
+	if (Flags.MainMenu)
+	{
+		for (int x = 0; x < Scenes.size(); x++)
+		{
+			if (Scenes[x].Name == "MainMenu")
+			{
+				Scenes[x].DrawScene(SceneType::Mainmenu);
+			}
+		}
+	}
+	else
+	{
+		map.DrawMap();
+		SpriteList.Draw();
+	}
 	SDL_RenderPresent(Renderer::MainRenderer);
 }
 
@@ -83,6 +110,19 @@ void Game::DestroyGame()
 
 void Game::UpdateGame()
 {
-	UserInput.Update(this);
-	SpriteList.Update();
+	if (Flags.MainMenu)
+	{
+		for (int x = 0; x < Scenes.size(); x++)
+		{
+			if (Scenes[x].Name == "MainMenu")
+			{
+				Scenes[x].UpdateScene(SceneType::Mainmenu, this);
+			}
+		}
+	}
+	else
+	{
+		UserInput.Update(this);
+		SpriteList.Update();
+	}
 }

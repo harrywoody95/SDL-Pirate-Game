@@ -11,15 +11,18 @@ int main(int argc, char *argv[])
     int FrameTime;
     Game Game;
     Game.CreateGame("Pirate Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 960, false);
+    
+    Game.Audio.MusicList.List[0].PlayMusic(true);
     //Game.Flags.MainMenu = true;
     while (Game.IsRunning)
     {
+        SDL_GetMouseState(&Game.UserInput.MousePos.x, &Game.UserInput.MousePos.y);
         FrameStart = SDL_GetTicks();
 
 
 
 
-
+        
         Game.HandleWindowEvent();
         Game.UpdateGame();
         Game.Render();

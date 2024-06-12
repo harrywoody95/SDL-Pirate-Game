@@ -1,4 +1,5 @@
 #include "UserInput.h"
+#include "SDL.h"
 #include "Game.h"
 
 void UserInput::GetUserInput()

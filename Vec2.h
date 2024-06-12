@@ -10,3 +10,7 @@ struct Vec2 {
 	Vec2& Divide(Vec2 v);
 	
 };
+struct Vec2i {
+	int x;
+	int y;
+};

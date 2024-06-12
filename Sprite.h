@@ -2,9 +2,11 @@
 #include "SDL.h"
 #include "Movement.h"
 #include <vector>
+#include <String>
 struct SpriteList;
 struct Sprite
 {
+	std::string Name;
 	Movement Movement;
 	SDL_Texture* Texture;
 	SDL_Rect SourceBox;

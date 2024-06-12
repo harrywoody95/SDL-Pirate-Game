@@ -1,4 +1,5 @@
 #pragma once
+#include "Vec2.h"
 struct Game;
 struct UserInput {
 
@@ -11,6 +12,8 @@ struct UserInput {
 	bool KEY_A_RELEASED = false;
 	bool KEY_S_RELEASED = false;
 	bool KEY_D_RELEASED = false;
+
+	Vec2i MousePos;
 
 	void GetUserInput();
 	void HandleUserInput(Game* Game);
