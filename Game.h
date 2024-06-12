@@ -5,14 +5,21 @@
 #include "TextureManager.h"
 #include "Flags.h"
 #include "SpriteList.h"
+#include "UserInput.h"
+#include "Player.h"
 struct Game {
+
+	static SDL_Event Event;
+	UserInput UserInput;
 	Window Window;
 	Renderer Renderer;
 	Flags Flags;
 	SpriteList SpriteList;
-	//store arrray of maps? store the map im on?
-	//store preloaded assets here? maybe under a asset class?
+	Player Player;
+
 	bool IsRunning = false;
+	//store arrray of maps? store the map im on?
+    //store preloaded assets here? maybe under a asset class?
 
 	void CreateGame(const char* Title, int xpos, int ypos, int Width, int Height, bool Fullscreen);
 	void HandleWindowEvent();

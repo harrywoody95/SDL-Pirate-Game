@@ -3,6 +3,7 @@
 #include "Map.h"
 
 Map map;
+SDL_Event Game::Event;
 
 void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Height, bool Fullscreen)
 {
@@ -39,13 +40,12 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	MapTileAssets mapass;
 	mapass.LoadMapTileAssets();
 	map.LoadMap("Assets/Maps/Map1.txt", "", "", mapass);
-	Sprite* s = new Sprite();
-	s->CreateSprite(0.0, 0.0, "Assets/Player/1.png", 16, 1, &SpriteList);
+	Player.Sprite = new Sprite();
+	Player.Sprite->CreateSprite(0.0, 0.0, "Assets/Player/1.png", 16, 1, &SpriteList);
 }
 
 void Game::HandleWindowEvent()
 {
-	SDL_Event Event;
 	SDL_PollEvent(&Event);
 	switch (Event.type)
 	{
@@ -83,5 +83,6 @@ void Game::DestroyGame()
 
 void Game::UpdateGame()
 {
+	UserInput.Update(this);
 	SpriteList.Update();
 }

@@ -9,16 +9,14 @@ struct SpriteList
 	{
 		for (int x = 0; x < Sprites.size(); x++)
 		{
-			Sprite s = *Sprites[x];
-			s.Update();
+			Sprites[x]->Update();
 		}
 	}
 	void Draw()
 	{
 		for (int x = 0; x < Sprites.size(); x++)
 		{
-			Sprite s = *Sprites[x];
-			s.Draw();
+			Sprites[x]->Draw();
 		}
 	}
 };

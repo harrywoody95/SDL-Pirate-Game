@@ -1,6 +1,7 @@
 #pragma once
 #include "SDL.h"
-class Player
+#include "Sprite.h"
+struct Player
 {
-	
+	Sprite* Sprite;
 };

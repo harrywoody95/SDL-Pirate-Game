@@ -1,11 +1,11 @@
 #pragma once
 #include "SDL.h"
-#include "Vec2.h"
+#include "Movement.h"
 #include <vector>
 struct SpriteList;
 struct Sprite
 {
-	Vec2 Position;
+	Movement Movement;
 	SDL_Texture* Texture;
 	SDL_Rect SourceBox;
 	SDL_Rect DestinationBox;
@@ -16,8 +16,9 @@ struct Sprite
 
 	void Update()
 	{
-		DestinationBox.x = Position.x;
-		DestinationBox.y = Position.y;
+		Movement.Update();
+		DestinationBox.x = Movement.Position.x;
+		DestinationBox.y = Movement.Position.y;
 	}
 	void Draw();
 

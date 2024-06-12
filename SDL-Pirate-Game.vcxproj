@@ -140,6 +140,7 @@
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="sprite.cpp" />
     <ClCompile Include="textureManager.cpp" />
+    <ClCompile Include="userInput.cpp" />
     <ClCompile Include="vec2.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>
@@ -150,11 +151,13 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapTile.h" />
     <ClInclude Include="MapTileType.h" />
+    <ClInclude Include="Movement.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteList.h" />
     <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="UserInput.h" />
     <ClInclude Include="Vec2.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>

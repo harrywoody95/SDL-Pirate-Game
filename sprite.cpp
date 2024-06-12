@@ -4,8 +4,7 @@
 
 void Sprite::CreateSprite(float x, float y, const char* Filename, int SpriteBitSize, int Scale, SpriteList* SpriteList)
 {
-	Position.x = x;
-	Position.y = y;
+	Movement.init(x, y);
 
 	SourceBox.x = 0;
 	SourceBox.y = 0;
@@ -14,8 +13,8 @@ void Sprite::CreateSprite(float x, float y, const char* Filename, int SpriteBitS
 
 	DestinationBox.w = 64 * Scale;
 	DestinationBox.h = 64 * Scale;
-	DestinationBox.x = Position.x;
-	DestinationBox.y = Position.y;
+	DestinationBox.x = Movement.Position.x;
+	DestinationBox.y = Movement.Position.y;
 
 	Texture = TextureManager::LoadTexture(Filename);
 
