@@ -1,0 +1,7 @@
+Right-Walk1.png
+Right-Walk2.png
+Right-Walk3.png
+#COSTUME
+Right-Walk1b.png
+Right-Walk2b.png
+Right-Walk3b.png

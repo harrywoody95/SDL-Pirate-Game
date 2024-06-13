@@ -36,4 +36,8 @@ void Sprite::DeleteSprite(SpriteList* SpriteList)
 void Sprite::Draw()
 {
 	TextureManager::Draw(Texture, SourceBox, DestinationBox);
+	if (Costume != nullptr)
+	{
+		TextureManager::Draw(Costume, SourceBox, DestinationBox);
+	}
 }

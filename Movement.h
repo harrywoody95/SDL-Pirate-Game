@@ -1,9 +1,14 @@
 #pragma once
 #include "Vec2.h"
+#include"Animation.h"
 
 struct Movement {
 	Vec2 Position;
 	Vec2 Velocity;
+	State LastState;
+	State CurrentState = Idle;
+	Direction LastDirection;
+	Direction CurrentDirection = East;
 	int Speed = 2;
 
 	void init(float PosX, float PosY)

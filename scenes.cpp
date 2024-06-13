@@ -121,6 +121,11 @@ void Scene::UpdateScene(SceneType st, Game* Game)
 {
 	if (st == SceneType::Mainmenu)
 	{
+		if (!Mix_PlayingMusic())
+		{
+			Mix_FadeInMusic(Game->Audio.MusicList.List[0].Music, -1, 4000);
+			//Game->Audio.MusicList.List[0].PlayMusic(true);
+		}
 		if (isTransitioning == false)
 		{
 			for (int x = 0; x < Textures.size(); x++)
@@ -136,6 +141,7 @@ void Scene::UpdateScene(SceneType st, Game* Game)
 					{
 						isTransitioning = true;
 						fade = 255;
+						Mix_FadeOutMusic(2700);
 						FadeOut(Game);
 						Game->Flags.MainMenu = false;
 					}

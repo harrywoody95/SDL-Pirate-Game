@@ -1,0 +1,7 @@
+Down-Idle1.png
+Down-Idle2.png
+Down-Idle3.png
+#COSTUME
+Down-Idle1b.png
+Down-Idle2b.png
+Down-Idle3b.png

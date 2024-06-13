@@ -1,0 +1,7 @@
+Up-Idle1.png
+Up-Idle2.png
+Up-Idle3.png
+#COSTUME
+Up-Idle1a.png
+Up-Idle2a.png
+Up-Idle3a.png

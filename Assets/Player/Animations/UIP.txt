@@ -1,0 +1,3 @@
+Up-Idle1.png
+Up-Idle2.png
+Up-Idle3.png

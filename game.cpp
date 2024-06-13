@@ -44,18 +44,28 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	}
 	std::cout << "SDL CREATED RENDERER" << std::endl;
 	SDL_SetRenderDrawColor(Renderer::MainRenderer, 0, 0, 0, 255);
+
+	//load all player animations
+	Player.LoadAnimations("Assets/Player/Animations/master.txt");
 	IsRunning = true;
+
+	//create and load map
 	MapTileAssets mapass;
 	mapass.LoadMapTileAssets();
 	map.LoadMap("Assets/Maps/Map1.txt", "", "", mapass);
+
+	//create player sprite and set animation
 	Player.Sprite = new Sprite();
 	Player.Sprite->CreateSprite(0.0, 0.0, "Assets/Player/1.png", 16, 1, &SpriteList);
+	Player.SetAnimation();
+	
 	//create main menu
 	Scene MainMenu;
 	MainMenu.CreateScene(SceneType::Mainmenu);
 	Scenes.push_back(MainMenu);
 	//add music
 	Audio.MusicList.AddMusic("Assets/Audio/Music/m.ogg", "MainMenu");
+	
 }
 
 void Game::HandleWindowEvent()
@@ -123,6 +133,7 @@ void Game::UpdateGame()
 	else
 	{
 		UserInput.Update(this);
+		Player.UpdatePlayer();
 		SpriteList.Update();
 	}
 }

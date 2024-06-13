@@ -1,0 +1,7 @@
+Right-Idle1.png
+Right-Idle2.png
+Right-Idle3.png
+#COSTUME
+Right-Idle1b.png
+Right-Idle2b.png
+Right-Idle3b.png
