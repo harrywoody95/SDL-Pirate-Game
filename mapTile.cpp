@@ -16,3 +16,13 @@ void MapTile::CreateMapTile(MapTileType Type, SDL_Rect SourceBox, SDL_Rect Desti
 		}
 	}
 }
+
+SDL_Rect MapTile::Update(Camera* camera)
+{
+	return {
+	DestinationBox.x - camera->Position.x,
+	DestinationBox.y - camera->Position.y,
+	DestinationBox.w,
+	DestinationBox.y
+	};
+}

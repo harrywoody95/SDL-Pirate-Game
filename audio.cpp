@@ -1,4 +1,5 @@
 #include "Audio.h"
+
 void MusicList::AddMusic(const char* FileName, std::string Name)
 {
 	Music Music;
@@ -24,10 +25,12 @@ void SoundEffect::PlaySoundEffect()
 {
 	Mix_PlayChannel(-1, Sound, 0);
 }
+
 void Music::StopMusic()
 {
 	Mix_PauseMusic();
 }
+
 void SoundList::AddSoundEffect(const char* FileName, std::string Name)
 {
 	SoundEffect SE;

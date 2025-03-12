@@ -21,6 +21,7 @@ void Sprite::CreateSprite(float x, float y, const char* Filename, int SpriteBitS
 	SpriteList->Sprites.push_back(this);
 
 }
+
 void Sprite::DeleteSprite(SpriteList* SpriteList)
 {
 	for (int x = 0; x < SpriteList->Sprites.size(); x++)
@@ -33,11 +34,27 @@ void Sprite::DeleteSprite(SpriteList* SpriteList)
 		}
 	}
 }
+
 void Sprite::Draw()
 {
 	TextureManager::Draw(Texture, SourceBox, DestinationBox);
 	if (Costume != nullptr)
 	{
 		TextureManager::Draw(Costume, SourceBox, DestinationBox);
+	}
+}
+
+void Sprite::Update()
+{
+	Movement.Update();
+	if (Name == "PlayerSprite")
+	{
+		DestinationBox.x = 1920 / 2 - DestinationBox.w / 2;
+		DestinationBox.y = 1080 / 2 - DestinationBox.h / 2;
+	}
+	else
+	{
+		DestinationBox.x = Movement.Position.x;
+		DestinationBox.y = Movement.Position.y;
 	}
 }

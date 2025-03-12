@@ -23,4 +23,3 @@ struct MapTileAssets {
 		MapTiles.push_back(MapTileTexture);
 	}
 };
-

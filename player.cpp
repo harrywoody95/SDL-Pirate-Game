@@ -27,20 +27,23 @@ void Player::UpdateAnimation()
 	}
 	CurrentAnimation->Speed.Counter++;
 
-	if (CurrentAnimation->Speed.Counter == CurrentAnimation->Speed.TargetUntilChange)
+	if (!(CurrentAnimation->Speed.Counter == CurrentAnimation->Speed.TargetUntilChange))
 	{
-		Sprite->Texture = CurrentAnimation->PlayerTextures[CurrentAnimation->lastindex];
-		if (CurrentAnimation->costumeType > CostumeType::Plain)
-		{
-			Sprite->Costume = CurrentAnimation->CostumeTextures[CurrentAnimation->lastindex];
-		}
-		CurrentAnimation->lastindex++;
-		if (CurrentAnimation->lastindex  >= CurrentAnimation->PlayerTextures.size())
-		{
-			CurrentAnimation->lastindex = 0;
-		}
-		CurrentAnimation->Speed.Counter = 0;
+		return;
 	}
+
+	Sprite->Texture = CurrentAnimation->PlayerTextures[CurrentAnimation->lastindex];
+	if (CurrentAnimation->costumeType > CostumeType::Plain)
+	{
+		Sprite->Costume = CurrentAnimation->CostumeTextures[CurrentAnimation->lastindex];
+	}
+	CurrentAnimation->lastindex++;
+	if (CurrentAnimation->lastindex  >= CurrentAnimation->PlayerTextures.size())
+	{
+		CurrentAnimation->lastindex = 0;
+	}
+	CurrentAnimation->Speed.Counter = 0;
+	
 }
 
 void Player::UpdatePlayer()

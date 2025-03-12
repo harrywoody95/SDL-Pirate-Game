@@ -5,7 +5,6 @@ void GameObject::CreateGameObject(const char* Filename, int Xpos, int Ypos)
 	this->Xpos = Xpos;
 	this->Ypos = Ypos;
 	Texture = TextureManager::LoadTexture(Filename);
-	
 }
 
 void GameObject::Update()

@@ -2,25 +2,9 @@
 #include <vector>
 #include "SDL.h"
 #include <string>
-struct Speed
-{
-	static const int FPS = 144;
-	int TargetUntilChange = 30;
-	int ChangesPerSecond = 2;
-	int Counter = 0;
-};
-enum Direction {
-	North,
-	East,
-	South,
-	West,
-};
-enum State {
-	Idle,
-	Walking,
-	Running,
-};
 
+enum Direction;
+enum State;
 enum AnimationType {
 	IdleUp,
 	IdleDown,
@@ -36,6 +20,15 @@ enum CostumeType {
 	Basic,
 	Advanced,
 };
+
+struct Speed
+{
+	static const int FPS = 144;
+	int TargetUntilChange = 20;
+	int ChangesPerSecond = 2;
+	int Counter = 0;
+};
+
 struct Animation {
 	
 	Direction direction;
@@ -46,8 +39,6 @@ struct Animation {
 	int lastindex;
 	Speed Speed;
 
-
 	Animation(std::string FileName, CostumeType CostumeType, State State, Direction Direction);
-
-	
 };
+

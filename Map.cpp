@@ -53,18 +53,21 @@ void Map::LoadMap(const char* LayerOneFileName, const char* LayerTwoFilename, co
 	}
 }
 
-void Map::DrawMap()
+void Map::DrawMap(Camera* camera)
 {
 	for (int index = 0; index < LayerOne.size(); index++)
 	{
-		TextureManager::Draw(LayerOne[index].Texture, LayerOne[index].SourceBox, LayerOne[index].DestinationBox);
+		SDL_Rect dBox = LayerOne[index].Update(camera);
+		TextureManager::Draw(LayerOne[index].Texture, LayerOne[index].SourceBox, dBox);
 	}
 	for (int index = 0; index < LayerTwo.size(); index++)
 	{
-		TextureManager::Draw(LayerTwo[index].Texture, LayerTwo[index].SourceBox, LayerTwo[index].DestinationBox);
+		SDL_Rect dBox = LayerTwo[index].Update(camera);
+		TextureManager::Draw(LayerTwo[index].Texture, LayerTwo[index].SourceBox, dBox);
 	}
 	for (int index = 0; index < LayerThree.size(); index++)
 	{
-		TextureManager::Draw(LayerThree[index].Texture, LayerThree[index].SourceBox, LayerThree[index].DestinationBox);
+		SDL_Rect dBox = LayerThree[index].Update(camera);
+		TextureManager::Draw(LayerThree[index].Texture, LayerThree[index].SourceBox, dBox);
 	}
 }

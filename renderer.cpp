@@ -1,4 +1,5 @@
 #include "Renderer.h"
+
 SDL_Renderer* Renderer::MainRenderer = nullptr;
 
 void Renderer::InitRenderer(SDL_Window* Window)

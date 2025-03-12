@@ -1,6 +1,17 @@
 #pragma once
 #include "Vec2.h"
-#include"Animation.h"
+
+enum Direction {
+	North,
+	East,
+	South,
+	West,
+};
+enum State {
+	Idle,
+	Walking,
+	Running,
+};
 
 struct Movement {
 	Vec2 Position;
@@ -9,7 +20,7 @@ struct Movement {
 	State CurrentState = Idle;
 	Direction LastDirection;
 	Direction CurrentDirection = East;
-	int Speed = 2;
+	int Speed = 3;
 
 	void init(float PosX, float PosY)
 	{

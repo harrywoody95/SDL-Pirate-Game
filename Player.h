@@ -7,16 +7,13 @@
 struct Player
 {
 	Sprite* Sprite;
-	CostumeType costumeType = Basic;
+	CostumeType costumeType = Advanced;
 	std::vector <Animation> AnimationList;
 	Animation* CurrentAnimation;
 
 	void LoadAnimations(std::string FileName);
 
-
 	void SetAnimation();
 	void UpdateAnimation();
 	void UpdatePlayer();
-
-	
 };

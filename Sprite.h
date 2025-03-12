@@ -3,6 +3,7 @@
 #include "Movement.h"
 #include <vector>
 #include <String>
+
 struct SpriteList;
 struct Sprite
 {
@@ -12,19 +13,11 @@ struct Sprite
 	SDL_Texture* Costume = nullptr;
 	SDL_Rect SourceBox;
 	SDL_Rect DestinationBox;
+	SDL_Rect CollisionBox;
 
 	void CreateSprite(float x, float y, const char* Filename, int SpriteBitSize, int Scale, SpriteList* SpriteList);
 	void DeleteSprite(SpriteList* SpriteList);
 
-
-	void Update()
-	{
-		Movement.Update();
-		DestinationBox.x = Movement.Position.x;
-		DestinationBox.y = Movement.Position.y;
-	}
+	void Update();
 	void Draw();
-
 };
-
-

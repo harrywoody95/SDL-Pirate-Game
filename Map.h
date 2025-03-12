@@ -6,6 +6,6 @@ struct Map {
 	std::vector <MapTile> LayerTwo;
 	std::vector <MapTile> LayerThree;
 
-	void DrawMap();
+	void DrawMap(Camera* camera);
 	void LoadMap(const char* LayerOneFileName, const char* LayerTwoFilename, const char* LayerThreeFilename, MapTileAssets MTA);
 };

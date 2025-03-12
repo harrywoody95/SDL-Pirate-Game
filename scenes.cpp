@@ -3,10 +3,13 @@
 #include "TextureManager.h"
 #include "Game.h"
 
-void Scene::CreateScene(SceneType st)
+void Scene::CreateScene(SceneType st, Game* game)
 {
 	if (st == SceneType::Mainmenu)
 	{
+		int w, h;
+		w = game->Window.GetResolution().x;
+		h = game->Window.GetResolution().y;
 		Name = "MainMenu";
 		Sprite* s = new Sprite();
 		s->SourceBox.x = 0;
@@ -16,8 +19,8 @@ void Scene::CreateScene(SceneType st)
 
 		s->DestinationBox.x = 0;
 		s->DestinationBox.y = 0;
-		s->DestinationBox.w = 1920;
-		s->DestinationBox.h = 960;
+		s->DestinationBox.w = w;
+		s->DestinationBox.h = h;
 
 		s->Texture = TextureManager::LoadTexture("Assets/MainMenu/background.png");
 		s->Name = "Background";
@@ -30,10 +33,10 @@ void Scene::CreateScene(SceneType st)
 		s1->SourceBox.w = 1801;
 		s1->SourceBox.h = 163;
 
-		s1->DestinationBox.x = 170;
-		s1->DestinationBox.y = 35;
-		s1->DestinationBox.w = 1601;
-		s1->DestinationBox.h = 143;
+		s1->DestinationBox.w = s1->SourceBox.w;
+		s1->DestinationBox.h = s1->SourceBox.h;
+		s1->DestinationBox.x = (w - s1->DestinationBox.w) / 2;
+		s1->DestinationBox.y = (h - s1->DestinationBox.h) / 10 ;
 
 		s1->Texture = TextureManager::LoadTexture("Assets/MainMenu/title.png");
 		s1->Name = "Title";
@@ -46,10 +49,10 @@ void Scene::CreateScene(SceneType st)
 		s2->SourceBox.w = 328;
 		s2->SourceBox.h = 75;
 
-		s2->DestinationBox.x = 796;
-		s2->DestinationBox.y = 400;
-		s2->DestinationBox.w = 328;
-		s2->DestinationBox.h = 75;
+		s2->DestinationBox.w = s2->SourceBox.w;
+		s2->DestinationBox.h = s2->SourceBox.h;
+		s2->DestinationBox.x = (w - s2->DestinationBox.w) / 2;
+		s2->DestinationBox.y = (h - s2->DestinationBox.h) / 2;
 
 		s2->Texture = TextureManager::LoadTexture("Assets/MainMenu/newgame.png");
 		s2->Name = "NewGame";
@@ -62,10 +65,10 @@ void Scene::CreateScene(SceneType st)
 		s3->SourceBox.w = 365;
 		s3->SourceBox.h = 76;
 
-		s3->DestinationBox.x = 777;
-		s3->DestinationBox.y = 500;
-		s3->DestinationBox.w = 365;
-		s3->DestinationBox.h = 75;
+		s3->DestinationBox.w = s3->SourceBox.w;
+		s3->DestinationBox.h = s3->SourceBox.h;
+		s3->DestinationBox.x = (w - s3->DestinationBox.w) / 2;
+		s3->DestinationBox.y = (h - s3->DestinationBox.h) / 1.7;
 
 		s3->Texture = TextureManager::LoadTexture("Assets/MainMenu/loadgame.png");
 		s3->Name = "LoadGame";
@@ -78,10 +81,10 @@ void Scene::CreateScene(SceneType st)
 		s4->SourceBox.w = 235;
 		s4->SourceBox.h = 76;
 
-		s4->DestinationBox.x = 842;
-		s4->DestinationBox.y = 600;
-		s4->DestinationBox.w = 235;
-		s4->DestinationBox.h = 75;
+		s4->DestinationBox.w = s4->SourceBox.w;
+		s4->DestinationBox.h = s4->SourceBox.h;
+		s4->DestinationBox.x = (w - s4->DestinationBox.w) / 2;
+		s4->DestinationBox.y = (h - s4->DestinationBox.h) / 1.5;
 
 		s4->Texture = TextureManager::LoadTexture("Assets/MainMenu/Settings.png");
 		s4->Name = "Settings";
@@ -89,15 +92,17 @@ void Scene::CreateScene(SceneType st)
 		Textures.push_back(s4);
 
 		Sprite* s5 = new Sprite();
+		
 		s5->SourceBox.x = 0;
 		s5->SourceBox.y = 0;
 		s5->SourceBox.w = 340;
 		s5->SourceBox.h = 76;
 
-		s5->DestinationBox.x = 790;
-		s5->DestinationBox.y = 700;
-		s5->DestinationBox.w = 340;
-		s5->DestinationBox.h = 75;
+		s5->DestinationBox.w = s5->SourceBox.w;
+		s5->DestinationBox.h = s5->SourceBox.h;
+		s5->DestinationBox.x = (w - s5->DestinationBox.w) / 2;
+		s5->DestinationBox.y = (h - s5->DestinationBox.h) / 1.34;
+
 
 		s5->Texture = TextureManager::LoadTexture("Assets/MainMenu/exitgame.png");
 		s5->Name = "ExitGame";
@@ -204,124 +209,4 @@ void Scene::FadeOut(Game* Game)
 		SDL_RenderPresent(Game->Renderer.MainRenderer);
 		SDL_Delay(10);
 	}
-}
-
-void MainMenu(Game* Game)
-{
-	SDL_Rect Source;
-	SDL_Rect BackgroundDestination, TitleDestination, NewDestination, LoadDestination, SettingsDestination, ExitDestination;
-
-	Source.x = 0;
-	Source.y = 0;
-	Source.w = 3840;
-	Source.h = 2160;
-
-	BackgroundDestination.x = 0;
-	BackgroundDestination.y = 0;
-	BackgroundDestination.w = 1920;
-	BackgroundDestination.h = 960;
-
-	SDL_Texture* Background = TextureManager::LoadTexture("Assets/MainMenu/background.png");
-	TextureManager::Draw(Background, Source, BackgroundDestination);
-
-	Source.w = 1801;
-	Source.h = 163;
-	TitleDestination.w = 1601;
-	TitleDestination.h = 143;
-	TitleDestination.y = 35;
-	TitleDestination.x = 170;
-
-	SDL_Texture* Title = TextureManager::LoadTexture("Assets/MainMenu/title.png");
-	TextureManager::Draw(Title, Source, TitleDestination);
-
-	Source.w = 328;
-	Source.h = 75;
-	NewDestination.w = 328;
-	NewDestination.h = 75;
-	NewDestination.y = 400;
-	NewDestination.x = 796;
-	SDL_Texture* NewGame = TextureManager::LoadTexture("Assets/MainMenu/newgame.png");
-	if (Game->UserInput.MousePos.x >= NewDestination.x && Game->UserInput.MousePos.x <= NewDestination.x + NewDestination.w && Game->UserInput.MousePos.y >= NewDestination.y && Game->UserInput.MousePos.y <= NewDestination.y + NewDestination.h)
-	{
-		SDL_SetTextureColorMod(NewGame, 100, 100, 100);
-		TextureManager::Draw(NewGame, Source, NewDestination);
-		if (Game::Event.type == SDL_MOUSEBUTTONDOWN)
-		{
-			Game->Flags.MainMenu = false;
-		}
-	}
-	else
-	{
-		TextureManager::Draw(NewGame, Source, NewDestination);
-	}
-
-	Source.w = 365;
-	Source.h = 76;
-	LoadDestination.w = 365;
-	LoadDestination.h = 75;
-	LoadDestination.y = 500;
-	LoadDestination.x = 777;
-	SDL_Texture* LoadGame = TextureManager::LoadTexture("Assets/MainMenu/loadgame.png");
-	if (Game->UserInput.MousePos.x >= LoadDestination.x && Game->UserInput.MousePos.x <= LoadDestination.x + LoadDestination.w && Game->UserInput.MousePos.y >= LoadDestination.y && Game->UserInput.MousePos.y <= LoadDestination.y + LoadDestination.h)
-	{
-		SDL_SetTextureColorMod(LoadGame, 100, 100, 100);
-		TextureManager::Draw(LoadGame, Source, LoadDestination);
-		if (Game::Event.type == SDL_MOUSEBUTTONDOWN)
-		{
-			
-		}
-	}
-	else
-	{
-		TextureManager::Draw(LoadGame, Source, LoadDestination);
-	}
-
-	Source.w = 235;
-	Source.h = 76;
-	SettingsDestination.w = 235;
-	SettingsDestination.h = 75;
-	SettingsDestination.y = 600;
-	SettingsDestination.x = 842;
-	SDL_Texture* Settings = TextureManager::LoadTexture("Assets/MainMenu/Settings.png");
-	if (Game->UserInput.MousePos.x >= SettingsDestination.x && Game->UserInput.MousePos.x <= SettingsDestination.x + SettingsDestination.w && Game->UserInput.MousePos.y >= SettingsDestination.y && Game->UserInput.MousePos.y <= SettingsDestination.y + SettingsDestination.h)
-	{
-		SDL_SetTextureColorMod(Settings, 100, 100, 100);
-		TextureManager::Draw(Settings, Source, SettingsDestination);
-		if (Game::Event.type == SDL_MOUSEBUTTONDOWN)
-		{
-
-		}
-	}
-	else
-	{
-		TextureManager::Draw(Settings, Source, SettingsDestination);
-	}
-
-	Source.w = 340;
-	Source.h = 76;
-	ExitDestination.w = 340;
-	ExitDestination.h = 75;
-	ExitDestination.y = 700;
-	ExitDestination.x = 790;
-	SDL_Texture* ExitGame = TextureManager::LoadTexture("Assets/MainMenu/exitgame.png");
-	if (Game->UserInput.MousePos.x >= ExitDestination.x && Game->UserInput.MousePos.x <= ExitDestination.x + ExitDestination.w && Game->UserInput.MousePos.y >= ExitDestination.y && Game->UserInput.MousePos.y <= ExitDestination.y + ExitDestination.h)
-	{
-		SDL_SetTextureColorMod(ExitGame, 100, 100, 100);
-		TextureManager::Draw(ExitGame, Source, ExitDestination);
-		if (Game::Event.type == SDL_MOUSEBUTTONDOWN)
-		{
-			Game->IsRunning = false;
-		}
-	}
-	else
-	{
-		TextureManager::Draw(ExitGame, Source, ExitDestination);
-	}
-
-
-}
-
-void StartGame()
-{
-
 }

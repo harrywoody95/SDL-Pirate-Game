@@ -12,11 +12,9 @@ struct Scene {
 	bool isTransitioning;
 	std::vector<Sprite*> Textures;
 	int fade;
-	void CreateScene(SceneType st);
+	void CreateScene(SceneType st, Game* game);
 	void DrawScene(SceneType st);
 	void UpdateScene(SceneType st, Game* Game);
 	void FadeIn(Game* Game);
 	void FadeOut(Game* Game);
 };
-void MainMenu(Game* Game);
-void StartGame();

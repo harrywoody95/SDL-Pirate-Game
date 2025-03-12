@@ -9,7 +9,9 @@
 #include "Player.h"
 #include "Scenes.h"
 #include "Audio.h"
+#include "Camera.h"
 #include <vector>
+
 struct Game {
 
 	static SDL_Event Event;
@@ -21,15 +23,16 @@ struct Game {
 	Player Player;
 	std::vector <Scene> Scenes;
 	Audio Audio;
+	Camera Camera;
 
 	bool IsRunning = false;
 	//store arrray of maps? store the map im on?
     //store preloaded assets here? maybe under a asset class?
 
 	void CreateGame(const char* Title, int xpos, int ypos, int Width, int Height, bool Fullscreen);
+
 	void HandleWindowEvent();
 	void Render();
-	
 	void UpdateGame();
 
 	void DestroyGame();

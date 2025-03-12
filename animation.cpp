@@ -3,7 +3,6 @@
 #include "TextureManager.h"
 #include "Player.h"
 
-
 Animation::Animation(std::string FileName, CostumeType CostumeType, State State, Direction Direction)
 {
 	lastindex = 0;
@@ -43,4 +42,3 @@ Animation::Animation(std::string FileName, CostumeType CostumeType, State State,
 	}
 	file.close();
 }
-

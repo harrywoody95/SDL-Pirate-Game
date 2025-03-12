@@ -56,13 +56,15 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 
 	//create player sprite and set animation
 	Player.Sprite = new Sprite();
-	Player.Sprite->CreateSprite(0.0, 0.0, "Assets/Player/1.png", 16, 1, &SpriteList);
+	Player.Sprite->CreateSprite(1000.0, 1000.0, "Assets/Player/1.png", 16, 1, &SpriteList);
+	Player.Sprite->Name = "PlayerSprite";
 	Player.SetAnimation();
 	
 	//create main menu
 	Scene MainMenu;
-	MainMenu.CreateScene(SceneType::Mainmenu);
+	MainMenu.CreateScene(SceneType::Mainmenu, this);
 	Scenes.push_back(MainMenu);
+
 	//add music
 	Audio.MusicList.AddMusic("Assets/Audio/Music/m.ogg", "MainMenu");
 	
@@ -98,13 +100,19 @@ void Game::Render()
 				Scenes[x].DrawScene(SceneType::Mainmenu);
 			}
 		}
+		SDL_RenderPresent(Renderer::MainRenderer);
 	}
 	else
 	{
-		map.DrawMap();
+		map.DrawMap(&Camera);
 		SpriteList.Draw();
+		
+		//SDL_Rect player_rect = {Camera.Position.x, Camera.Position.y, Camera.Size.x, Camera.Size.y };
+		//SDL_RenderCopy(Renderer::MainRenderer, Player.Sprite->Texture,NULL, &player_rect);
+
+		SDL_RenderPresent(Renderer::MainRenderer);
 	}
-	SDL_RenderPresent(Renderer::MainRenderer);
+	
 }
 
 void Game::DestroyGame()
@@ -133,7 +141,8 @@ void Game::UpdateGame()
 	else
 	{
 		UserInput.Update(this);
-		Player.UpdatePlayer();
 		SpriteList.Update();
+		Player.UpdatePlayer();
+		UpdateCamera(&Camera, &Player);
 	}
 }
