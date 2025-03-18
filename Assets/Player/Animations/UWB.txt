@@ -1,7 +1,9 @@
 Up-Walk1.png
 Up-Walk2.png
 Up-Walk3.png
+Up-Walk2.png
 #COSTUME
 Up-Walk1b.png
 Up-Walk2b.png
 Up-Walk3b.png
+Up-Walk2b.png

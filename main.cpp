@@ -4,11 +4,11 @@
 
 int main(int argc, char *argv[])
 {
-    int width, height;
-    std::cout << "Enter your resolution width: ";
-    std::cin >> width;
-    std::cout << "Enter your resolution height: ";
-    std::cin >> height;
+    //int width, height;
+    //std::cout << "Enter your resolution width: ";
+    //std::cin >> width;
+    //std::cout << "Enter your resolution height: ";
+    //std::cin >> height;
 
     const int FPS = 165;
     const int FrameDelay = 1000 / FPS;
@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
     int FrameTime;
 
     Game Game;
-    Game.CreateGame("Pirate Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, false);
+    Game.CreateGame("Pirate Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, false);
     Game.Flags.MainMenu = false;
 
     while (Game.IsRunning)

@@ -11,9 +11,25 @@ enum State {
 	Idle,
 	Walking,
 	Running,
+	Swimming,
+	Sailing,
+	FullSailing,
+	Dead,
+};
+enum ActionState {
+	None,
+	Jump,
+	Attack,
+	Use,
 };
 
 struct Movement {
+
+	static const int WalkingSpeed = 2;
+	static const int RunningSpeed = 3;
+	static const int SailSpeed = 2;
+	static const int FullSailSpeed = 3;
+
 	Vec2 Position;
 	Vec2 Velocity;
 	State LastState;
@@ -39,5 +55,26 @@ struct Movement {
 	{
 		Position.x = Position.x + (Velocity.x * Speed);
 		Position.y = Position.y + (Velocity.y * Speed);
+	}
+	
+	void GetSpeed()
+	{
+		// maybe a switch would do better here
+		if (CurrentState == Walking)
+		{
+
+		}
+		if (CurrentState == Running)
+		{
+
+		}
+		if (CurrentState == Sailing)
+		{
+
+		}
+		if (CurrentState == FullSailing)
+		{
+
+		}
 	}
 };

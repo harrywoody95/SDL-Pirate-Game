@@ -3,6 +3,7 @@
 #include "Map.h"
 #include "Scenes.h"
 #include "SDL_mixer.h"
+#include "Item.h"
 
 Map map;
 SDL_Event Game::Event;
@@ -54,12 +55,18 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	mapass.LoadMapTileAssets();
 	map.LoadMap("Assets/Maps/Map1.txt", "", "", mapass);
 
+
+	Item item;
+	item.CreateItem("BlackBeard's Cloak", 250, costume, 20, Black, Basic);
+	Player.CurrentCostume = item.Costume;
 	//create player sprite and set animation
 	Player.Sprite = new Sprite();
 	Player.Sprite->CreateSprite(1000.0, 1000.0, "Assets/Player/1.png", 16, 1, &SpriteList);
 	Player.Sprite->Name = "PlayerSprite";
 	Player.SetAnimation();
 	
+
+
 	//create main menu
 	Scene MainMenu;
 	MainMenu.CreateScene(SceneType::Mainmenu, this);

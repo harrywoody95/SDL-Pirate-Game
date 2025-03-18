@@ -4,12 +4,13 @@
 
 void Player::SetAnimation()
 {
+
 	for (int x = 0; x < AnimationList.size(); x++)
 	{
-		if (AnimationList[x].direction == Sprite->Movement.CurrentDirection && AnimationList[x].state == Sprite->Movement.CurrentState && costumeType == AnimationList[x].costumeType)
+		if (AnimationList[x].direction == Sprite->Movement.CurrentDirection && AnimationList[x].state == Sprite->Movement.CurrentState && CurrentCostume.Type == AnimationList[x].costumeType)
 		{
 			CurrentAnimation = &AnimationList[x];
-			Sprite->Texture = CurrentAnimation->PlayerTextures[0];
+			Sprite->Texture = CurrentAnimation->CharacterTextures[0];
 			if (CurrentAnimation->costumeType > CostumeType::Plain)
 			{
 				Sprite->Costume = CurrentAnimation->CostumeTextures[0];
@@ -32,13 +33,13 @@ void Player::UpdateAnimation()
 		return;
 	}
 
-	Sprite->Texture = CurrentAnimation->PlayerTextures[CurrentAnimation->lastindex];
+	Sprite->Texture = CurrentAnimation->CharacterTextures[CurrentAnimation->lastindex];
 	if (CurrentAnimation->costumeType > CostumeType::Plain)
 	{
 		Sprite->Costume = CurrentAnimation->CostumeTextures[CurrentAnimation->lastindex];
 	}
 	CurrentAnimation->lastindex++;
-	if (CurrentAnimation->lastindex  >= CurrentAnimation->PlayerTextures.size())
+	if (CurrentAnimation->lastindex  >= CurrentAnimation->CharacterTextures.size())
 	{
 		CurrentAnimation->lastindex = 0;
 	}

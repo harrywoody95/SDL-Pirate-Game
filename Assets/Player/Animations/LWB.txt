@@ -1,7 +1,9 @@
 Left-Walk1.png
 Left-Walk2.png
 Left-Walk3.png
+Left-Walk2.png
 #COSTUME
 Left-Walk1b.png
 Left-Walk2b.png
 Left-Walk3b.png
+Left-Walk2b.png

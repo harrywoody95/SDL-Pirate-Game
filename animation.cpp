@@ -35,7 +35,7 @@ Animation::Animation(std::string FileName, CostumeType CostumeType, State State,
 			line += temp;
 			const char* filetext = line.c_str();
 			SDL_Texture* Texture = TextureManager::LoadTexture(filetext);
-			PlayerTextures.push_back(Texture);
+			CharacterTextures.push_back(Texture);
 			temp = "";
 			line = "Assets/Player/";
 		}
