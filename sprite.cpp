@@ -38,16 +38,12 @@ void Sprite::DeleteSprite(SpriteList* SpriteList)
 void Sprite::Draw()
 {
 	TextureManager::Draw(Texture, SourceBox, DestinationBox);
-	if (Costume != nullptr)
-	{
-		TextureManager::Draw(Costume, SourceBox, DestinationBox);
-	}
 }
 
 void Sprite::Update()
 {
 	Movement.Update();
-	if (Name == "PlayerSprite")
+	if (Name == "PlayerSprite" || Name == "CostumeSprite")
 	{
 		DestinationBox.x = 1920 / 2 - DestinationBox.w / 2;
 		DestinationBox.y = 1080 / 2 - DestinationBox.h / 2;

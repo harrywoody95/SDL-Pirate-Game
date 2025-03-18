@@ -76,35 +76,35 @@ void UserInput::GetUserInput()
 void UserInput::HandleUserInput(Game* Game)
 {
 
-	Game->Player.Sprite->Movement.Velocity.x = 0;
-	Game->Player.Sprite->Movement.Velocity.y = 0;
-	Game->Player.Sprite->Movement.LastDirection = Game->Player.Sprite->Movement.CurrentDirection;
-	Game->Player.Sprite->Movement.LastState = Game->Player.Sprite->Movement.CurrentState;
+	Game->Player.PlayerSprite->Movement.Velocity.x = 0;
+	Game->Player.PlayerSprite->Movement.Velocity.y = 0;
+	Game->Player.PlayerSprite->Movement.LastDirection = Game->Player.PlayerSprite->Movement.CurrentDirection;
+	Game->Player.PlayerSprite->Movement.LastState = Game->Player.PlayerSprite->Movement.CurrentState;
 	
 	//pressed
 	if (KEY_W_PRESSED)
 	{
-		Game->Player.Sprite->Movement.Velocity.y = -1;
-		Game->Player.Sprite->Movement.CurrentDirection = North;
-		Game->Player.Sprite->Movement.CurrentState = Walking;
+		Game->Player.PlayerSprite->Movement.Velocity.y = -1;
+		Game->Player.PlayerSprite->Movement.CurrentDirection = North;
+		Game->Player.PlayerSprite->Movement.CurrentState = Walking;
 	}
 	if (KEY_A_PRESSED)
 	{
-		Game->Player.Sprite->Movement.Velocity.x = -1;
-		Game->Player.Sprite->Movement.CurrentDirection = West;
-		Game->Player.Sprite->Movement.CurrentState = Walking;
+		Game->Player.PlayerSprite->Movement.Velocity.x = -1;
+		Game->Player.PlayerSprite->Movement.CurrentDirection = West;
+		Game->Player.PlayerSprite->Movement.CurrentState = Walking;
 	}
 	if (KEY_S_PRESSED)
 	{
-		Game->Player.Sprite->Movement.Velocity.y = 1;
-		Game->Player.Sprite->Movement.CurrentDirection = South;
-		Game->Player.Sprite->Movement.CurrentState = Walking;
+		Game->Player.PlayerSprite->Movement.Velocity.y = 1;
+		Game->Player.PlayerSprite->Movement.CurrentDirection = South;
+		Game->Player.PlayerSprite->Movement.CurrentState = Walking;
 	}
 	if (KEY_D_PRESSED)
 	{
-		Game->Player.Sprite->Movement.Velocity.x = 1;
-		Game->Player.Sprite->Movement.CurrentDirection = East;
-		Game->Player.Sprite->Movement.CurrentState = Walking;
+		Game->Player.PlayerSprite->Movement.Velocity.x = 1;
+		Game->Player.PlayerSprite->Movement.CurrentDirection = East;
+		Game->Player.PlayerSprite->Movement.CurrentState = Walking;
 	}
 
 	//released
@@ -128,7 +128,7 @@ void UserInput::HandleUserInput(Game* Game)
 	//if idle
 	if (!KEY_W_RELEASED && !KEY_W_PRESSED && !KEY_A_PRESSED && !KEY_A_RELEASED && !KEY_D_PRESSED && !KEY_D_RELEASED && !KEY_S_PRESSED && !KEY_S_RELEASED)
 	{
-		Game->Player.Sprite->Movement.CurrentState = Idle;
+		Game->Player.PlayerSprite->Movement.CurrentState = Idle;
 	}
 
 }

@@ -1,4 +1,4 @@
-#include "Game.h"
+﻿#include "Game.h"
 #include <iostream>
 #include "Map.h"
 #include "Scenes.h"
@@ -56,14 +56,22 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	map.LoadMap("Assets/Maps/Map1.txt", "", "", mapass);
 
 
-	Item item;
-	item.CreateItem("BlackBeard's Cloak", 250, costume, 20, Black, Basic);
-	Player.CurrentCostume = item.Costume;
+	Item* item = new Item(CreateItem("BlackBeard's Cloak", 250, costume));
+	item->Costume.DefenceStat = 20;
+	item->Costume.CostumeColour = Colour::Black;
+	item->Costume.Type = CostumeType::Advanced;
+
+	Player.CurrentCostume = &item->Costume; 
+
 	//create player sprite and set animation
-	Player.Sprite = new Sprite();
-	Player.Sprite->CreateSprite(1000.0, 1000.0, "Assets/Player/1.png", 16, 1, &SpriteList);
-	Player.Sprite->Name = "PlayerSprite";
-	Player.SetAnimation();
+	Player.PlayerSprite = new Sprite();
+	Player.PlayerSprite->CreateSprite(1000.0, 1000.0, "Assets/Player/1.png", 16, 1, &SpriteList);
+	Player.CostumeSprite = new Sprite();
+	Player.CostumeSprite->CreateSprite(1000.0, 1000.0, "Assets/Player/transparent.png", 16, 1, &SpriteList);
+	Player.PlayerSprite->Name = "PlayerSprite";
+	Player.CostumeSprite->Name = "CostumeSprite";
+	Player.SetPlayerAnimation();
+	Player.SetPlayerCostumeAnimation();
 	
 
 

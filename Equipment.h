@@ -1,11 +1,6 @@
 #pragma once
 
-enum EquipmentType {
-	None,
-	Sword,
-	Gun,
-	Shovel,
-};
+
 
 
 

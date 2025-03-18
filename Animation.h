@@ -5,7 +5,7 @@
 
 enum Direction;
 enum State;
-enum EquipmentType;
+
 enum AnimationType {
 	IdleUp,
 	IdleDown,
@@ -16,11 +16,18 @@ enum AnimationType {
 	WalkLeft,
 	WalkRight,
 };
-enum CostumeType {
+enum class CostumeType {
 
-	Plain,
+	None,
 	Basic,
 	Advanced,
+};
+
+enum class EquipmentType {
+	None,
+	Sword,
+	Gun,
+	Shovel,
 };
 
 struct Speed
@@ -34,15 +41,21 @@ struct Animation {
 	
 	Direction direction;
 	State state;
-	CostumeType costumeType;
-	EquipmentType EquipmentType;
-	std::vector <SDL_Texture*> CharacterTextures;
-	std::vector <SDL_Texture*> CostumeTextures;
-	std::vector <SDL_Texture*> EquitmentTexture;
+	CostumeType costumeType = CostumeType::None;
+	EquipmentType equipmentType = EquipmentType::None;
+	std::vector <SDL_Texture*> Textures;
 	int lastindex;
 	Speed Speed;
 
-	Animation(std::string FileName, CostumeType CostumeType, State State, Direction Direction);
+	Animation(std::string FileName, State State, Direction Direction);
+	Animation(std::string FileName, State State, Direction Direction, CostumeType CostumeType);
+	Animation(std::string FileName, State State, Direction Direction, EquipmentType EquipmentType);
+	Animation() {};
 	//need a function to control animation speed based on running/walking etc
+};
+
+struct PlayerAnimation {
+	Animation CharacterAnimation = Animation();
+	Animation CostumeAnimation = Animation();
 };
 

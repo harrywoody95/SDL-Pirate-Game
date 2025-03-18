@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-enum CostumeType;
+enum class CostumeType;
 enum Colour {
 	Black,
 	Red,

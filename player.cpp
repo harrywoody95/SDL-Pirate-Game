@@ -2,157 +2,292 @@
 #include <fstream>
 #include <iostream>
 
-void Player::SetAnimation()
+void Player::SetPlayerAnimation()
 {
-
 	for (int x = 0; x < AnimationList.size(); x++)
 	{
-		if (AnimationList[x].direction == Sprite->Movement.CurrentDirection && AnimationList[x].state == Sprite->Movement.CurrentState && CurrentCostume.Type == AnimationList[x].costumeType)
+		if (AnimationList[x].direction == PlayerSprite->Movement.CurrentDirection && AnimationList[x].state == PlayerSprite->Movement.CurrentState && AnimationList[x].costumeType == CostumeType::None)
 		{
-			CurrentAnimation = &AnimationList[x];
-			Sprite->Texture = CurrentAnimation->CharacterTextures[0];
-			if (CurrentAnimation->costumeType > CostumeType::Plain)
-			{
-				Sprite->Costume = CurrentAnimation->CostumeTextures[0];
-				CurrentAnimation->lastindex = 0;
-			}
+			PlayerAnimations.CharacterAnimation = AnimationList[x];
+			PlayerSprite->Texture = PlayerAnimations.CharacterAnimation.Textures[0];
+		}
+	}
+}
+void Player::SetPlayerCostumeAnimation()
+{
+	if (CurrentCostume->Type == CostumeType::None)
+	{
+		return;
+	}
+	for (int x = 0; x < AnimationList.size(); x++)
+	{
+		if (AnimationList[x].direction == PlayerSprite->Movement.CurrentDirection && AnimationList[x].state == PlayerSprite->Movement.CurrentState && CurrentCostume->Type == AnimationList[x].costumeType)
+		{
+			PlayerAnimations.CostumeAnimation = AnimationList[x];
+			CostumeSprite->Texture = PlayerAnimations.CostumeAnimation.Textures[0];
 		}
 	}
 }
 
-void Player::UpdateAnimation()
+void Player::UpdatePlayerCharacterAnimation()
 {
-	if(Sprite->Movement.LastDirection != Sprite->Movement.CurrentDirection || Sprite->Movement.LastState != Sprite->Movement.CurrentState)
+	if(PlayerSprite->Movement.LastDirection != PlayerSprite->Movement.CurrentDirection || PlayerSprite->Movement.LastState != PlayerSprite->Movement.CurrentState)
 	{
-		SetAnimation();
+		SetPlayerAnimation();
 	}
-	CurrentAnimation->Speed.Counter++;
+	PlayerAnimations.CharacterAnimation.Speed.Counter++;
 
-	if (!(CurrentAnimation->Speed.Counter == CurrentAnimation->Speed.TargetUntilChange))
+	if (!(PlayerAnimations.CharacterAnimation.Speed.Counter == PlayerAnimations.CharacterAnimation.Speed.TargetUntilChange))
 	{
 		return;
 	}
 
-	Sprite->Texture = CurrentAnimation->CharacterTextures[CurrentAnimation->lastindex];
-	if (CurrentAnimation->costumeType > CostumeType::Plain)
+	PlayerSprite->Texture = PlayerAnimations.CharacterAnimation.Textures[PlayerAnimations.CharacterAnimation.lastindex];
+	PlayerAnimations.CharacterAnimation.lastindex++;
+
+	if (PlayerAnimations.CharacterAnimation.lastindex  >= PlayerAnimations.CharacterAnimation.Textures.size())
 	{
-		Sprite->Costume = CurrentAnimation->CostumeTextures[CurrentAnimation->lastindex];
+		PlayerAnimations.CharacterAnimation.lastindex = 0;
 	}
-	CurrentAnimation->lastindex++;
-	if (CurrentAnimation->lastindex  >= CurrentAnimation->CharacterTextures.size())
-	{
-		CurrentAnimation->lastindex = 0;
-	}
-	CurrentAnimation->Speed.Counter = 0;
+
+	PlayerAnimations.CharacterAnimation.Speed.Counter = 0;
 	
+}
+
+void Player::UpdatePlayerCostumeAnimation()
+{
+	if (PlayerSprite->Movement.LastDirection != PlayerSprite->Movement.CurrentDirection || PlayerSprite->Movement.LastState != PlayerSprite->Movement.CurrentState)
+	{
+		SetPlayerCostumeAnimation();
+	}
+	if (CurrentCostume == nullptr || CurrentCostume->Type == CostumeType::None)
+	{
+		return;
+	}
+
+	PlayerAnimations.CostumeAnimation.Speed.Counter++;
+
+	if (!(PlayerAnimations.CostumeAnimation.Speed.Counter == PlayerAnimations.CostumeAnimation.Speed.TargetUntilChange))
+	{
+		return;
+	}
+
+	CostumeSprite->Texture = PlayerAnimations.CostumeAnimation.Textures[PlayerAnimations.CostumeAnimation.lastindex];
+	PlayerAnimations.CostumeAnimation.lastindex++;
+
+	if (PlayerAnimations.CostumeAnimation.lastindex >= PlayerAnimations.CostumeAnimation.Textures.size())
+	{
+		PlayerAnimations.CostumeAnimation.lastindex = 0;
+	}
+
+	PlayerAnimations.CostumeAnimation.Speed.Counter = 0;
+	
+}
+
+void Player::UpdatePlayerAnimation()
+{
+	UpdatePlayerCharacterAnimation();
+	UpdatePlayerCostumeAnimation();
 }
 
 void Player::UpdatePlayer()
 {
-	UpdateAnimation();
+
+	UpdatePlayerAnimation();
 }
 
 void Player::LoadAnimations(std::string FileName)
 {
-	std::ifstream file(FileName);
-	if (file.is_open())
-	{
-		std::string fileText = "Assets/Player/Animations/";
-		std::string line = "";
-		while(std::getline(file, line))
-		{
-			int index = 0;
-			State s;
-			Direction d;
-			CostumeType c;
-			std::string temp = "";
-			std::string txtfile = "";
-			std::string State = "";
-			std::string Costume = "";
-			std::string Direction = "";
 
-			for (int x = 0; x < line.size(); x++)
+			std::string PlayerFile = "Assets/Player/Animations/PlayerAnimations/master.txt";
+			std::string CostumeFile = "Assets/Player/Animations/CostumeAnimations/master.txt";
+			std::string FileText = "Assets/Player/Animations/PlayerAnimations/";
+			std::string line = "";
+
+			std::ifstream playerfile(PlayerFile);
+			if (playerfile.is_open())
 			{
-				if (line.at(x) != '#')
+
+				while (std::getline(playerfile, line))
 				{
-					temp += line.at(x);
+					std::string FileText = "Assets/Player/Animations/PlayerAnimations/";
+					int index = 0;
+					State s;
+					Direction d;
+					CostumeType c;
+					std::string temp = "";
+					std::string txtfile = "";
+					std::string State = "";
+					//std::string Costume = "none";
+					std::string Direction = "";
+					for (int x = 0; x < line.size(); x++)
+					{
+						if (line.at(x) != '#')
+						{
+							temp += line.at(x);
+						}
+						else
+						{
+							if (index == 0)
+							{
+								txtfile = temp;
+								temp = "";
+							}
+							else if (index == 1)
+							{
+								State = temp;
+								temp = "";
+							}
+							else if (index == 2)
+							{
+								Direction = temp;
+								temp = "";
+							}
+							index++;
+						}
+
+					}
+
+					if (State == "idle")
+					{
+						s = State::Idle;
+					}
+					if (State == "walking")
+					{
+						s = State::Walking;
+					}
+					if (State == "running")
+					{
+						s = State::Running;
+					}
+
+					if (Direction == "north")
+					{
+						d = Direction::North;
+					}
+					if (Direction == "south")
+					{
+						d = Direction::South;
+					}
+					if (Direction == "west")
+					{
+						d = Direction::West;
+					}
+					if (Direction == "east")
+					{
+						d = Direction::East;
+					}
+
+					FileText += txtfile;
+					Animation a = Animation(FileText, s, d);
+					AnimationList.push_back(a);
+					line = "";
+
+
 				}
-				else
+			}
+			playerfile.close();
+			std::ifstream costumefile(CostumeFile);
+			if (costumefile.is_open())
+			{
+				while (std::getline(costumefile, line))
 				{
-					if (index == 0)
+					int index = 0;
+					State s;
+					Direction d;
+					CostumeType c;
+					std::string temp = "";
+					std::string txtfile = "";
+					std::string State = "";
+					std::string Costume = "";
+					std::string Direction = "";
+					std::string FileText = "Assets/Player/Animations/CostumeAnimations/";
+					for (int x = 0; x < line.size(); x++)
 					{
-						txtfile = temp;
-						temp = "";
+						if (line.at(x) != '#')
+						{
+							temp += line.at(x);
+						}
+						else
+						{
+							if (index == 0)
+							{
+								txtfile = temp;
+								temp = "";
+							}
+							else if (index == 1)
+							{
+								Costume = temp;
+								temp = "";
+							}
+							else if (index == 2)
+							{
+								State = temp;
+								temp = "";
+							}
+							else if (index == 3)
+							{
+								Direction = temp;
+								temp = "";
+							}
+							index++;
+						}
+
 					}
-					else if (index == 1)
+
+					if (State == "idle")
 					{
-						Costume = temp;
-						temp = "";
+						s = State::Idle;
 					}
-					else if (index == 2)
+					if (State == "walking")
 					{
-						State = temp;
-						temp = "";
+						s = State::Walking;
 					}
-					else if (index == 3)
+					if (State == "running")
 					{
-						Direction = temp;
-						temp = "";
+						s = State::Running;
 					}
-					index++;
+
+					if (Direction == "north")
+					{
+						d = Direction::North;
+					}
+					if (Direction == "south")
+					{
+						d = Direction::South;
+					}
+					if (Direction == "west")
+					{
+						d = Direction::West;
+					}
+					if (Direction == "east")
+					{
+						d = Direction::East;
+					}
+
+					if (Costume == "none")
+					{
+						c = CostumeType::None;
+					}
+					if (Costume == "basic")
+					{
+						c = CostumeType::Basic;
+					}
+					if (Costume == "advanced")
+					{
+						c = CostumeType::Advanced;
+					}
+
+					FileText += txtfile;
+					Animation a = Animation(FileText, s, d, c);
+					AnimationList.push_back(a);
+					line = "";
 				}
-				
 			}
-			if (State == "idle")
-			{
-				s = State::Idle;
-			}
-			if (State == "walking")
-			{
-				s = State::Walking;
-			}
-			if (State == "running")
-			{
-				s = State::Running;
-			}
-
-			if (Direction == "north")
-			{
-				d = Direction::North;
-			}
-			if (Direction == "south")
-			{
-				d = Direction::South;
-			}
-			if (Direction == "west")
-			{
-				d = Direction::West;
-			}
-			if (Direction == "east")
-			{
-				d = Direction::East;
-			}
-
-			if (Costume == "plain")
-			{
-				c = CostumeType::Plain;
-			}
-			if (Costume == "basic")
-			{
-				c = CostumeType::Basic;
-			}
-			if (Costume == "advanced")
-			{
-				c = CostumeType::Advanced;
-			}
-			fileText += txtfile;
-			Animation a = Animation(fileText, c, s, d);
-			AnimationList.push_back(a);
-			fileText = "Assets/Player/Animations/";
-			line = "";
-		}
-	}
-	file.close();
+			costumefile.close();
 	std::cout << "SPRITE AND SPRITE ANIMATIONS LOADED" << std::endl;
 }
-//walkup.txt#plain#idle#east
+				
+			
+
+

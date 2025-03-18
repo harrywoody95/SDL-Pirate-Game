@@ -10,7 +10,6 @@ struct Sprite
 	std::string Name;
 	Movement Movement;
 	SDL_Texture* Texture;
-	SDL_Texture* Costume = nullptr;
 	SDL_Rect SourceBox;
 	SDL_Rect DestinationBox;
 	SDL_Rect CollisionBox;

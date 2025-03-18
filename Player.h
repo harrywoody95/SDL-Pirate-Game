@@ -7,12 +7,11 @@
 
 struct Player
 {
-	Sprite* Sprite;
-	CostumeType Cos = Plain;
-	Costume CurrentCostume;
-	//equipment 
+	Sprite* PlayerSprite;
+	Sprite* CostumeSprite;
+	Costume* CurrentCostume = nullptr;
 	std::vector <Animation> AnimationList;
-	Animation* CurrentAnimation;
+	PlayerAnimation PlayerAnimations;
 	int InventoryLimit = 5;
 	//inventory vector
 	//equiped equitment
@@ -29,9 +28,12 @@ struct Player
 
 	void LoadAnimations(std::string FileName);
 
-	void SetAnimation();
-	void UpdateAnimation();
+	void SetPlayerAnimation();
+	void SetPlayerCostumeAnimation();
+	void UpdatePlayerCharacterAnimation();
+	void UpdatePlayerCostumeAnimation();
 	void UpdatePlayer();
+	void UpdatePlayerAnimation();
 };
 
 
