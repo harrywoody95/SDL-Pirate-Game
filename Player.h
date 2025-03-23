@@ -25,7 +25,7 @@ struct Player
 	// 6: create inventory system
 	// 7: create animations for jump, attack(sword, gun, dig), decide on swimming 
 
-
+	//move this function to game
 	void LoadAnimations(std::string FileName);
 
 	void SetPlayerAnimation();

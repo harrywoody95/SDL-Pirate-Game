@@ -47,7 +47,7 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	SDL_SetRenderDrawColor(Renderer::MainRenderer, 0, 0, 0, 255);
 
 	//load all player animations
-	Player.LoadAnimations("Assets/Player/Animations/master.txt");
+	Player.LoadAnimations("Assets/Sprites/Animations/master.txt");
 	IsRunning = true;
 
 	//create and load map
@@ -65,9 +65,9 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 
 	//create player sprite and set animation
 	Player.PlayerSprite = new Sprite();
-	Player.PlayerSprite->CreateSprite(1000.0, 1000.0, "Assets/Player/1.png", 16, 1, &SpriteList);
+	Player.PlayerSprite->CreateSprite(1000.0, 1000.0, "Assets/Sprites/transparent.png", 16, 1, &SpriteList);
 	Player.CostumeSprite = new Sprite();
-	Player.CostumeSprite->CreateSprite(1000.0, 1000.0, "Assets/Player/transparent.png", 16, 1, &SpriteList);
+	Player.CostumeSprite->CreateSprite(1000.0, 1000.0, "Assets/Sprites/transparent.png", 16, 1, &SpriteList);
 	Player.PlayerSprite->Name = "PlayerSprite";
 	Player.CostumeSprite->Name = "CostumeSprite";
 	Player.SetPlayerAnimation();

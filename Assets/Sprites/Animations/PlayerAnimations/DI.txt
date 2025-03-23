@@ -1,0 +1,3 @@
+Down-Idle-1.png
+Down-Idle-2.png
+Down-Idle-3.png

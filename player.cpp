@@ -4,9 +4,9 @@
 
 void Player::SetPlayerAnimation()
 {
-	for (int x = 0; x < AnimationList.size(); x++)
+ 	for (int x = 0; x < AnimationList.size(); x++)
 	{
-		if (AnimationList[x].direction == PlayerSprite->Movement.CurrentDirection && AnimationList[x].state == PlayerSprite->Movement.CurrentState && AnimationList[x].costumeType == CostumeType::None)
+ 		if (AnimationList[x].direction == PlayerSprite->Movement.CurrentDirection && AnimationList[x].state == PlayerSprite->Movement.CurrentState && AnimationList[x].costumeType == CostumeType::None)
 		{
 			PlayerAnimations.CharacterAnimation = AnimationList[x];
 			PlayerSprite->Texture = PlayerAnimations.CharacterAnimation.Textures[0];
@@ -99,9 +99,9 @@ void Player::UpdatePlayer()
 void Player::LoadAnimations(std::string FileName)
 {
 
-			std::string PlayerFile = "Assets/Player/Animations/PlayerAnimations/master.txt";
-			std::string CostumeFile = "Assets/Player/Animations/CostumeAnimations/master.txt";
-			std::string FileText = "Assets/Player/Animations/PlayerAnimations/";
+			std::string PlayerFile = "Assets/Sprites/Animations/PlayerAnimations/master.txt";
+			std::string CostumeFile = "Assets/Sprites/Animations/CostumeAnimations/master.txt";
+			std::string FileText = "Assets/Sprites/Animations/PlayerAnimations/";
 			std::string line = "";
 
 			std::ifstream playerfile(PlayerFile);
@@ -110,7 +110,7 @@ void Player::LoadAnimations(std::string FileName)
 
 				while (std::getline(playerfile, line))
 				{
-					std::string FileText = "Assets/Player/Animations/PlayerAnimations/";
+					std::string FileText = "Assets/Sprites/Animations/PlayerAnimations/";
 					int index = 0;
 					State s;
 					Direction d;
@@ -201,7 +201,7 @@ void Player::LoadAnimations(std::string FileName)
 					std::string State = "";
 					std::string Costume = "";
 					std::string Direction = "";
-					std::string FileText = "Assets/Player/Animations/CostumeAnimations/";
+					std::string FileText = "Assets/Sprites/Animations/CostumeAnimations/";
 					for (int x = 0; x < line.size(); x++)
 					{
 						if (line.at(x) != '#')

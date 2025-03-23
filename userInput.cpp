@@ -88,19 +88,19 @@ void UserInput::HandleUserInput(Game* Game)
 		Game->Player.PlayerSprite->Movement.CurrentDirection = North;
 		Game->Player.PlayerSprite->Movement.CurrentState = Walking;
 	}
-	if (KEY_A_PRESSED)
+	else if (KEY_A_PRESSED)
 	{
 		Game->Player.PlayerSprite->Movement.Velocity.x = -1;
 		Game->Player.PlayerSprite->Movement.CurrentDirection = West;
 		Game->Player.PlayerSprite->Movement.CurrentState = Walking;
 	}
-	if (KEY_S_PRESSED)
+	else if (KEY_S_PRESSED)
 	{
 		Game->Player.PlayerSprite->Movement.Velocity.y = 1;
 		Game->Player.PlayerSprite->Movement.CurrentDirection = South;
 		Game->Player.PlayerSprite->Movement.CurrentState = Walking;
 	}
-	if (KEY_D_PRESSED)
+	else if (KEY_D_PRESSED)
 	{
 		Game->Player.PlayerSprite->Movement.Velocity.x = 1;
 		Game->Player.PlayerSprite->Movement.CurrentDirection = East;

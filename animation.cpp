@@ -12,7 +12,7 @@ Animation::Animation(std::string FileName, State State, Direction Direction)
 	if (file.is_open())
 	{
 		bool costume = false;
-		std::string line = "Assets/Player/";
+		std::string line = "Assets/Sprites/";
 		std::string temp = "";
 		while (std::getline(file, temp))
 		{
@@ -22,7 +22,7 @@ Animation::Animation(std::string FileName, State State, Direction Direction)
 			SDL_Texture* Texture = TextureManager::LoadTexture(filetext);
 			Textures.push_back(Texture);
 			temp = "";
-			line = "Assets/Player/";
+			line = "Assets/Sprites/";
 		}
 	}
 	file.close();
@@ -38,7 +38,7 @@ Animation::Animation(std::string FileName, State State, Direction Direction, Cos
 	if (file.is_open())
 	{
 		bool costume = false;
-		std::string line = "Assets/Player/";
+		std::string line = "Assets/Sprites/";
 		std::string temp = "";
 		while (std::getline(file, temp))
 		{
@@ -48,7 +48,7 @@ Animation::Animation(std::string FileName, State State, Direction Direction, Cos
 			SDL_Texture* Texture = TextureManager::LoadTexture(filetext);
 			Textures.push_back(Texture);
 			temp = "";
-			line = "Assets/Player/";
+			line = "Assets/Sprites/";
 		}
 	}
 	file.close();
