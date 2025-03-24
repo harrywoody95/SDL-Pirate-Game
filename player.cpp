@@ -114,7 +114,6 @@ void Player::LoadAnimations(std::string FileName)
 					int index = 0;
 					State s;
 					Direction d;
-					CostumeType c;
 					std::string temp = "";
 					std::string txtfile = "";
 					std::string State = "";

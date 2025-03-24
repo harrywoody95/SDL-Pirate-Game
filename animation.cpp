@@ -79,3 +79,23 @@ Animation::Animation(std::string FileName, State State, Direction Direction, Equ
 	}
 	file.close();
 }
+
+EquipmentType StringToEquipmentType(std::string type)
+{
+	if (type == "Gun")
+	{
+		return EquipmentType::Gun;
+	}
+	if (type == "Sword")
+	{
+		return EquipmentType::Sword;
+	}
+	if (type == "Shovel")
+	{
+		return EquipmentType::Shovel;
+	}
+	else
+	{
+		return EquipmentType::None;
+	}
+}

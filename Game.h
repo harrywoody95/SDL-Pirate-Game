@@ -20,6 +20,7 @@ struct Game {
 	Renderer Renderer;
 	Flags Flags;
 	SpriteList SpriteList;
+	AnimationList AnimationList;
 	Player Player;
 	std::vector <Scene> Scenes;
 	Audio Audio;
@@ -30,6 +31,8 @@ struct Game {
     //store preloaded assets here? maybe under a asset class?
 	
 	void CreateGame(const char* Title, int xpos, int ypos, int Width, int Height, bool Fullscreen);
+
+	void LoadAnimations();
 
 	void HandleWindowEvent();
 	void Render();

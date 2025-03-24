@@ -13,8 +13,8 @@ void Sprite::CreateSprite(float x, float y, const char* Filename, int SpriteBitS
 
 	DestinationBox.w = 64 * Scale;
 	DestinationBox.h = 64 * Scale;
-	DestinationBox.x = Movement.Position.x;
-	DestinationBox.y = Movement.Position.y;
+	DestinationBox.x = static_cast<int>(Movement.Position.x);
+	DestinationBox.y = static_cast<int>(Movement.Position.y);
 
 	Texture = TextureManager::LoadTexture(Filename);
 
@@ -50,7 +50,7 @@ void Sprite::Update()
 	}
 	else
 	{
-		DestinationBox.x = Movement.Position.x;
-		DestinationBox.y = Movement.Position.y;
+		DestinationBox.x = static_cast<int>(Movement.Position.x);
+		DestinationBox.y = static_cast<int>(Movement.Position.y);
 	}
 }

@@ -4,6 +4,7 @@
 #include "Scenes.h"
 #include "SDL_mixer.h"
 #include "Item.h"
+#include <fstream>
 
 Map map;
 SDL_Event Game::Event;
@@ -83,6 +84,527 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	//add music
 	Audio.MusicList.AddMusic("Assets/Audio/Music/m.ogg", "MainMenu");
 	
+}
+
+void Game::LoadAnimations()
+{
+	
+	//CHARACTER
+
+	std::string Path = "Assets/Sprites/Character/";
+
+	for (int Direction = 0; Direction < 4; Direction++)
+	{
+		std::string DirectionText = "";
+		//set direction
+		switch (Direction)
+		{
+		case 0:
+			DirectionText = "Down";
+			break;
+		case 1:
+			DirectionText = "Up";
+			break;
+		case 2:
+			DirectionText = "Right";
+			break;
+		case 3:
+			DirectionText = "Left";
+			break;
+		default: 
+			return;
+		}
+
+		for (int State = 0; State < 4; State++)
+		{
+			std::string StateText = "";
+			//set state
+			switch (State)
+			{
+			case 0:
+				StateText = "Idle";
+				break;
+			case 1:
+				StateText = "Walk";
+				break;
+			case 2:
+				StateText = "Attack";
+				break;
+			case 3:
+				StateText = "Dig";
+				break;
+			default:
+				return;
+			}
+
+			if (StateText == "Idle" || StateText == "Walk")
+			{
+				for (int index = 1; index < 4; index++)
+				{
+					std::string indexText = std::to_string(index);
+					// make files for idle or walk
+				}
+			}
+
+			if (StateText == "Attack")
+			{
+				for (int Equipment = 0; Equipment < 2; Equipment++)
+				{
+					//set equipment
+					std::string EquipmentText = "";
+					switch (Equipment)
+					{
+					case 0:
+						EquipmentText = "Sword";
+						break;
+					case 1:
+						EquipmentText = "Gun";
+						break;
+					default:
+						return;
+
+					}
+
+					EquipmentType type = EquipmentType::None;
+					if (EquipmentText == "Gun")
+					{
+						type = EquipmentType::Gun;
+					}
+					else if (EquipmentText == "Sword")
+					{
+						type = EquipmentType::Sword;
+					}
+
+					for (int index = 1; index < 4; index++)
+					{
+						std::string indexText = std::to_string(index);
+						//make files for attack gun and sword
+					}
+				}
+			}
+
+			if (StateText == "Dig" && (DirectionText == "Left" || DirectionText == "Right"))
+			{
+				std::string Shovel = "Shovel";
+
+				for (int index = 1; index < 4; index++)
+				{
+					std::string indexText = std::to_string(index);
+					//make files for dig shovel
+				}
+			}
+
+		}
+
+	}
+
+	for (int index = 1; index < 5; index++)
+	{
+		std::string indexText = std::to_string(index);
+		//do player die here
+	}
+	
+
+	//COSTUME
+
+	Path = "Assets/Sprites/Costumes/";
+
+	for (int Direction = 0; Direction < 4; Direction++)
+	{
+		std::string DirectionText = "";
+		//set direction
+		switch (Direction)
+		{
+		case 0:
+			DirectionText = "Down";
+			break;
+		case 1:
+			DirectionText = "Up";
+			break;
+		case 2:
+			DirectionText = "Right";
+			break;
+		case 3:
+			DirectionText = "Left";
+			break;
+		default:
+			return;
+		}
+
+		for (int State = 0; State < 4; State++)
+		{
+			std::string StateText = "";
+			//set state
+			switch (State)
+			{
+			case 0:
+				StateText = "Idle";
+				break;
+			case 1:
+				StateText = "Walk";
+				break;
+			case 2:
+				StateText = "Attack";
+				break;
+			case 3:
+				StateText = "Dig";
+				break;
+			default:
+				return;
+			}
+
+			if (StateText == "Idle" || StateText == "Walk")
+			{
+				for (int Costume = 0; Costume < 2; Costume++)
+				{
+					//set costume type
+					std::string CostumeText = "";
+					switch (Costume)
+					{
+					case 0: 
+						CostumeText = "Basic";
+						break;
+					case 1:
+						CostumeText = "Advanced";
+						break;
+					default:
+						return;
+					}
+					for (int Colour = 0; Colour < 6; Colour++)
+					{
+						//set colour
+						std::string ColourText = "";
+						switch (Colour)
+						{
+						case 0:
+							ColourText = "Black";
+							break;
+						case 1:
+							ColourText = "White";
+							break;
+						case 2:
+							ColourText = "Blue";
+							break;
+						case 3:
+							ColourText = "Green";
+							break;
+						case 4:
+							ColourText = "Red";
+							break;
+						case 5:
+							ColourText = "Yellow";
+							break;
+
+						}
+
+						for (int index = 1; index < 4; index++)
+						{
+							std::string indexText = std::to_string(index);
+							// make files for costumes idle or walk
+						}
+					}
+				}
+			}
+
+			if (StateText == "Attack")
+			{
+				for (int Equipment = 0; Equipment < 2; Equipment++)
+				{
+					//set equipment
+					std::string EquipmentText = "";
+					switch (Equipment)
+					{
+					case 0:
+						EquipmentText = "Sword";
+						break;
+					case 1:
+						EquipmentText = "Gun";
+						break;
+					default:
+						return;
+
+					}
+					for (int Costume = 0; Costume < 2; Costume++)
+					{
+						//set costume type
+						std::string CostumeText = "";
+						switch (Costume)
+						{
+						case 0:
+							CostumeText = "Basic";
+							break;
+						case 1:
+							CostumeText = "Advanced";
+							break;
+						default:
+							return;
+						}
+
+						for (int Colour = 0; Colour < 6; Colour++)
+						{
+							//set colour
+							std::string ColourText = "";
+							switch (Colour)
+							{
+							case 0:
+								ColourText = "Black";
+								break;
+							case 1:
+								ColourText = "White";
+								break;
+							case 2:
+								ColourText = "Blue";
+								break;
+							case 3:
+								ColourText = "Green";
+								break;
+							case 4:
+								ColourText = "Red";
+								break;
+							case 5:
+								ColourText = "Yellow";
+								break;
+
+							}
+
+
+							for (int index = 1; index < 4; index++)
+							{
+								std::string indexText = std::to_string(index);
+								//make files for attack gun and sword
+							}
+						}
+					}
+				}
+			}
+
+			if (StateText == "Dig" && (DirectionText == "Left" || DirectionText == "Right"))
+			{
+				std::string Shovel = "Shovel";
+
+				for (int Costume = 0; Costume < 2; Costume++)
+				{
+					//set costume type
+					std::string CostumeText = "";
+					switch (Costume)
+					{
+					case 0:
+						CostumeText = "Basic";
+						break;
+					case 1:
+						CostumeText = "Advanced";
+						break;
+					default:
+						return;
+					}
+
+					for (int Colour = 0; Colour < 6; Colour++)
+					{
+						//set colour
+						std::string ColourText = "";
+						switch (Colour)
+						{
+						case 0:
+							ColourText = "Black";
+							break;
+						case 1:
+							ColourText = "White";
+							break;
+						case 2:
+							ColourText = "Blue";
+							break;
+						case 3:
+							ColourText = "Green";
+							break;
+						case 4:
+							ColourText = "Red";
+							break;
+						case 5:
+							ColourText = "Yellow";
+							break;
+						default:
+							return;
+						}
+						for (int index = 1; index < 4; index++)
+						{
+							std::string indexText = std::to_string(index);
+							//make files for dig shovel
+						}
+					}
+				}
+			}
+
+		}
+
+	}
+	//EQUIPMENT
+	Path = "Assets/Sprites/Equipment/";
+
+	for (int Direction = 0; Direction < 4; Direction++)
+	{
+		std::string DirectionText = "";
+		//set direction
+		switch (Direction)
+		{
+		case 0:
+			DirectionText = "Down";
+			break;
+		case 1:
+			DirectionText = "Up";
+			break;
+		case 2:
+			DirectionText = "Right";
+			break;
+		case 3:
+			DirectionText = "Left";
+			break;
+		default:
+			return;
+		}
+
+		for (int State = 0; State < 4; State++)
+		{
+			std::string StateText = "";
+			//set state
+			switch (State)
+			{
+			case 0:
+				StateText = "Idle";
+				break;
+			case 1:
+				StateText = "Walk";
+				break;
+			case 2:
+				StateText = "Attack";
+				break;
+			case 3:
+				StateText = "Dig";
+				break;
+			default:
+				return;
+			}
+
+			if (StateText == "Idle" || StateText == "Walk")
+			{
+
+				for (int Equipment = 0; Equipment < 2; Equipment++)
+				{
+					//set equipment
+					std::string EquipmentText = "";
+					switch (Equipment)
+					{
+					case 0:
+						EquipmentText = "Sword";
+						break;
+					case 1:
+						EquipmentText = "Gun";
+						break;
+					default:
+						return;
+
+					}
+
+					for (int index = 1; index < 4; index++)
+					{
+						std::string indexText = std::to_string(index);
+						//make files for equipment animations
+					}
+
+				}
+
+			}
+		}
+	}
+
+	//EFFECTS
+
+	Path = "Assets/Sprites/Effects/";
+
+	for (int Direction = 0; Direction < 4; Direction++)
+	{
+		std::string DirectionText = "";
+		//set direction
+		switch (Direction)
+		{
+		case 0:
+			DirectionText = "Down";
+			break;
+		case 1:
+			DirectionText = "Up";
+			break;
+		case 2:
+			DirectionText = "Right";
+			break;
+		case 3:
+			DirectionText = "Left";
+			break;
+		default:
+			return;
+		}
+
+		for (int State = 0; State < 4; State++)
+		{
+			std::string StateText = "";
+			//set state
+			switch (State)
+			{
+			case 0:
+				StateText = "Idle";
+				break;
+			case 1:
+				StateText = "Walk";
+				break;
+			case 2:
+				StateText = "Attack";
+				break;
+			case 3:
+				StateText = "Dig";
+				break;
+			default:
+				return;
+			}
+
+			if (StateText == "Attack")
+			{
+
+				for (int Equipment = 0; Equipment < 2; Equipment++)
+				{
+					//set equipment
+					std::string EquipmentText = "";
+					switch (Equipment)
+					{
+					case 0:
+						EquipmentText = "Sword";
+						break;
+					case 1:
+						EquipmentText = "Gun";
+						break;
+					default:
+						return;
+
+					}
+
+					for (int index = 1; index < 3; index++)
+					{
+						std::string indexText = std::to_string(index);
+						//make files for sword/gun effect animations
+					}
+
+				}
+
+			}
+			if (StateText == "Dig" && (DirectionText == "Left" || DirectionText == "Right"))
+			{
+
+				for (int index = 1; index < 3; index++)
+				{
+					std::string indexText = std::to_string(index);
+					//make files for shovel effect animations
+				}
+			}
+		}
+	}
+
 }
 
 void Game::HandleWindowEvent()

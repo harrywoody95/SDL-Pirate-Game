@@ -4,7 +4,7 @@
 #include <vector>
 #include "Animation.h"
 #include "Costume.h"
-
+struct Game;
 struct Player
 {
 	Sprite* PlayerSprite;

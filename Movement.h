@@ -1,5 +1,6 @@
 #pragma once
 #include "Vec2.h"
+#include <string>
 
 enum Direction {
 	North,
@@ -11,7 +12,6 @@ enum State {
 	Idle,
 	Walking,
 	Running,
-	Swimming,
 	Sailing,
 	FullSailing,
 	Dead,
@@ -21,6 +21,7 @@ enum ActionState {
 	Jump,
 	Attack,
 	Use,
+	Dig,
 };
 
 struct Movement {
@@ -30,11 +31,11 @@ struct Movement {
 	static const int SailSpeed = 2;
 	static const int FullSailSpeed = 3;
 
-	Vec2 Position;
-	Vec2 Velocity;
-	State LastState;
+	Vec2 Position = {};
+	Vec2 Velocity = {};
+	State LastState = Idle;
 	State CurrentState = Idle;
-	Direction LastDirection;
+	Direction LastDirection = East;
 	Direction CurrentDirection = East;
 	int Speed = 3;
 
@@ -78,3 +79,6 @@ struct Movement {
 		}
 	}
 };
+
+State StringToState(std::string state);
+Direction StringToDirection(std::string direction);

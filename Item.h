@@ -6,10 +6,10 @@ enum ItemType {
 	equipment,
 };
 struct Item {
-	std::string Name;
-	int Value;
-	ItemType Type;
-	Costume Costume;
+	std::string Name = {};
+	int Value = {};
+	ItemType Type = {};
+	Costume Costume = {};
 
 };
 Item CreateItem(std::string Name, int Worth, ItemType ItemType)

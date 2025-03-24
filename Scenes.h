@@ -9,7 +9,7 @@ enum SceneType {
 struct Game;
 struct Scene {
 	std::string Name;
-	bool isTransitioning;
+	bool isTransitioning = false;
 	std::vector<Sprite*> Textures;
 	int fade;
 	void CreateScene(SceneType st, Game* game);

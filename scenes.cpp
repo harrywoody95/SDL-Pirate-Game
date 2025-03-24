@@ -8,8 +8,8 @@ void Scene::CreateScene(SceneType st, Game* game)
 	if (st == SceneType::Mainmenu)
 	{
 		int w, h;
-		w = game->Window.GetResolution().x;
-		h = game->Window.GetResolution().y;
+		w = static_cast<int>(game->Window.GetResolution().x);
+		h = static_cast<int>(game->Window.GetResolution().y);
 		Name = "MainMenu";
 		Sprite* s = new Sprite();
 		s->SourceBox.x = 0;
@@ -68,7 +68,7 @@ void Scene::CreateScene(SceneType st, Game* game)
 		s3->DestinationBox.w = s3->SourceBox.w;
 		s3->DestinationBox.h = s3->SourceBox.h;
 		s3->DestinationBox.x = (w - s3->DestinationBox.w) / 2;
-		s3->DestinationBox.y = (h - s3->DestinationBox.h) / 1.7;
+		s3->DestinationBox.y = static_cast<int>((h - s3->DestinationBox.h) / 1.7);
 
 		s3->Texture = TextureManager::LoadTexture("Assets/MainMenu/loadgame.png");
 		s3->Name = "LoadGame";
@@ -84,7 +84,7 @@ void Scene::CreateScene(SceneType st, Game* game)
 		s4->DestinationBox.w = s4->SourceBox.w;
 		s4->DestinationBox.h = s4->SourceBox.h;
 		s4->DestinationBox.x = (w - s4->DestinationBox.w) / 2;
-		s4->DestinationBox.y = (h - s4->DestinationBox.h) / 1.5;
+		s4->DestinationBox.y = static_cast<int>((h - s4->DestinationBox.h) / 1.5);
 
 		s4->Texture = TextureManager::LoadTexture("Assets/MainMenu/Settings.png");
 		s4->Name = "Settings";
@@ -101,7 +101,7 @@ void Scene::CreateScene(SceneType st, Game* game)
 		s5->DestinationBox.w = s5->SourceBox.w;
 		s5->DestinationBox.h = s5->SourceBox.h;
 		s5->DestinationBox.x = (w - s5->DestinationBox.w) / 2;
-		s5->DestinationBox.y = (h - s5->DestinationBox.h) / 1.34;
+		s5->DestinationBox.y = static_cast<int>((h - s5->DestinationBox.h) / 1.34);
 
 
 		s5->Texture = TextureManager::LoadTexture("Assets/MainMenu/exitgame.png");
