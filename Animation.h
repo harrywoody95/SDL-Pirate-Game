@@ -6,6 +6,15 @@
 enum Direction;
 enum State;
 
+enum Colour {
+	Black,
+	White,
+	Blue,
+	Green,
+	Yellow,
+	Red,
+};
+
 enum AnimationType {
 	IdleUp,
 	IdleDown,
@@ -48,25 +57,28 @@ struct Animation {
 
 	Direction direction = {};
 	State state = {};
+	Colour colour = {};
 	CostumeType costumeType = CostumeType::None;
 	EquipmentType equipmentType = EquipmentType::None;
 	EffectType effectType = EffectType::None;
 	std::vector <SDL_Texture*> Textures;
-	int lastindex = {};
+	int lastindex = 0;
 	Speed Speed = {};
 
-	Animation(std::string FileName, State State, Direction Direction);
-	Animation(std::string FileName, State State, Direction Direction, CostumeType CostumeType);
-	Animation(std::string FileName, State State, Direction Direction, EquipmentType EquipmentType);
+	Animation(std::string BasePath, std::string BaseFile, int frames, Direction Direction, State state);
+	Animation(std::string BasePath, std::string BaseFile, int frames, Direction Direction, State state, EquipmentType EquipmentType);
+	Animation(std::string BasePath, std::string BaseFile, int frames, Direction Direction, State State, CostumeType CostumeType, Colour Colour);
+	Animation(std::string BasePath, std::string BaseFile, int frames, Direction Direction, State State, EquipmentType EquipmentType, CostumeType CostumeType, Colour Colour);
 	Animation() {};
+
 	//need a function to control animation speed based on running/walking etc
 };
 
 struct AnimationList {
-	std::vector <Animation*> CharacterAnimations;
-	std::vector <Animation*> CostumeAnimations;
-	std::vector <Animation*> EquipmentAnimations;
-	std::vector <Animation*> EffectAnimations;
+	std::vector <Animation> CharacterAnimations;
+	std::vector <Animation> CostumeAnimations;
+	std::vector <Animation> EquipmentAnimations;
+	std::vector <Animation> EffectAnimations;
 };
 
 struct PlayerAnimation {

@@ -1,8 +1,0 @@
-UI.txt#idle#north#
-UW.txt#walking#north#
-DI.txt#idle#south#
-DW.txt#walking#south#
-LI.txt#idle#west#
-LW.txt#walking#west#
-RI.txt#idle#east#
-RW.txt#walking#east#

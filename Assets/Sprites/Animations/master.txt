@@ -1,2 +1,0 @@
-/PlayerAnimations/master.txt
-/CostumeAnimation/master.txt

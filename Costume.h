@@ -1,17 +1,15 @@
 #pragma once
 #include <string>
+#include "Animation.h"
 enum class CostumeType;
-enum Colour {
-	Black,
-	Red,
-	Blue,
-	Green,
-};
-
-struct Costume {
+struct Costume
+{
 
 	int DefenceStat;
 	CostumeType Type;
 	Colour CostumeColour;
 
 };
+
+Colour StringToColour(std::string Colour);
+CostumeType StringToCostumeType(std::string Type);

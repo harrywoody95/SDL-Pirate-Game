@@ -10,7 +10,7 @@ struct Player
 	Sprite* PlayerSprite;
 	Sprite* CostumeSprite;
 	Costume* CurrentCostume = nullptr;
-	std::vector <Animation> AnimationList;
+	//std::vector <Animation> AnimationList;
 	PlayerAnimation PlayerAnimations;
 	int InventoryLimit = 5;
 	//inventory vector
@@ -28,12 +28,12 @@ struct Player
 	//move this function to game
 	void LoadAnimations(std::string FileName);
 
-	void SetPlayerAnimation();
-	void SetPlayerCostumeAnimation();
-	void UpdatePlayerCharacterAnimation();
-	void UpdatePlayerCostumeAnimation();
-	void UpdatePlayer();
-	void UpdatePlayerAnimation();
+	void SetPlayerAnimation(Game* game);
+	void SetPlayerCostumeAnimation(Game* game);
+	void UpdatePlayerCharacterAnimation(Game* game);
+	void UpdatePlayerCostumeAnimation(Game* game);
+	void UpdatePlayer(Game* game);
+	void UpdatePlayerAnimation(Game* game);
 };
 
 

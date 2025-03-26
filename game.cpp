@@ -48,7 +48,8 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	SDL_SetRenderDrawColor(Renderer::MainRenderer, 0, 0, 0, 255);
 
 	//load all player animations
-	Player.LoadAnimations("Assets/Sprites/Animations/master.txt");
+	//Player.LoadAnimations("Assets/Sprites/Animations/master.txt");
+	LoadAnimations();
 	IsRunning = true;
 
 	//create and load map
@@ -59,7 +60,7 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 
 	Item* item = new Item(CreateItem("BlackBeard's Cloak", 250, costume));
 	item->Costume.DefenceStat = 20;
-	item->Costume.CostumeColour = Colour::Black;
+	item->Costume.CostumeColour = Colour::Green;
 	item->Costume.Type = CostumeType::Advanced;
 
 	Player.CurrentCostume = &item->Costume; 
@@ -71,8 +72,8 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	Player.CostumeSprite->CreateSprite(1000.0, 1000.0, "Assets/Sprites/transparent.png", 16, 1, &SpriteList);
 	Player.PlayerSprite->Name = "PlayerSprite";
 	Player.CostumeSprite->Name = "CostumeSprite";
-	Player.SetPlayerAnimation();
-	Player.SetPlayerCostumeAnimation();
+	Player.SetPlayerAnimation(this);
+	Player.SetPlayerCostumeAnimation(this);
 	
 
 
@@ -137,15 +138,15 @@ void Game::LoadAnimations()
 				return;
 			}
 
+			// IDLE/WALK CREATION
 			if (StateText == "Idle" || StateText == "Walk")
 			{
-				for (int index = 1; index < 4; index++)
-				{
-					std::string indexText = std::to_string(index);
-					// make files for idle or walk
-				}
+				std::string FileName = "";
+				FileName = DirectionText + "-" + StateText;
+				Animation a = Animation(Path, FileName, 3, StringToDirection(DirectionText), StringToState(StateText));
+				AnimationList.CharacterAnimations.push_back(a);
 			}
-
+			// ATTACK CREATION
 			if (StateText == "Attack")
 			{
 				for (int Equipment = 0; Equipment < 2; Equipment++)
@@ -164,45 +165,33 @@ void Game::LoadAnimations()
 						return;
 
 					}
-
-					EquipmentType type = EquipmentType::None;
-					if (EquipmentText == "Gun")
-					{
-						type = EquipmentType::Gun;
-					}
-					else if (EquipmentText == "Sword")
-					{
-						type = EquipmentType::Sword;
-					}
-
-					for (int index = 1; index < 4; index++)
-					{
-						std::string indexText = std::to_string(index);
-						//make files for attack gun and sword
-					}
+					std::string FileName = "";
+					FileName = DirectionText + "-" + StateText + "-" + EquipmentText;
+					Animation a = Animation(Path, FileName, 3, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType(EquipmentText));
+					AnimationList.CharacterAnimations.push_back(a);
+					//make files for attack gun and sword
 				}
 			}
-
+			// DIG CREATION
 			if (StateText == "Dig" && (DirectionText == "Left" || DirectionText == "Right"))
 			{
 				std::string Shovel = "Shovel";
-
-				for (int index = 1; index < 4; index++)
-				{
-					std::string indexText = std::to_string(index);
-					//make files for dig shovel
-				}
+				std::string FileName = "";
+				FileName = DirectionText + "-" + StateText + "-" + Shovel;
+				Animation a = Animation(Path, FileName, 3, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType(Shovel));
+				AnimationList.CharacterAnimations.push_back(a);
+				//make files for dig shovel
 			}
 
 		}
 
 	}
 
-	for (int index = 1; index < 5; index++)
-	{
-		std::string indexText = std::to_string(index);
+		std::string FileName = "";
+		FileName = "Player-Die";
+		Animation a = Animation(Path, FileName, 4, Direction::East, State::Dead);
+		AnimationList.CharacterAnimations.push_back(a);
 		//do player die here
-	}
 	
 
 	//COSTUME
@@ -296,12 +285,12 @@ void Game::LoadAnimations()
 							break;
 
 						}
-
-						for (int index = 1; index < 4; index++)
-						{
-							std::string indexText = std::to_string(index);
-							// make files for costumes idle or walk
-						}
+						std::string FileName = "";
+						std::string BasePath = Path + ColourText + "/";
+						FileName = DirectionText + "-" + StateText + "-" + CostumeText + "-" + ColourText;
+						Animation a = Animation(BasePath, FileName, 3, StringToDirection(DirectionText), StringToState(StateText), StringToCostumeType(CostumeText), StringToColour(ColourText));
+						AnimationList.CostumeAnimations.push_back(a);
+						// make files for costumes idle or walk
 					}
 				}
 			}
@@ -366,13 +355,12 @@ void Game::LoadAnimations()
 								break;
 
 							}
-
-
-							for (int index = 1; index < 4; index++)
-							{
-								std::string indexText = std::to_string(index);
-								//make files for attack gun and sword
-							}
+							std::string FileName = "";
+							std::string BasePath = Path + ColourText + "/";
+							FileName = DirectionText + "-" + StateText + "-" + EquipmentText + "-" + CostumeText + "-" + ColourText;
+							Animation a = Animation(BasePath, FileName, 3, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType(EquipmentText), StringToCostumeType(CostumeText), StringToColour(ColourText));
+							AnimationList.CostumeAnimations.push_back(a);
+							//make files for attack gun and sword
 						}
 					}
 				}
@@ -425,11 +413,12 @@ void Game::LoadAnimations()
 						default:
 							return;
 						}
-						for (int index = 1; index < 4; index++)
-						{
-							std::string indexText = std::to_string(index);
-							//make files for dig shovel
-						}
+						std::string FileName = "";
+						std::string BasePath = Path + ColourText + "/";
+						FileName = DirectionText + "-" + StateText + "-" + Shovel + "-" + CostumeText + "-" + ColourText;
+						Animation a = Animation(BasePath, FileName, 3, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType(Shovel), StringToCostumeType(CostumeText), StringToColour(ColourText));
+						AnimationList.CostumeAnimations.push_back(a);
+						//make files for dig shovel
 					}
 				}
 			}
@@ -437,6 +426,58 @@ void Game::LoadAnimations()
 		}
 
 	}
+	for (int CostumeType = 0; CostumeType < 2; CostumeType++)
+	{
+		//set costume type
+		std::string CostumeText = "";
+		switch (CostumeType)
+		{
+		case 0:
+			CostumeText = "Basic";
+			break;
+		case 1:
+			CostumeText = "Advanced";
+			break;
+		default:
+			return;
+		}
+
+		for (int Colour = 0; Colour < 6; Colour++)
+		{
+			std::string ColourText = "";
+			switch (Colour)
+			{
+			case 0:
+				ColourText = "Black";
+				break;
+			case 1:
+				ColourText = "White";
+				break;
+			case 2:
+				ColourText = "Blue";
+				break;
+			case 3:
+				ColourText = "Green";
+				break;
+			case 4:
+				ColourText = "Red";
+				break;
+			case 5:
+				ColourText = "Yellow";
+				break;
+			default:
+				return;
+			}
+			std::string FileName = "";
+			std::string BasePath = Path + ColourText + "/";
+			FileName = "Player-Die-" + CostumeText + "-" + ColourText;
+			Animation a = Animation(BasePath, FileName, 4, Direction::East, State::Dead);
+			AnimationList.CostumeAnimations.push_back(a);
+			//player die here
+
+		}
+	}
+
 	//EQUIPMENT
 	Path = "Assets/Sprites/Equipment/";
 
@@ -503,15 +544,12 @@ void Game::LoadAnimations()
 						return;
 
 					}
-
-					for (int index = 1; index < 4; index++)
-					{
-						std::string indexText = std::to_string(index);
-						//make files for equipment animations
-					}
-
+					std::string FileName = "";
+					FileName = DirectionText + "-" + StateText + "-" + EquipmentText;
+					Animation a = Animation(Path, FileName, 3, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType(EquipmentText));
+					AnimationList.EquipmentAnimations.push_back(a);
+					//make files for equipment animations
 				}
-
 			}
 		}
 	}
@@ -566,7 +604,6 @@ void Game::LoadAnimations()
 
 			if (StateText == "Attack")
 			{
-
 				for (int Equipment = 0; Equipment < 2; Equipment++)
 				{
 					//set equipment
@@ -583,28 +620,24 @@ void Game::LoadAnimations()
 						return;
 
 					}
-
-					for (int index = 1; index < 3; index++)
-					{
-						std::string indexText = std::to_string(index);
-						//make files for sword/gun effect animations
-					}
-
+					std::string FileName = "";
+					FileName = DirectionText + "-" + StateText + "-" + EquipmentText + "-Effect";
+					Animation a = Animation(Path, FileName, 2, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType(EquipmentText));
+					AnimationList.EffectAnimations.push_back(a);
+					//make files for sword/gun effect animations
 				}
 
 			}
 			if (StateText == "Dig" && (DirectionText == "Left" || DirectionText == "Right"))
 			{
-
-				for (int index = 1; index < 3; index++)
-				{
-					std::string indexText = std::to_string(index);
-					//make files for shovel effect animations
-				}
+				std::string FileName = "";
+				FileName = DirectionText + "-" + StateText + "-" + "Shovel" + "-Effect";
+				Animation a = Animation(Path, FileName, 2, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType("Shovel"));
+				AnimationList.EffectAnimations.push_back(a);
+				//make files for shovel effect animations
 			}
 		}
 	}
-
 }
 
 void Game::HandleWindowEvent()
@@ -679,7 +712,7 @@ void Game::UpdateGame()
 	{
 		UserInput.Update(this);
 		SpriteList.Update();
-		Player.UpdatePlayer();
+		Player.UpdatePlayer(this);
 		UpdateCamera(&Camera, &Player);
 	}
 }

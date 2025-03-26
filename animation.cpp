@@ -3,81 +3,66 @@
 #include "TextureManager.h"
 #include "Player.h"
 
-Animation::Animation(std::string FileName, State State, Direction Direction)
+Animation::Animation(std::string BasePath, std::string BaseFile, int frames, Direction Direction, State State)
 {
-	lastindex = 0;
 	direction = Direction;
 	state = State;
-	std::ifstream file(FileName);
-	if (file.is_open())
-	{
-		bool costume = false;
-		std::string line = "Assets/Sprites/";
-		std::string temp = "";
-		while (std::getline(file, temp))
-		{
 
-			line += temp;
-			const char* filetext = line.c_str();
-			SDL_Texture* Texture = TextureManager::LoadTexture(filetext);
-			Textures.push_back(Texture);
-			temp = "";
-			line = "Assets/Sprites/";
-		}
+	for (int index = 1; index < frames + 1; index++)
+	{
+		std::string FullFilePath = BasePath + BaseFile + "-" + std::to_string(index) + ".png";
+		const char* File = FullFilePath.c_str();
+		SDL_Texture* Texture = TextureManager::LoadTexture(File);
+		Textures.push_back(Texture);
 	}
-	file.close();
 }
 
-Animation::Animation(std::string FileName, State State, Direction Direction, CostumeType CostumeType)
+Animation::Animation(std::string BasePath, std::string BaseFile, int frames, Direction Direction, State State, EquipmentType EquipmentType)
 {
-	lastindex = 0;
-	direction = Direction;
-	state = State;
-	costumeType = CostumeType;
-	std::ifstream file(FileName);
-	if (file.is_open())
-	{
-		bool costume = false;
-		std::string line = "Assets/Sprites/";
-		std::string temp = "";
-		while (std::getline(file, temp))
-		{
-
-			line += temp;
-			const char* filetext = line.c_str();
-			SDL_Texture* Texture = TextureManager::LoadTexture(filetext);
-			Textures.push_back(Texture);
-			temp = "";
-			line = "Assets/Sprites/";
-		}
-	}
-	file.close();
-}
-
-Animation::Animation(std::string FileName, State State, Direction Direction, EquipmentType EquipmentType)
-{
-	lastindex = 0;
 	direction = Direction;
 	state = State;
 	equipmentType = EquipmentType;
-	std::ifstream file(FileName);
-	if (file.is_open())
-	{
-		bool costume = false;
-		std::string line = "Assets/Player/";
-		std::string temp = "";
-		while (std::getline(file, temp))
-		{
 
-			line += temp;
-			const char* filetext = line.c_str();
-			SDL_Texture* Texture = TextureManager::LoadTexture(filetext);
-			Textures.push_back(Texture);
-			temp = "";
-			line = "Assets/Player/";
-		}
+	for (int index = 1; index < frames + 1; index++)
+	{
+		std::string FullFilePath = BasePath + BaseFile + "-" + std::to_string(index) + ".png";
+		const char* File = FullFilePath.c_str();
+		SDL_Texture* Texture = TextureManager::LoadTexture(File);
+		Textures.push_back(Texture);
 	}
-	file.close();
+}
+
+Animation::Animation(std::string BasePath, std::string BaseFile, int frames, Direction Direction, State State, CostumeType CostumeType, Colour Colour)
+{
+	direction = Direction;
+	state = State;
+	costumeType = CostumeType;
+	colour = Colour;
+
+	for (int index = 1; index < frames + 1; index++)
+	{
+		std::string FullFilePath = BasePath + BaseFile + "-" + std::to_string(index) + ".png";
+		const char* File = FullFilePath.c_str();
+		SDL_Texture* Texture = TextureManager::LoadTexture(File);
+		Textures.push_back(Texture);
+	}
+}
+
+Animation::Animation(std::string BasePath, std::string BaseFile, int frames, Direction Direction, State State, EquipmentType EquipmentType, CostumeType CostumeType, Colour Colour)
+{
+	direction = Direction;
+	state = State;
+	costumeType = CostumeType;
+	colour = Colour;
+	equipmentType = EquipmentType;
+
+	for (int index = 1; index < frames + 1; index++)
+	{
+		std::string FullFilePath = BasePath + BaseFile + "-" + std::to_string(index) + ".png";
+		const char* File = FullFilePath.c_str();
+		SDL_Texture* Texture = TextureManager::LoadTexture(File);
+		Textures.push_back(Texture);
+	}
 }
 
 EquipmentType StringToEquipmentType(std::string type)
