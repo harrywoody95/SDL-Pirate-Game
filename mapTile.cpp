@@ -23,6 +23,6 @@ SDL_Rect MapTile::Update(Camera* camera)
 	DestinationBox.x - camera->Position.x,
 	DestinationBox.y - camera->Position.y,
 	DestinationBox.w,
-	DestinationBox.y
+	DestinationBox.h
 	};
 }
