@@ -5,10 +5,12 @@
 
 struct MapTile {
 	MapTileType Type;
-	SDL_Rect SourceBox;
-	SDL_Rect DestinationBox;
 	SDL_Texture* Texture;
+	Vec2 Position;
+	int Scale;
+	int Bitsize;
 
-	void CreateMapTile(MapTileType Type, SDL_Rect SourceBox, SDL_Rect DestinationBox, MapTileAssets MTA);
-	SDL_Rect Update(Camera* camera);
+	void CreateMapTile(float x, float y, MapTileType Type, int BitSize, int Scale, MapTileAssets MTA);
+	void Update(Camera* camera);
+	void Draw(Camera* camera);
 };

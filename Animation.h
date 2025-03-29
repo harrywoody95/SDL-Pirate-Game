@@ -46,14 +46,14 @@ enum class EffectType {
 	Shovel,
 };
 
-struct Speed
-{
-	static const int FPS = 144;
-	int TargetUntilChange = 30;
-	int Counter = 0;
-};
-
 struct Animation {
+
+	struct Speed
+	{
+		static const int FPS = 144;
+		int TargetUntilChange = 30;
+		int Counter = 0;
+	};
 
 	Direction direction = {};
 	State state = {};

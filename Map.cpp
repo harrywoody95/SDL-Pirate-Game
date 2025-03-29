@@ -7,15 +7,6 @@
 
 void Map::LoadMap(const char* LayerOneFileName, const char* LayerTwoFilename, const char* LayerThreeFilename, MapTileAssets MTA)
 {
-	SDL_Rect SourceBox, DesingationBox;
-	SourceBox.w = 32;
-	SourceBox.h = 32;
-	SourceBox.x = 0;
-	SourceBox.y = 0;
-	DesingationBox.w = 32 * 2;
-	DesingationBox.h = 32 * 2;
-	DesingationBox.x = 0;
-	DesingationBox.y = 0;
 
 	std::ifstream file(LayerOneFileName);
 	if (file.is_open())
@@ -30,13 +21,12 @@ void Map::LoadMap(const char* LayerOneFileName, const char* LayerTwoFilename, co
 			Col = 0;
 			for (int x = 0; x < line.size(); x++)
 			{
-				DesingationBox.x = Col;
-				DesingationBox.y = Row;
+
 				if (line.at(x) == ',')
 				{
 					convertedData = stoi(data);
 					MapTile MT;
-					MT.CreateMapTile((MapTileType)convertedData, SourceBox, DesingationBox, MTA);
+					MT.CreateMapTile(Col, Row, (MapTileType)convertedData, 32, 2, MTA);
 					LayerOne.push_back(MT);
 					data = "";
 					Col += 64;
@@ -57,17 +47,14 @@ void Map::DrawMap(Camera* camera)
 {
 	for (int index = 0; index < LayerOne.size(); index++)
 	{
-		SDL_Rect dBox = LayerOne[index].Update(camera);
-		TextureManager::Draw(LayerOne[index].Texture, LayerOne[index].SourceBox, dBox);
+		LayerOne[index].Draw(camera);
 	}
 	for (int index = 0; index < LayerTwo.size(); index++)
 	{
-		SDL_Rect dBox = LayerTwo[index].Update(camera);
-		TextureManager::Draw(LayerTwo[index].Texture, LayerTwo[index].SourceBox, dBox);
+		LayerTwo[index].Draw(camera);
 	}
 	for (int index = 0; index < LayerThree.size(); index++)
 	{
-		SDL_Rect dBox = LayerThree[index].Update(camera);
-		TextureManager::Draw(LayerThree[index].Texture, LayerThree[index].SourceBox, dBox);
+		LayerThree[index].Draw(camera);
 	}
 }

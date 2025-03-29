@@ -5,16 +5,8 @@
 void Sprite::CreateSprite(float x, float y, const char* Filename, int SpriteBitSize, int Scale, SpriteList* SpriteList)
 {
 	Movement.init(x, y);
-
-	SourceBox.x = 0;
-	SourceBox.y = 0;
-	SourceBox.w = SpriteBitSize;
-	SourceBox.h = SpriteBitSize;
-
-	DestinationBox.w = 64 * Scale;
-	DestinationBox.h = 64 * Scale;
-	DestinationBox.x = static_cast<int>(Movement.Position.x);
-	DestinationBox.y = static_cast<int>(Movement.Position.y);
+	BitSize = SpriteBitSize;
+	this->Scale = Scale;
 
 	Texture = TextureManager::LoadTexture(Filename);
 
@@ -37,12 +29,17 @@ void Sprite::DeleteSprite(SpriteList* SpriteList)
 
 void Sprite::Draw()
 {
-	TextureManager::Draw(Texture, SourceBox, DestinationBox);
-}
+	SDL_Rect DestinationBox, SourceBox;
+	SourceBox.x = 0;
+	SourceBox.y = 0;
+	SourceBox.w = BitSize;
+	SourceBox.h = BitSize;
 
-void Sprite::Update()
-{
-	Movement.Update();
+	DestinationBox.w = 64 * Scale;
+	DestinationBox.h = 64 * Scale;
+	DestinationBox.x = static_cast<int>(Movement.Position.x);
+	DestinationBox.y = static_cast<int>(Movement.Position.y);
+
 	if (Name == "PlayerSprite" || Name == "CostumeSprite")
 	{
 		DestinationBox.x = 1920 / 2 - DestinationBox.w / 2;
@@ -53,4 +50,10 @@ void Sprite::Update()
 		DestinationBox.x = static_cast<int>(Movement.Position.x);
 		DestinationBox.y = static_cast<int>(Movement.Position.y);
 	}
+	TextureManager::Draw(Texture, SourceBox, DestinationBox);
+}
+
+void Sprite::Update()
+{
+	Movement.Update();
 }

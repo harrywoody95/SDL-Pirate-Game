@@ -10,8 +10,8 @@ struct Sprite
 	std::string Name;
 	Movement Movement;
 	SDL_Texture* Texture = nullptr;
-	SDL_Rect SourceBox = {};
-	SDL_Rect DestinationBox = {};
+	int Scale;
+	int BitSize;
 	SDL_Rect CollisionBox = {};
 
 	void CreateSprite(float x, float y, const char* Filename, int SpriteBitSize, int Scale, SpriteList* SpriteList);
