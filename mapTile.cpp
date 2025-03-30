@@ -40,8 +40,8 @@ void MapTile::Draw(Camera* camera)
 	SourceBox.y = 0;
 	DestinationBox.w = 32 * 2;
 	DestinationBox.h = 32 * 2;
-	DestinationBox.x = static_cast<int>(Position.x);
-	DestinationBox.y = static_cast<int>(Position.y);
+	DestinationBox.x = Position.x;
+	DestinationBox.y = Position.y;
 
 	DestinationBox.x = DestinationBox.x - camera->Position.x;
 	DestinationBox.y = DestinationBox.y - camera->Position.y;

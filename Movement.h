@@ -27,7 +27,7 @@ enum ActionState {
 struct Movement {
 
 	static const int WalkingSpeed = 2;
-	static const int RunningSpeed = 4;
+	static const int RunningSpeed = 3;
 	static const int SailSpeed = 2;
 	static const int FullSailSpeed = 3;
 
@@ -37,7 +37,7 @@ struct Movement {
 	State CurrentState = Idle;
 	Direction LastDirection = East;
 	Direction CurrentDirection = East;
-	int Speed = WalkingSpeed;
+	int Speed = 3;
 
 	void init(float PosX, float PosY)
 	{

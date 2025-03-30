@@ -26,10 +26,6 @@ Colour StringToColour(std::string Colour) {
 	{
 		return Colour::Red;
 	}
-	else
-	{
-		return Colour::Black;
-	}
 }
 
 CostumeType StringToCostumeType(std::string Type) {
@@ -40,9 +36,5 @@ CostumeType StringToCostumeType(std::string Type) {
 	if (Type == "Advanced")
 	{
 		return CostumeType::Advanced;
-	}
-	else
-	{
-		return CostumeType::None;
 	}
 }
