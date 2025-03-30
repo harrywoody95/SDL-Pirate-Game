@@ -9,6 +9,7 @@ void UserInput::GetUserInput()
 	KEY_S_RELEASED = false;
 	KEY_A_RELEASED = false;
 	KEY_D_RELEASED = false;
+	KEY_SHIFT_RELEASED = false;
 
 	if (Game::Event.type == SDL_KEYDOWN)
 	{
@@ -32,6 +33,11 @@ void UserInput::GetUserInput()
 		case SDLK_d:
 		{
 			KEY_D_PRESSED = true;
+			break;
+		}
+		case SDLK_LSHIFT:
+		{
+			KEY_SHIFT_PRESSED = true;
 			break;
 		}
 		default:
@@ -65,6 +71,12 @@ void UserInput::GetUserInput()
 		{
 			KEY_D_PRESSED = false;
 			KEY_D_RELEASED = true;
+			break;
+		}
+		case SDLK_LSHIFT:
+		{
+			KEY_SHIFT_PRESSED = false;
+			KEY_SHIFT_RELEASED = true;
 			break;
 		}
 		default:
@@ -107,6 +119,10 @@ void UserInput::HandleUserInput(Game* Game)
 		Game->Player.PlayerSprite->Movement.CurrentState = Walking;
 	}
 
+	if (KEY_SHIFT_PRESSED)
+	{
+		Game->Player.PlayerSprite->Movement.Speed = Game->Player.PlayerSprite->Movement.RunningSpeed;
+	}
 	//released
 	if (KEY_W_RELEASED)
 	{
@@ -123,6 +139,10 @@ void UserInput::HandleUserInput(Game* Game)
 	if (KEY_D_RELEASED)
 	{
 
+	}
+	if (KEY_SHIFT_RELEASED)
+	{
+		Game->Player.PlayerSprite->Movement.Speed = Game->Player.PlayerSprite->Movement.WalkingSpeed;
 	}
 
 	//if idle
@@ -154,26 +174,9 @@ void UserInput::HandleUserInput(Game* Game)
 			CollisionBoxes.push_back(Game->Map.LayerThree[x].Collision);
 		}
 	}
-	SDL_Texture* text = TextureManager::LoadTexture(static_cast<const char*>("Assets/Sprites/debug.png"));
-	SDL_Rect Dbox, Sbox;
-	
+
 	for (int x = 0; x < CollisionBoxes.size(); x++)
 	{
-		Dbox.x = CollisionBoxes[x].Left;
-		Dbox.y = CollisionBoxes[x].Top;
-		Dbox.w = CollisionBoxes[x].Right - CollisionBoxes[x].Left;
-		Dbox.h = CollisionBoxes[x].Bottom - CollisionBoxes[x].Top;
-
-		Sbox.x = 0;
-		Sbox.y = 0;
-		Sbox.w = 32;
-		Sbox.h = 32;
-
-		Dbox.x = Dbox.x - Game->Camera.Position.x;
-		Dbox.y = Dbox.y - Game->Camera.Position.y;
-
-		TextureManager::Draw(text, Sbox, Dbox);
-
 		if (BoxesOverlap(Game->Player.Collision, CollisionBoxes[x]))
 		{
 			std::cout << "Box Collision" << std::endl;

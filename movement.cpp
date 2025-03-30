@@ -27,6 +27,10 @@ State StringToState(std::string state)
 	{
 		return State::Dead;
 	}
+	else
+	{
+		return State::Idle;
+	}
 }
 
 Direction StringToDirection(std::string direction)
@@ -44,6 +48,10 @@ Direction StringToDirection(std::string direction)
 		return Direction::West;
 	}
 	if (direction == "Right")
+	{
+		return Direction::East;
+	}
+	else
 	{
 		return Direction::East;
 	}

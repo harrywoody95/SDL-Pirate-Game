@@ -30,10 +30,10 @@ void DrawCollsionBoxes(Game* Game)
 
 	for (int x = 0; x < CollisionBoxes.size(); x++)
 	{
-		Dbox.x = CollisionBoxes[x].Left;
-		Dbox.y = CollisionBoxes[x].Top;
-		Dbox.w = CollisionBoxes[x].Right - CollisionBoxes[x].Left;
-		Dbox.h = CollisionBoxes[x].Bottom - CollisionBoxes[x].Top;
+		Dbox.x = static_cast<int>(CollisionBoxes[x].Left);
+		Dbox.y = static_cast<int>(CollisionBoxes[x].Top);
+		Dbox.w = static_cast<int>(CollisionBoxes[x].Right - CollisionBoxes[x].Left);
+		Dbox.h = static_cast<int>(CollisionBoxes[x].Bottom - CollisionBoxes[x].Top);
 
 		Sbox.x = 0;
 		Sbox.y = 0;
@@ -45,10 +45,10 @@ void DrawCollsionBoxes(Game* Game)
 
 		TextureManager::Draw(text, Sbox, Dbox);
 	}
-	Dbox.x = Game->Player.Collision.Left;
-	Dbox.y = Game->Player.Collision.Top;
-	Dbox.w = Game->Player.Collision.Right - Game->Player.Collision.Left;
-	Dbox.h = Game->Player.Collision.Bottom - Game->Player.Collision.Top;
+	Dbox.x = static_cast<int>(Game->Player.Collision.Left);
+	Dbox.y = static_cast<int>(Game->Player.Collision.Top);
+	Dbox.w = static_cast<int>(Game->Player.Collision.Right - Game->Player.Collision.Left);
+	Dbox.h = static_cast<int>(Game->Player.Collision.Bottom - Game->Player.Collision.Top);
 
 	Sbox.x = 0;
 	Sbox.y = 0;
