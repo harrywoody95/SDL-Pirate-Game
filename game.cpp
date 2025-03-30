@@ -1,12 +1,12 @@
 ﻿#include "Game.h"
 #include <iostream>
-#include "Map.h"
 #include "Scenes.h"
 #include "SDL_mixer.h"
 #include "Item.h"
 #include <fstream>
+#include "DebugBox.h"
 
-Map map;
+
 SDL_Event Game::Event;
 
 void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Height, bool Fullscreen)
@@ -55,7 +55,7 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	//create and load map
 	MapTileAssets mapass;
 	mapass.LoadMapTileAssets();
-	map.LoadMap("Assets/Maps/Map1.txt", "", "", mapass);
+	Map.LoadMap("Assets/Maps/Map1.txt", "", "", mapass);
 
 
 	Item* item = new Item(CreateItem("BlackBeard's Cloak", 250, costume));
@@ -67,9 +67,9 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 
 	//create player sprite and set animation
 	Player.PlayerSprite = new Sprite();
-	Player.PlayerSprite->CreateSprite(1000.0, 1000.0, "Assets/Sprites/transparent.png", 16, 1, &SpriteList);
+	Player.PlayerSprite->CreateSprite(1000.0, 1000.0, "Assets/Sprites/transparent.png", 16, 4, &SpriteList);
 	Player.CostumeSprite = new Sprite();
-	Player.CostumeSprite->CreateSprite(1000.0, 1000.0, "Assets/Sprites/transparent.png", 16, 1, &SpriteList);
+	Player.CostumeSprite->CreateSprite(1000.0, 1000.0, "Assets/Sprites/transparent.png", 16, 4, &SpriteList);
 	Player.PlayerSprite->Name = "PlayerSprite";
 	Player.CostumeSprite->Name = "CostumeSprite";
 	Player.SetPlayerAnimation(this);
@@ -674,8 +674,9 @@ void Game::Render()
 	}
 	else
 	{
-		map.DrawMap(&Camera);
+		Map.DrawMap(&Camera);
 		SpriteList.Draw();
+		DrawCollsionBoxes(this);
 		
 		//SDL_Rect player_rect = {Camera.Position.x, Camera.Position.y, Camera.Size.x, Camera.Size.y };
 		//SDL_RenderCopy(Renderer::MainRenderer, Player.Sprite->Texture,NULL, &player_rect);

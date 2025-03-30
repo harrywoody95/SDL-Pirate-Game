@@ -35,8 +35,8 @@ void Sprite::Draw()
 	SourceBox.w = BitSize;
 	SourceBox.h = BitSize;
 
-	DestinationBox.w = 64 * Scale;
-	DestinationBox.h = 64 * Scale;
+	DestinationBox.w = BitSize * Scale;
+	DestinationBox.h = BitSize * Scale;
 	DestinationBox.x = static_cast<int>(Movement.Position.x);
 	DestinationBox.y = static_cast<int>(Movement.Position.y);
 

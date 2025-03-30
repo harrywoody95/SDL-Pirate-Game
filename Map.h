@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 #include "MapTile.h"
+
+struct Camera;
 struct Map {
 	std::vector <MapTile> LayerOne;
 	std::vector <MapTile> LayerTwo;

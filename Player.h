@@ -4,6 +4,7 @@
 #include <vector>
 #include "Animation.h"
 #include "Costume.h"
+#include "Collision.h"
 struct Game;
 struct Player
 {
@@ -12,6 +13,7 @@ struct Player
 	Costume* CurrentCostume = nullptr;
 	PlayerAnimation PlayerAnimations;
 	int InventoryLimit = 5;
+	Box Collision;
 	//inventory vector
 	//equiped equitment
 
@@ -26,6 +28,7 @@ struct Player
 	void SetPlayerCostumeAnimation(Game* game);
 	void UpdatePlayerCharacterAnimation(Game* game);
 	void UpdatePlayerCostumeAnimation(Game* game);
+	void UpdatePlayerCollision(Game* game);
 	void UpdatePlayer(Game* game);
 	void UpdatePlayerAnimation(Game* game);
 };

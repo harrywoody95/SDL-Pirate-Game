@@ -134,12 +134,15 @@
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="audio.cpp" />
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="collision.cpp" />
     <ClCompile Include="Costume.cpp" />
+    <ClCompile Include="debugBoxes.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gameObj.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="mapTile.cpp" />
+    <ClCompile Include="mapTileType.cpp" />
     <ClCompile Include="movement.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="renderer.cpp" />
@@ -154,7 +157,9 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Audio.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Collision.h" />
     <ClInclude Include="Costume.h" />
+    <ClInclude Include="DebugBox.h" />
     <ClInclude Include="Equipment.h" />
     <ClInclude Include="Flags.h" />
     <ClInclude Include="Game.h" />

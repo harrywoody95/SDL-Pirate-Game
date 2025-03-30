@@ -94,8 +94,16 @@ void Player::UpdatePlayerAnimation(Game* game)
 	UpdatePlayerCostumeAnimation(game);
 }
 
+void Player::UpdatePlayerCollision(Game* game)
+{
+	game->Player.Collision.Left = game->Player.PlayerSprite->Movement.Position.x - (game->Player.PlayerSprite->BitSize * game->Player.PlayerSprite->Scale) / 2;
+	game->Player.Collision.Top = game->Player.PlayerSprite->Movement.Position.y - (game->Player.PlayerSprite->BitSize * game->Player.PlayerSprite->Scale) / 2;
+	game->Player.Collision.Right = game->Player.PlayerSprite->Movement.Position.x + (game->Player.PlayerSprite->BitSize * game->Player.PlayerSprite->Scale) / 2;
+	game->Player.Collision.Bottom = game->Player.PlayerSprite->Movement.Position.y + (game->Player.PlayerSprite->BitSize * game->Player.PlayerSprite->Scale) / 2;
+}
+
 void Player::UpdatePlayer(Game* game)
 {
-
+	UpdatePlayerCollision(game);
 	UpdatePlayerAnimation(game);
 }

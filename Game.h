@@ -11,6 +11,7 @@
 #include "Audio.h"
 #include "Camera.h"
 #include <vector>
+#include "Map.h"
 
 struct Game {
 
@@ -25,6 +26,7 @@ struct Game {
 	std::vector <Scene> Scenes;
 	Audio Audio;
 	Camera Camera;
+	Map Map;
 
 	bool IsRunning = false;
 	//store arrray of maps? store the map im on?

@@ -2,8 +2,9 @@
 #include "TextureManager.h"
 #include "MapTile.h"
 
-void MapTile::CreateMapTile(float x, float y, MapTileType Type, int BitSize, int Scale, MapTileAssets MTA)
+void MapTile::CreateMapTile(float x, float y, MapTileType Type, int BitSize, int Scale, MapTileAssets MTA, bool Solid)
 {
+	this->Solid = Solid;
 	Position.x = x;
 	Position.y = y;
 	this->Type = Type;
@@ -14,14 +15,20 @@ void MapTile::CreateMapTile(float x, float y, MapTileType Type, int BitSize, int
 		if (MTA.MapTiles[index].Type == Type)
 		{
 			this->Texture = MTA.MapTiles[index].Texture;
-			return;
+			break;
 		}
+	}
+	if (Solid)
+	{
+		Collision.Left = Position.x;
+		Collision.Top = Position.y;
+		Collision.Right = Position.x + (Bitsize * Scale);
+		Collision.Bottom = Position.y + (Bitsize * Scale);
 	}
 }
 
 void MapTile::Update(Camera* camera)
 {
-
 }
 
 void MapTile::Draw(Camera* camera)

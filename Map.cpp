@@ -26,7 +26,7 @@ void Map::LoadMap(const char* LayerOneFileName, const char* LayerTwoFilename, co
 				{
 					convertedData = stoi(data);
 					MapTile MT;
-					MT.CreateMapTile(Col, Row, (MapTileType)convertedData, 32, 2, MTA);
+					MT.CreateMapTile(Col, Row, (MapTileType)convertedData, 32, 2, MTA, true);
 					LayerOne.push_back(MT);
 					data = "";
 					Col += 64;
