@@ -139,7 +139,14 @@ void Game::LoadAnimations()
 			}
 
 			// IDLE/WALK CREATION
-			if (StateText == "Idle" || StateText == "Walk")
+			if (StateText == "Walk")
+			{
+				std::string FileName = "";
+				FileName = DirectionText + "-" + StateText;
+				Animation a = Animation(Path, FileName, 4, StringToDirection(DirectionText), StringToState(StateText));
+				AnimationList.CharacterAnimations.push_back(a);
+			}
+			if (StateText == "Idle")
 			{
 				std::string FileName = "";
 				FileName = DirectionText + "-" + StateText;
@@ -288,9 +295,17 @@ void Game::LoadAnimations()
 						std::string FileName = "";
 						std::string BasePath = Path + ColourText + "/";
 						FileName = DirectionText + "-" + StateText + "-" + CostumeText + "-" + ColourText;
-						Animation a = Animation(BasePath, FileName, 3, StringToDirection(DirectionText), StringToState(StateText), StringToCostumeType(CostumeText), StringToColour(ColourText));
-						AnimationList.CostumeAnimations.push_back(a);
-						// make files for costumes idle or walk
+						if (StateText == "Idle")
+						{
+							Animation a = Animation(BasePath, FileName, 3, StringToDirection(DirectionText), StringToState(StateText), StringToCostumeType(CostumeText), StringToColour(ColourText));
+							AnimationList.CostumeAnimations.push_back(a);
+						}
+						else
+						{
+							Animation a = Animation(BasePath, FileName, 4, StringToDirection(DirectionText), StringToState(StateText), StringToCostumeType(CostumeText), StringToColour(ColourText));
+							AnimationList.CostumeAnimations.push_back(a);
+							// make files for costumes idle or walk
+						}
 					}
 				}
 			}
