@@ -9,6 +9,7 @@ void UserInput::GetUserInput()
 	KEY_S_RELEASED = false;
 	KEY_A_RELEASED = false;
 	KEY_D_RELEASED = false;
+	KEY_LSHIFT_RELEASED = false;
 
 	if (Game::Event.type == SDL_KEYDOWN)
 	{
@@ -32,6 +33,11 @@ void UserInput::GetUserInput()
 		case SDLK_d:
 		{
 			KEY_D_PRESSED = true;
+			break;
+		}
+		case SDLK_LSHIFT:
+		{
+			KEY_LSHIFT_PRESSED = true;
 			break;
 		}
 		default:
@@ -65,6 +71,12 @@ void UserInput::GetUserInput()
 		{
 			KEY_D_PRESSED = false;
 			KEY_D_RELEASED = true;
+			break;
+		}
+		case SDLK_LSHIFT:
+		{
+			KEY_LSHIFT_PRESSED = false;
+			KEY_LSHIFT_RELEASED = true;
 			break;
 		}
 		default:
@@ -107,6 +119,11 @@ void UserInput::HandleUserInput(Game* Game)
 		Game->Player.PlayerSprite->Movement.CurrentState = Walking;
 	}
 
+	if (KEY_LSHIFT_PRESSED)
+	{
+		Game->Player.PlayerSprite->Movement.Speed = Game->Player.PlayerSprite->Movement.RunningSpeed;
+	}
+
 	//released
 	if (KEY_W_RELEASED)
 	{
@@ -123,6 +140,10 @@ void UserInput::HandleUserInput(Game* Game)
 	if (KEY_D_RELEASED)
 	{
 
+	}
+	if (KEY_LSHIFT_RELEASED)
+	{
+		Game->Player.PlayerSprite->Movement.Speed = Game->Player.PlayerSprite->Movement.WalkingSpeed;
 	}
 
 	//if idle
