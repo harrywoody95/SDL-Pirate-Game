@@ -63,17 +63,28 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	item->Costume.CostumeColour = Colour::Green;
 	item->Costume.Type = CostumeType::Advanced;
 
+	Item* item1 = new Item(CreateItem("BlackBeard's Gun", 500, equipment));
+	item1->Equipment.DamageStat = 20;
+	item1->Equipment.Type= EquipmentType::Gun;
+
+
+
 	Player.CurrentCostume = &item->Costume; 
+	Player.CurrentEquipment = &item1->Equipment;
 
 	//create player sprite and set animation
 	Player.PlayerSprite = new Sprite();
 	Player.PlayerSprite->CreateSprite(1000.0, 1000.0, "Assets/Sprites/transparent.png", 16, 4, &SpriteList);
 	Player.CostumeSprite = new Sprite();
 	Player.CostumeSprite->CreateSprite(1000.0, 1000.0, "Assets/Sprites/transparent.png", 16, 4, &SpriteList);
+	Player.EquipmentSprite = new Sprite();
+	Player.EquipmentSprite->CreateSprite(1000.0, 1000.0, "Assets/Sprites/transparent.png", 16, 4, &SpriteList);
 	Player.PlayerSprite->Name = "PlayerSprite";
 	Player.CostumeSprite->Name = "CostumeSprite";
+	Player.EquipmentSprite->Name = "EquipmentSprite";
 	Player.SetPlayerAnimation(this);
 	Player.SetPlayerCostumeAnimation(this);
+	Player.SetPlayerEquipmentAnimation(this);
 	
 
 
@@ -540,7 +551,7 @@ void Game::LoadAnimations()
 				return;
 			}
 
-			if (StateText == "Idle" || StateText == "Walk")
+			if (StateText == "Idle")
 			{
 
 				for (int Equipment = 0; Equipment < 2; Equipment++)
@@ -562,6 +573,31 @@ void Game::LoadAnimations()
 					std::string FileName = "";
 					FileName = DirectionText + "-" + StateText + "-" + EquipmentText;
 					Animation a = Animation(Path, FileName, 3, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType(EquipmentText));
+					AnimationList.EquipmentAnimations.push_back(a);
+					//make files for equipment animations
+				}
+			}
+			if (StateText == "Walk")
+			{
+				for (int Equipment = 0; Equipment < 2; Equipment++)
+				{
+					//set equipment
+					std::string EquipmentText = "";
+					switch (Equipment)
+					{
+					case 0:
+						EquipmentText = "Sword";
+						break;
+					case 1:
+						EquipmentText = "Gun";
+						break;
+					default:
+						return;
+
+					}
+					std::string FileName = "";
+					FileName = DirectionText + "-" + StateText + "-" + EquipmentText;
+					Animation a = Animation(Path, FileName, 4, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType(EquipmentText));
 					AnimationList.EquipmentAnimations.push_back(a);
 					//make files for equipment animations
 				}

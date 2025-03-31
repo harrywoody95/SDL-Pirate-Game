@@ -8,9 +8,8 @@ enum class EquipmentType {
 };
 
 struct Equipment {
-	std::string Name;
 	int DamageStat;
-	EquipmentType Type;
+	EquipmentType Type = EquipmentType::None;
 };
 
 

@@ -14,6 +14,7 @@ void Player::SetPlayerAnimation(Game* game)
 		}
 	}
 }
+
 void Player::SetPlayerCostumeAnimation(Game* game)
 {
 	if (CurrentCostume->Type == CostumeType::None)
@@ -29,6 +30,24 @@ void Player::SetPlayerCostumeAnimation(Game* game)
 		{
 			PlayerAnimations.CostumeAnimation = game->AnimationList.CostumeAnimations[x];
 			CostumeSprite->Texture = PlayerAnimations.CostumeAnimation.Textures[0];
+		}
+	}
+}
+
+void Player::SetPlayerEquipmentAnimation(Game* game)
+{
+	if (CurrentEquipment->Type == EquipmentType::None)
+	{
+		return;
+	}
+	for (int x = 0; x < game->AnimationList.EquipmentAnimations.size(); x++)
+	{
+		if (game->AnimationList.EquipmentAnimations[x].direction == PlayerSprite->Movement.CurrentDirection &&
+			game->AnimationList.EquipmentAnimations[x].state == PlayerSprite->Movement.CurrentState &&
+			CurrentEquipment->Type == game->AnimationList.EquipmentAnimations[x].equipmentType)
+		{
+			PlayerAnimations.EquipmentAnimation = game->AnimationList.EquipmentAnimations[x];
+			EquipmentSprite->Texture = PlayerAnimations.EquipmentAnimation.Textures[0];
 		}
 	}
 }
@@ -58,9 +77,39 @@ void Player::UpdatePlayerCharacterAnimation(Game* game)
 	
 }
 
+void Player::UpdatePlayerEquipmentAnimation(Game* game)
+{
+	if ((PlayerSprite->Movement.LastDirection != PlayerSprite->Movement.CurrentDirection || PlayerSprite->Movement.LastState != PlayerSprite->Movement.CurrentState) && CurrentEquipment != nullptr)
+	{
+		SetPlayerEquipmentAnimation(game);
+	}
+	if (CurrentEquipment == nullptr || CurrentEquipment->Type == EquipmentType::None)
+	{
+		return;
+	}
+
+	PlayerAnimations.EquipmentAnimation.Speed.Counter++;
+
+	if (!(PlayerAnimations.EquipmentAnimation.Speed.Counter == PlayerAnimations.EquipmentAnimation.Speed.TargetUntilChange))
+	{
+		return;
+	}
+
+	EquipmentSprite->Texture = PlayerAnimations.EquipmentAnimation.Textures[PlayerAnimations.EquipmentAnimation.lastindex];
+	PlayerAnimations.EquipmentAnimation.lastindex++;
+
+	if (PlayerAnimations.EquipmentAnimation.lastindex >= PlayerAnimations.EquipmentAnimation.Textures.size())
+	{
+		PlayerAnimations.EquipmentAnimation.lastindex = 0;
+	}
+
+	PlayerAnimations.EquipmentAnimation.Speed.Counter = 0;
+
+}
+
 void Player::UpdatePlayerCostumeAnimation(Game* game)
 {
-	if (PlayerSprite->Movement.LastDirection != PlayerSprite->Movement.CurrentDirection || PlayerSprite->Movement.LastState != PlayerSprite->Movement.CurrentState)
+	if ((PlayerSprite->Movement.LastDirection != PlayerSprite->Movement.CurrentDirection || PlayerSprite->Movement.LastState != PlayerSprite->Movement.CurrentState) && CurrentCostume != nullptr)
 	{
 		SetPlayerCostumeAnimation(game);
 	}
@@ -92,6 +141,7 @@ void Player::UpdatePlayerAnimation(Game* game)
 {
 	UpdatePlayerCharacterAnimation(game);
 	UpdatePlayerCostumeAnimation(game);
+	UpdatePlayerEquipmentAnimation(game);
 }
 
 void Player::UpdatePlayerCollision(Game* game)

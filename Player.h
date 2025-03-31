@@ -10,7 +10,9 @@ struct Player
 {
 	Sprite* PlayerSprite;
 	Sprite* CostumeSprite;
+	Sprite* EquipmentSprite;
 	Costume* CurrentCostume = nullptr;
+	Equipment* CurrentEquipment = nullptr;
 	PlayerAnimation PlayerAnimations;
 	int InventoryLimit = 5;
 	Box Collision;
@@ -26,8 +28,10 @@ struct Player
 
 	void SetPlayerAnimation(Game* game);
 	void SetPlayerCostumeAnimation(Game* game);
+	void SetPlayerEquipmentAnimation(Game* game);
 	void UpdatePlayerCharacterAnimation(Game* game);
 	void UpdatePlayerCostumeAnimation(Game* game);
+	void UpdatePlayerEquipmentAnimation(Game* game);
 	void UpdatePlayerCollision(Game* game);
 	void UpdatePlayer(Game* game);
 	void UpdatePlayerAnimation(Game* game);

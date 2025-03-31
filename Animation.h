@@ -64,6 +64,7 @@ struct AnimationList {
 struct PlayerAnimation {
 	Animation CharacterAnimation;
 	Animation CostumeAnimation;
+	Animation EquipmentAnimation;
 };
 
 EquipmentType StringToEquipmentType(std::string type);

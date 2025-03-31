@@ -40,7 +40,7 @@ void Sprite::Draw()
 	DestinationBox.x = static_cast<int>(Movement.Position.x);
 	DestinationBox.y = static_cast<int>(Movement.Position.y);
 
-	if (Name == "PlayerSprite" || Name == "CostumeSprite")
+	if (Name == "PlayerSprite" || Name == "CostumeSprite" || Name == "EquipmentSprite")
 	{
 		DestinationBox.x = 1920 / 2 - DestinationBox.w / 2;
 		DestinationBox.y = 1080 / 2 - DestinationBox.h / 2;
