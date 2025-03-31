@@ -180,6 +180,7 @@ void UserInput::HandleUserInput(Game* Game)
 	{
 		if (BoxesOverlap(Game->Player.Collision, CollisionBoxes[x]))
 		{
+			//do something if collidied? i actually need to know before and adjust speed to make sure i dont go over the box
 			std::cout << "Box Collision" << std::endl;
 		}
 	}

@@ -2,18 +2,11 @@
 #include <vector>
 #include "SDL.h"
 #include <string>
+#include "Equipment.h"
+#include "Costume.h"
 
 enum Direction;
 enum State;
-
-enum Colour {
-	Black,
-	White,
-	Blue,
-	Green,
-	Yellow,
-	Red,
-};
 
 enum AnimationType {
 	IdleUp,
@@ -24,19 +17,6 @@ enum AnimationType {
 	WalkDown,
 	WalkLeft,
 	WalkRight,
-};
-enum class CostumeType {
-
-	None,
-	Basic,
-	Advanced,
-};
-
-enum class EquipmentType {
-	None,
-	Sword,
-	Gun,
-	Shovel,
 };
 
 enum class EffectType {

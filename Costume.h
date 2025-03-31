@@ -1,7 +1,22 @@
 #pragma once
 #include <string>
-#include "Animation.h"
-enum class CostumeType;
+
+enum class CostumeType {
+
+	None,
+	Basic,
+	Advanced,
+};
+
+enum Colour {
+	Black,
+	White,
+	Blue,
+	Green,
+	Yellow,
+	Red,
+};
+
 struct Costume
 {
 

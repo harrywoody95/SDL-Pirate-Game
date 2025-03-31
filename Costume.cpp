@@ -1,4 +1,3 @@
-#include "Animation.h"
 #include "Costume.h"
 
 Colour StringToColour(std::string Colour) {

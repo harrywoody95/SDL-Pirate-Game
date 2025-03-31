@@ -1,6 +1,17 @@
 #pragma once
 
+enum class EquipmentType {
+	None,
+	Sword,
+	Gun,
+	Shovel,
+};
 
+struct Equipment {
+	std::string Name;
+	int DamageStat;
+	EquipmentType Type;
+};
 
 
 
