@@ -30,6 +30,7 @@ void DrawCollsionBoxes(Game* Game)
 
 	for (int x = 0; x < CollisionBoxes.size(); x++)
 	{
+		
 		Dbox.x = CollisionBoxes[x].Left;
 		Dbox.y = CollisionBoxes[x].Top;
 		Dbox.w = CollisionBoxes[x].Right - CollisionBoxes[x].Left;
@@ -57,7 +58,7 @@ void DrawCollsionBoxes(Game* Game)
 
 	Dbox.x = Dbox.x - Game->Camera.Position.x;
 	Dbox.y = Dbox.y - Game->Camera.Position.y;
-
+	
 	TextureManager::Draw(text, Sbox, Dbox);
-
+	SDL_DestroyTexture(text);
 }

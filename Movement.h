@@ -37,7 +37,7 @@ struct Movement {
 	State CurrentState = Idle;
 	Direction LastDirection = East;
 	Direction CurrentDirection = East;
-	int Speed = 3;
+	int Speed = WalkingSpeed;
 
 	void init(float PosX, float PosY)
 	{

@@ -175,26 +175,9 @@ void UserInput::HandleUserInput(Game* Game)
 			CollisionBoxes.push_back(Game->Map.LayerThree[x].Collision);
 		}
 	}
-	SDL_Texture* text = TextureManager::LoadTexture(static_cast<const char*>("Assets/Sprites/debug.png"));
-	SDL_Rect Dbox, Sbox;
 	
 	for (int x = 0; x < CollisionBoxes.size(); x++)
 	{
-		Dbox.x = CollisionBoxes[x].Left;
-		Dbox.y = CollisionBoxes[x].Top;
-		Dbox.w = CollisionBoxes[x].Right - CollisionBoxes[x].Left;
-		Dbox.h = CollisionBoxes[x].Bottom - CollisionBoxes[x].Top;
-
-		Sbox.x = 0;
-		Sbox.y = 0;
-		Sbox.w = 32;
-		Sbox.h = 32;
-
-		Dbox.x = Dbox.x - Game->Camera.Position.x;
-		Dbox.y = Dbox.y - Game->Camera.Position.y;
-
-		TextureManager::Draw(text, Sbox, Dbox);
-
 		if (BoxesOverlap(Game->Player.Collision, CollisionBoxes[x]))
 		{
 			std::cout << "Box Collision" << std::endl;
