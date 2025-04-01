@@ -4,6 +4,7 @@
 #include <string>
 #include "Equipment.h"
 #include "Costume.h"
+#include "TextureManager.h"
 
 enum Direction;
 enum State;
@@ -27,7 +28,8 @@ enum class EffectType {
 };
 
 struct Animation {
-
+	SDL_Texture* PlainTexture = TextureManager::LoadTexture(static_cast<const char*>("Assets/Sprites/Effects/transparent.png"));
+	
 	struct Speed
 	{
 		static const int FPS = 144;
@@ -51,6 +53,8 @@ struct Animation {
 	Animation(std::string BasePath, std::string BaseFile, int frames, Direction Direction, State State, EquipmentType EquipmentType, CostumeType CostumeType, Colour Colour);
 	Animation() {};
 
+	void ResetAnimation();
+
 	//need a function to control animation speed based on running/walking etc
 };
 
@@ -62,9 +66,10 @@ struct AnimationList {
 };
 
 struct PlayerAnimation {
-	Animation CharacterAnimation;
-	Animation CostumeAnimation;
-	Animation EquipmentAnimation;
+	Animation* CharacterAnimation = nullptr;
+	Animation* CostumeAnimation = nullptr;
+	Animation* EquipmentAnimation = nullptr;
+	Animation* EffectAnimation = nullptr;
 };
 
 EquipmentType StringToEquipmentType(std::string type);

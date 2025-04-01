@@ -10,6 +10,7 @@ void UserInput::GetUserInput()
 	KEY_A_RELEASED = false;
 	KEY_D_RELEASED = false;
 	KEY_LSHIFT_RELEASED = false;
+	MOUSE_LBUTTON_RELEASED = false;
 
 	if (Game::Event.type == SDL_KEYDOWN)
 	{
@@ -83,6 +84,39 @@ void UserInput::GetUserInput()
 			break;
 		}
 	}
+
+	if (Game::Event.type == SDL_MOUSEBUTTONDOWN)
+	{
+		switch (Game::Event.button.button)
+		{
+			case SDL_BUTTON_LEFT:
+			{
+				MOUSE_LBUTTON_PRESSED = true;
+				break;
+			}
+			default:
+			{
+				break;
+			}
+		}
+	}
+
+	if (Game::Event.type == SDL_MOUSEBUTTONUP)
+	{
+		switch (Game::Event.button.button)
+		{
+			case SDL_BUTTON_LEFT:
+			{
+				MOUSE_LBUTTON_PRESSED = false;
+				MOUSE_LBUTTON_RELEASED = true;
+				break;
+			}
+			default:
+			{
+				break;
+			}
+		}
+	}
 }
 
 void UserInput::HandleUserInput(Game* Game)
@@ -124,6 +158,16 @@ void UserInput::HandleUserInput(Game* Game)
 		Game->Player.PlayerSprite->Movement.Speed = Game->Player.PlayerSprite->Movement.RunningSpeed;
 	}
 
+	if (MOUSE_LBUTTON_PRESSED)
+	{
+		if (Game->Player.CurrentEquipment != nullptr)
+		{
+			std::cout << "pressed mouse button" << std::endl;
+			Game->Player.PlayerSprite->Movement.CurrentState = Attack;
+			Game->Player.PlayerSprite->Movement.Speed = Game->Player.PlayerSprite->Movement.AttackSpeed;
+		}
+	}
+
 	//released
 	if (KEY_W_RELEASED)
 	{
@@ -145,9 +189,13 @@ void UserInput::HandleUserInput(Game* Game)
 	{
 		Game->Player.PlayerSprite->Movement.Speed = Game->Player.PlayerSprite->Movement.WalkingSpeed;
 	}
+	if (MOUSE_LBUTTON_RELEASED)
+	{
+		Game->Player.PlayerSprite->Movement.Speed = Game->Player.PlayerSprite->Movement.WalkingSpeed;
+	}
 
 	//if idle
-	if (!KEY_W_RELEASED && !KEY_W_PRESSED && !KEY_A_PRESSED && !KEY_A_RELEASED && !KEY_D_PRESSED && !KEY_D_RELEASED && !KEY_S_PRESSED && !KEY_S_RELEASED)
+	if (!KEY_W_RELEASED && !KEY_W_PRESSED && !KEY_A_PRESSED && !KEY_A_RELEASED && !KEY_D_PRESSED && !KEY_D_RELEASED && !KEY_S_PRESSED && !KEY_S_RELEASED && !MOUSE_LBUTTON_PRESSED && !MOUSE_LBUTTON_RELEASED )
 	{
 		Game->Player.PlayerSprite->Movement.CurrentState = Idle;
 	}

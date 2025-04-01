@@ -27,6 +27,14 @@ State StringToState(std::string state)
 	{
 		return State::Dead;
 	}
+	if (state == "Attack")
+	{
+		return State::Attack;
+	}
+	if (state == "Dig")
+	{
+		return State::Dig;
+	}
 }
 
 Direction StringToDirection(std::string direction)

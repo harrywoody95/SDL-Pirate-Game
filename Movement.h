@@ -12,24 +12,21 @@ enum State {
 	Idle,
 	Walking,
 	Running,
+	Attack,
+	Dig,
 	Sailing,
 	FullSailing,
 	Dead,
-};
-enum ActionState {
-	None,
-	Jump,
-	Attack,
-	Use,
-	Dig,
 };
 
 struct Movement {
 
 	static const int WalkingSpeed = 2;
 	static const int RunningSpeed = 3;
+	static const int AttackSpeed = 1;
 	static const int SailSpeed = 2;
 	static const int FullSailSpeed = 3;
+
 
 	Vec2 Position = {};
 	Vec2 Velocity = {};

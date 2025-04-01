@@ -11,6 +11,7 @@ struct Player
 	Sprite* PlayerSprite;
 	Sprite* CostumeSprite;
 	Sprite* EquipmentSprite;
+	Sprite* EffectSprite;
 	Costume* CurrentCostume = nullptr;
 	Equipment* CurrentEquipment = nullptr;
 	PlayerAnimation PlayerAnimations;
@@ -29,9 +30,11 @@ struct Player
 	void SetPlayerAnimation(Game* game);
 	void SetPlayerCostumeAnimation(Game* game);
 	void SetPlayerEquipmentAnimation(Game* game);
+	void SetPlayerEffectAnimation(Game* game);
 	void UpdatePlayerCharacterAnimation(Game* game);
 	void UpdatePlayerCostumeAnimation(Game* game);
 	void UpdatePlayerEquipmentAnimation(Game* game);
+	void UpdatePlayerEffectAnimation(Game* game);
 	void UpdatePlayerCollision(Game* game);
 	void UpdatePlayer(Game* game);
 	void UpdatePlayerAnimation(Game* game);

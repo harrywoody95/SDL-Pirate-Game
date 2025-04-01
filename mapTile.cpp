@@ -1,6 +1,7 @@
 #include "SDL.h"
 #include "TextureManager.h"
 #include "MapTile.h"
+#include "Camera.h"
 
 void MapTile::CreateMapTile(float x, float y, MapTileType Type, int BitSize, int Scale, MapTileAssets MTA, bool Solid)
 {

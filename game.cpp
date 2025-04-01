@@ -56,7 +56,11 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	MapTileAssets mapass;
 	mapass.LoadMapTileAssets();
 	Map.LoadMap("Assets/Maps/Map1.txt", "", "", mapass);
+	
 
+	
+
+	//create costume and equipment
 
 	Item* item = new Item(CreateItem("BlackBeard's Cloak", 250, costume));
 	item->Costume.DefenceStat = 20;
@@ -79,9 +83,12 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	Player.CostumeSprite->CreateSprite(1000.0, 1000.0, "Assets/Sprites/transparent.png", 16, 4, &SpriteList);
 	Player.EquipmentSprite = new Sprite();
 	Player.EquipmentSprite->CreateSprite(1000.0, 1000.0, "Assets/Sprites/transparent.png", 16, 4, &SpriteList);
+	Player.EffectSprite = new Sprite();
+	Player.EffectSprite->CreateSprite(1000.0, 1000.0, "Assets/Sprites/transparent.png", 16, 4, &SpriteList);
 	Player.PlayerSprite->Name = "PlayerSprite";
 	Player.CostumeSprite->Name = "CostumeSprite";
 	Player.EquipmentSprite->Name = "EquipmentSprite";
+	Player.EffectSprite->Name = "EffectSprite";
 	Player.SetPlayerAnimation(this);
 	Player.SetPlayerCostumeAnimation(this);
 	Player.SetPlayerEquipmentAnimation(this);

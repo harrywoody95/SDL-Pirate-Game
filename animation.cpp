@@ -1,6 +1,6 @@
 #include "Animation.h"
 #include<fstream>
-#include "TextureManager.h"
+
 #include "Player.h"
 
 Animation::Animation(std::string BasePath, std::string BaseFile, int frames, Direction Direction, State State)
@@ -83,4 +83,10 @@ EquipmentType StringToEquipmentType(std::string type)
 	{
 		return EquipmentType::None;
 	}
+}
+
+void Animation::ResetAnimation()
+{
+	lastindex = 0;
+	Speed.Counter = 0;
 }
