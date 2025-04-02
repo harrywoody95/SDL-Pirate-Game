@@ -162,7 +162,6 @@ void UserInput::HandleUserInput(Game* Game)
 	{
 		if (Game->Player.CurrentEquipment != nullptr)
 		{
-			std::cout << "pressed mouse button" << std::endl;
 			Game->Player.PlayerSprite->Movement.CurrentState = Attack;
 			Game->Player.PlayerSprite->Movement.Speed = Game->Player.PlayerSprite->Movement.AttackSpeed;
 		}
