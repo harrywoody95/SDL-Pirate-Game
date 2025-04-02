@@ -3,7 +3,7 @@
 #include "Movement.h"
 #include <vector>
 #include <String>
-
+struct Camera;
 struct SpriteList;
 struct Sprite
 {
@@ -18,5 +18,5 @@ struct Sprite
 	void DeleteSprite(SpriteList* SpriteList);
 
 	void Update();
-	void Draw();
+	void Draw(Camera* camera);
 };

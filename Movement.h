@@ -26,10 +26,11 @@ struct Movement {
 	static const int AttackSpeed = 1;
 	static const int SailSpeed = 2;
 	static const int FullSailSpeed = 3;
+	static const int ProjectileSpeed = 3;
+	
 
-
-	Vec2 Position = {};
-	Vec2 Velocity = {};
+	Vec2 Position = {0, 0};
+	Vec2 Velocity = {0, 0};
 	State LastState = Idle;
 	State CurrentState = Idle;
 	Direction LastDirection = East;

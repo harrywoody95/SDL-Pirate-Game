@@ -1,6 +1,7 @@
 #include "Sprite.h"
 #include "SpriteList.h"
 #include "TextureManager.h"
+#include "Game.h"
 
 void Sprite::CreateSprite(float x, float y, const char* Filename, int SpriteBitSize, int Scale, SpriteList* SpriteList)
 {
@@ -27,7 +28,7 @@ void Sprite::DeleteSprite(SpriteList* SpriteList)
 	}
 }
 
-void Sprite::Draw()
+void Sprite::Draw(Camera* Camera)
 {
 	SDL_Rect DestinationBox, SourceBox;
 	SourceBox.x = 0;
@@ -40,16 +41,16 @@ void Sprite::Draw()
 	DestinationBox.x = static_cast<int>(Movement.Position.x);
 	DestinationBox.y = static_cast<int>(Movement.Position.y);
 
-	if (Name == "PlayerSprite" || Name == "CostumeSprite" || Name == "EquipmentSprite" || Name == "EffectSprite")
-	{
-		DestinationBox.x = 1920 / 2 - DestinationBox.w / 2;
-		DestinationBox.y = 1080 / 2 - DestinationBox.h / 2;
-	}
-	else
-	{
-		DestinationBox.x = static_cast<int>(Movement.Position.x);
-		DestinationBox.y = static_cast<int>(Movement.Position.y);
-	}
+	//if (Name == "PlayerSprite" || Name == "CostumeSprite" || Name == "EquipmentSprite" || Name == "EffectSprite")
+	//{
+	//	DestinationBox.x = 1920 / 2 - DestinationBox.w / 2;
+	//	DestinationBox.y = 1080 / 2 - DestinationBox.h / 2;
+	//}
+	//else
+	//{
+	DestinationBox.x = static_cast<int>(Movement.Position.x - Camera->Position.x);
+	DestinationBox.y = static_cast<int>(Movement.Position.y - Camera->Position.y);
+	//}
 	TextureManager::Draw(Texture, SourceBox, DestinationBox);
 }
 

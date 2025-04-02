@@ -733,7 +733,7 @@ void Game::Render()
 	else
 	{
 		Map.DrawMap(&Camera);
-		SpriteList.Draw();
+		SpriteList.Draw(this);
 		DrawCollsionBoxes(this);
 		
 		//SDL_Rect player_rect = {Camera.Position.x, Camera.Position.y, Camera.Size.x, Camera.Size.y };

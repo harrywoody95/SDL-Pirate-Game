@@ -36,6 +36,7 @@ struct Player
 	void UpdatePlayerEquipmentAnimation(Game* game);
 	void UpdatePlayerEffectAnimation(Game* game);
 	void UpdatePlayerCollision(Game* game);
+	void HandleProjectileFiring(Game* game);
 	void UpdatePlayer(Game* game);
 	void UpdatePlayerAnimation(Game* game);
 };
