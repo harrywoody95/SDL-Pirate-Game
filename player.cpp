@@ -249,6 +249,11 @@ void Player::UpdatePlayerEffectAnimation(Game* game)
 
 void Player::HandleProjectileFiring(Game* game)
 {
+	if (CurrentEquipment == nullptr || CurrentEquipment->Type == EquipmentType::Sword)
+	{
+		return;
+	}
+
 	if (CanFireGun)
 	{
 		if (PlayerSprite->Movement.CurrentState == Attack && PlayerAnimations.CharacterAnimation->lastindex == 2)

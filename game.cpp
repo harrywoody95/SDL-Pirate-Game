@@ -69,7 +69,7 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 
 	Item* item1 = new Item(CreateItem("BlackBeard's Gun", 500, equipment));
 	item1->Equipment.DamageStat = 20;
-	item1->Equipment.Type= EquipmentType::Gun;
+	item1->Equipment.Type= EquipmentType::Sword;
 
 
 
