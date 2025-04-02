@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 
+bool CanFireGun = true;
 void Player::SetPlayerAnimation(Game* game)
 {
  	for (int x = 0; x < game->AnimationList.CharacterAnimations.size(); x++)
@@ -248,10 +249,21 @@ void Player::UpdatePlayerEffectAnimation(Game* game)
 
 void Player::HandleProjectileFiring(Game* game)
 {
-	if (PlayerSprite->Movement.CurrentState == Attack && PlayerAnimations.CharacterAnimation->lastindex == 0)
+	if (CanFireGun)
 	{
-		Projectile Projectile(PlayerSprite->Movement.Position.x, PlayerSprite->Movement.Position.y, ProjectileType::Bullet, PlayerSprite->Movement.CurrentDirection, 10, &game->SpriteList);
-		game->ProjectileList.push_back(Projectile);
+		if (PlayerSprite->Movement.CurrentState == Attack && PlayerAnimations.CharacterAnimation->lastindex == 2)
+		{
+			Projectile Projectile(PlayerSprite->Movement.Position.x, PlayerSprite->Movement.Position.y, ProjectileType::Bullet, PlayerSprite->Movement.CurrentDirection, 10, &game->SpriteList);
+			game->ProjectileList.push_back(Projectile);
+			CanFireGun = false;
+		}
+	}
+	else 
+	{
+		if (PlayerAnimations.CharacterAnimation->lastindex != 2)
+		{
+			CanFireGun = true;
+		}
 	}
 }
 
