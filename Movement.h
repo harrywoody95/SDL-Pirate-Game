@@ -26,7 +26,7 @@ struct Movement {
 	static const int AttackSpeed = 1;
 	static const int SailSpeed = 2;
 	static const int FullSailSpeed = 3;
-	static const int ProjectileSpeed = 3;
+	static const int ProjectileSpeed = 9;
 	
 
 	Vec2 Position = {0, 0};
