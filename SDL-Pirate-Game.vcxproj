@@ -137,8 +137,10 @@
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="Costume.cpp" />
     <ClCompile Include="debugBoxes.cpp" />
+    <ClCompile Include="entity.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gameObj.cpp" />
+    <ClCompile Include="item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="mapTile.cpp" />
@@ -162,6 +164,7 @@
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Costume.h" />
     <ClInclude Include="DebugBox.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="Equipment.h" />
     <ClInclude Include="Flags.h" />
     <ClInclude Include="Game.h" />
