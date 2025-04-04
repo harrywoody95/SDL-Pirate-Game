@@ -27,14 +27,6 @@ struct Player
 	// 4: create animations for jump, attack(sword, gun, dig), decide on swimming 
 
 
-	void SetPlayerAnimation(Game* game);
-	void SetPlayerCostumeAnimation(Game* game);
-	void SetPlayerEquipmentAnimation(Game* game);
-	void SetPlayerEffectAnimation(Game* game);
-	void UpdatePlayerCharacterAnimation(Game* game);
-	void UpdatePlayerCostumeAnimation(Game* game);
-	void UpdatePlayerEquipmentAnimation(Game* game);
-	void UpdatePlayerEffectAnimation(Game* game);
 	void UpdatePlayerCollision(Game* game);
 	void HandleProjectileFiring(Game* game);
 	void UpdatePlayer(Game* game);

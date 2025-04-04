@@ -8,6 +8,7 @@
 
 enum Direction;
 enum State;
+struct Game;
 
 enum AnimationType {
 	IdleUp,
@@ -29,7 +30,7 @@ enum class EffectType {
 
 struct Animation {
 	SDL_Texture* PlainTexture = TextureManager::LoadTexture(static_cast<const char*>("Assets/Sprites/Effects/transparent.png"));
-	
+
 	struct Speed
 	{
 		static const int FPS = 144;
@@ -57,6 +58,15 @@ struct Animation {
 
 	//need a function to control animation speed based on running/walking etc
 };
+
+void SetPlayerAnimation(Game* game);
+void SetCostumeAnimation(Game* game);
+void SetEquipmentAnimation(Game* game);
+void SetEffectAnimation(Game* game);
+void UpdateCharacterAnimation(Game* game);
+void UpdateCostumeAnimation(Game* game);
+void UpdateEquipmentAnimation(Game* game);
+void UpdateEffectAnimation(Game* game);
 
 struct AnimationList {
 	std::vector <Animation> CharacterAnimations;

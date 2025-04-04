@@ -89,9 +89,9 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	Player.CostumeSprite->Name = "CostumeSprite";
 	Player.EquipmentSprite->Name = "EquipmentSprite";
 	Player.EffectSprite->Name = "EffectSprite";
-	Player.SetPlayerAnimation(this);
-	Player.SetPlayerCostumeAnimation(this);
-	Player.SetPlayerEquipmentAnimation(this);
+	SetPlayerAnimation(this);
+	SetCostumeAnimation(this);
+	SetEquipmentAnimation(this);
 	
 
 
