@@ -24,10 +24,8 @@ struct Game {
 	Flags Flags;
 	SpriteList SpriteList;
 	AnimationList AnimationList;
-	//Player Player;
 	Entity* PlayerEntity;
 	std::vector <Scene> Scenes;
-	std::vector <Projectile> ProjectileList;
 	std::vector <Entity*> EntityList;
 	Audio Audio;
 	Camera Camera;

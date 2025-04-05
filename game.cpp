@@ -55,7 +55,7 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	Map.LoadMap("Assets/Maps/Map1.txt", "", "", mapass);
 	
 	//create player
-	PlayerEntity = CreateEntity(0, 0, this, EntityType::Player);
+	PlayerEntity = CreatePlayer(0, 0, this);
 
 	//create costume and equipment
 
@@ -66,7 +66,7 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 
 	Item* item1 = new Item(CreateItem("BlackBeard's Gun", 500, equipment));
 	item1->Equipment.DamageStat = 20;
-	item1->Equipment.Type= EquipmentType::Sword;
+	item1->Equipment.Type= EquipmentType::Gun;
 
 
 

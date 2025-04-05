@@ -1,16 +1,26 @@
 #include "Projectile.h"
 #include "Movement.h"
 #include "SpriteList.h"
+#include "Entity.h"
+#include "Game.h"
 
-Projectile::Projectile(float x, float y, ProjectileType Type, Direction Direction, int Damage, SpriteList* SpriteList) {
-	ProjectileSprite = new Sprite();
-	ProjectileSprite->CreateSprite(x, y, GetProjectileFileName(Type, Direction).c_str(), 16, 4, SpriteList);
-	ProjectileSprite->Name = "Projectile";
-	ProjectileSprite->Movement.CurrentDirection = Direction;
-	this->Damage = Damage;
-	this->Type = Type;
-	ProjectileSprite->Movement.Velocity = DirectionToVelocity(Direction);
-	ProjectileSprite->Movement.Speed = ProjectileSprite->Movement.ProjectileSpeed;
+Entity* CreateProjectile(float x, float y, ProjectileType Type, Direction Direction, int Damage, Game* game) {
+	Entity* entity = CreateEntity(x, y, game, EntityType::Projectile);
+	Projectile* Projectile = &entity->Projectile;
+	Projectile->ProjectileSprite = new Sprite();
+	Projectile->ProjectileSprite->CreateSprite(x, y, GetProjectileFileName(Type, Direction).c_str(), 16, 4, &game->SpriteList);
+	Projectile->ProjectileSprite->Name = "Projectile";
+	Projectile->ProjectileSprite->Movement.CurrentDirection = Direction;
+	Projectile->Damage = Damage;
+	Projectile->Type = Type;
+	Projectile->ProjectileSprite->Movement.Velocity = DirectionToVelocity(Direction);
+	Projectile->ProjectileSprite->Movement.Speed = Projectile->ProjectileSprite->Movement.ProjectileSpeed;
+	return entity;
+}
+
+void UpdateProjectile(Entity* Entity)
+{
+
 }
 
 std::string GetProjectileFileName(ProjectileType Type, Direction Direction)

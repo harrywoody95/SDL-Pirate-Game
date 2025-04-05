@@ -18,11 +18,12 @@ Entity* CreateEntity(float x, float y, Game* game, EntityType Type)
 	case EntityType::Player:
 	{
 		entity->Player = {};
-		entity->Player.CreatePlayer(x, y, game, entity);
+		//entity->Player.CreatePlayer(x, y, game, entity);
 		break;
 	}
 	case EntityType::Projectile:
 	{
+		entity->Projectile = {};
 		break;
 	}
 	case EntityType::Item:
@@ -47,16 +48,17 @@ Entity* CreateEntity(float x, float y, Game* game, EntityType Type)
 
 void UpdateEntities(Game* game)
 {
-	for (Entity* e : game->EntityList)
+	for (int x = 0; x < game->EntityList.size(); x++)
 	{
-		switch (e->Type) {
+		switch (game->EntityList[x]->Type) {
 		case EntityType::Player:
 		{
-			e->Player.UpdatePlayer(game);
+			game->EntityList[x]->Player.UpdatePlayer(game);
 			break;
 		}
 		case EntityType::Projectile:
 		{
+			UpdateProjectile(game->EntityList[x]);
 			break;
 		}
 		case EntityType::Item:

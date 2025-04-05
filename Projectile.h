@@ -1,6 +1,7 @@
 #pragma once
 #include "sprite.h"
-
+struct Entity;
+struct Game;
 enum class ProjectileType {
 	Bullet,
 	CannonBall,
@@ -11,8 +12,9 @@ struct Projectile {
 	ProjectileType Type;
 	int Damage;
 
-	Projectile(float x, float y, ProjectileType Type, Direction Direction, int Damage, SpriteList* SpriteList);
-};
 
+};
+Entity* CreateProjectile(float x, float y, ProjectileType Type, Direction Direction, int Damage, Game* game);
+void UpdateProjectile(Entity* Entity);
 std::string GetProjectileFileName(ProjectileType Type, Direction Direction);
 Vec2 DirectionToVelocity(Direction Direction);

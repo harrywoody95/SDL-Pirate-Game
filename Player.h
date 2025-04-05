@@ -24,8 +24,8 @@ struct Player
 	// 3: create inventory system
 	// 4: create animations for jump, attack(sword, gun, dig), decide on swimming 
 
-	void CreatePlayer(float x, float y, Game* game, Entity* Player);
 	void UpdatePlayer(Game* game);
 };
 
+Entity* CreatePlayer(float x, float y, Game* game);
 

@@ -3,28 +3,27 @@
 #include <fstream>
 #include <iostream>
 
-void UpdatePlayerCollision(Game* game);
-void HandlePlayerProjectileFiring(Game* game);
-void UpdatePlayerAnimation(Game* game);
-
 bool CanFireGun = true;
-void Player::CreatePlayer(float x, float y, Game* game, Entity* Player)
+Entity* CreatePlayer(float x, float y, Game* game)
 {
-	PlayerSprite = new Sprite();
-	PlayerSprite->CreateSprite(x, y, "Assets/Sprites/Character/transparent.png", 16, 4, &game->SpriteList);
-	CostumeSprite = new Sprite();
-	CostumeSprite->CreateSprite(x, y, "Assets/Sprites/Character/transparent.png", 16, 4, &game->SpriteList);
-	EquipmentSprite = new Sprite();
-	EquipmentSprite->CreateSprite(x, y, "Assets/Sprites/Character/transparent.png", 16, 4, &game->SpriteList);
-	EffectSprite = new Sprite();
-	EffectSprite->CreateSprite(x, y, "Assets/Sprites/Character/transparent.png", 16, 4, &game->SpriteList);
-	PlayerSprite->Name = "PlayerSprite";
-	CostumeSprite->Name = "CostumeSprite";
-	EquipmentSprite->Name = "EquipmentSprite";
-	EffectSprite->Name = "EffectSprite";
-	SetPlayerAnimation(game, Player);
-	SetCostumeAnimation(game, Player);
-	SetEquipmentAnimation(game, Player);
+	Entity* entity = CreateEntity(x, y, game, EntityType::Player);
+	Player* Player = &entity->Player;
+	Player->PlayerSprite = new Sprite();
+	Player->PlayerSprite->CreateSprite(x, y, "Assets/Sprites/Character/transparent.png", 16, 4, &game->SpriteList);
+	Player->CostumeSprite = new Sprite();
+	Player->CostumeSprite->CreateSprite(x, y, "Assets/Sprites/Character/transparent.png", 16, 4, &game->SpriteList);
+	Player->EquipmentSprite = new Sprite();
+	Player->EquipmentSprite->CreateSprite(x, y, "Assets/Sprites/Character/transparent.png", 16, 4, &game->SpriteList);
+	Player->EffectSprite = new Sprite();
+	Player->EffectSprite->CreateSprite(x, y, "Assets/Sprites/Character/transparent.png", 16, 4, &game->SpriteList);
+	Player->PlayerSprite->Name = "PlayerSprite";
+	Player->CostumeSprite->Name = "CostumeSprite";
+	Player->EquipmentSprite->Name = "EquipmentSprite";
+	Player->EffectSprite->Name = "EffectSprite";
+	SetPlayerAnimation(game, entity);
+	SetCostumeAnimation(game, entity);
+	SetEquipmentAnimation(game, entity);
+	return entity;
 }
 
 void HandlePlayerProjectileFiring(Game* game)
@@ -40,8 +39,7 @@ void HandlePlayerProjectileFiring(Game* game)
 	{
 		if (Player->PlayerSprite->Movement.CurrentState == Attack && Player->PlayerAnimations.CharacterAnimation->lastindex == 2)
 		{
-			Projectile Projectile(Player->PlayerSprite->Movement.Position.x, Player->PlayerSprite->Movement.Position.y, ProjectileType::Bullet, Player->PlayerSprite->Movement.CurrentDirection, 10, &game->SpriteList);
-			game->ProjectileList.push_back(Projectile);
+			Entity* Projectile = CreateProjectile(Player->PlayerSprite->Movement.Position.x, Player->PlayerSprite->Movement.Position.y, ProjectileType::Bullet, Player->PlayerSprite->Movement.CurrentDirection, 10, game);
 			CanFireGun = false;
 		}
 	}
