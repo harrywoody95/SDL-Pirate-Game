@@ -3,34 +3,56 @@
 #include <fstream>
 #include <iostream>
 
-bool CanFireGun = true;
+void UpdatePlayerCollision(Game* game);
+void HandlePlayerProjectileFiring(Game* game);
+void UpdatePlayerAnimation(Game* game);
 
-void Player::HandleProjectileFiring(Game* game)
+bool CanFireGun = true;
+void Player::CreatePlayer(float x, float y, Game* game)
 {
-	if (CurrentEquipment == nullptr || CurrentEquipment->Type == EquipmentType::Sword)
+	PlayerSprite = new Sprite();
+	PlayerSprite->CreateSprite(x, y, "Assets/Sprites/transparent.png", 16, 4, &game->SpriteList);
+	CostumeSprite = new Sprite();
+	CostumeSprite->CreateSprite(x, y, "Assets/Sprites/transparent.png", 16, 4, &game->SpriteList);
+	EquipmentSprite = new Sprite();
+	EquipmentSprite->CreateSprite(x, y, "Assets/Sprites/transparent.png", 16, 4, &game->SpriteList);
+	EffectSprite = new Sprite();
+	EffectSprite->CreateSprite(x, y, "Assets/Sprites/transparent.png", 16, 4, &game->SpriteList);
+	PlayerSprite->Name = "PlayerSprite";
+	CostumeSprite->Name = "CostumeSprite";
+	EquipmentSprite->Name = "EquipmentSprite";
+	EffectSprite->Name = "EffectSprite";
+	SetPlayerAnimation(game);
+	SetCostumeAnimation(game);
+	SetEquipmentAnimation(game);
+}
+
+void HandlePlayerProjectileFiring(Game* game)
+{
+	if (game->Player.CurrentEquipment == nullptr || game->Player.CurrentEquipment->Type == EquipmentType::Sword)
 	{
 		return;
 	}
 
 	if (CanFireGun)
 	{
-		if (PlayerSprite->Movement.CurrentState == Attack && PlayerAnimations.CharacterAnimation->lastindex == 2)
+		if (game->Player.PlayerSprite->Movement.CurrentState == Attack && game->Player.PlayerAnimations.CharacterAnimation->lastindex == 2)
 		{
-			Projectile Projectile(PlayerSprite->Movement.Position.x, PlayerSprite->Movement.Position.y, ProjectileType::Bullet, PlayerSprite->Movement.CurrentDirection, 10, &game->SpriteList);
+			Projectile Projectile(game->Player.PlayerSprite->Movement.Position.x, game->Player.PlayerSprite->Movement.Position.y, ProjectileType::Bullet, game->Player.PlayerSprite->Movement.CurrentDirection, 10, &game->SpriteList);
 			game->ProjectileList.push_back(Projectile);
 			CanFireGun = false;
 		}
 	}
 	else 
 	{
-		if (PlayerAnimations.CharacterAnimation->lastindex != 2)
+		if (game->Player.PlayerAnimations.CharacterAnimation->lastindex != 2)
 		{
 			CanFireGun = true;
 		}
 	}
 }
 
-void Player::UpdatePlayerAnimation(Game* game)
+void UpdatePlayerAnimation(Game* game)
 {
 	UpdateCharacterAnimation(game);
 	UpdateCostumeAnimation(game);
@@ -38,7 +60,7 @@ void Player::UpdatePlayerAnimation(Game* game)
 	UpdateEffectAnimation(game);
 }
 
-void Player::UpdatePlayerCollision(Game* game)
+void UpdatePlayerCollision(Game* game)
 {
 	game->Player.Collision.Left = game->Player.PlayerSprite->Movement.Position.x;
 	game->Player.Collision.Top = game->Player.PlayerSprite->Movement.Position.y;
@@ -50,5 +72,5 @@ void Player::UpdatePlayer(Game* game)
 {
 	UpdatePlayerCollision(game);
 	UpdatePlayerAnimation(game);
-	HandleProjectileFiring(game);
+	HandlePlayerProjectileFiring(game);
 }

@@ -17,8 +17,6 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	{
 		Flags = SDL_WINDOW_FULLSCREEN;
 	}
-	//SDL_setenv("SDL_AUDIODRIVER", "directsound", 1);
-	//SDL_SetHint("SDL_AUDIODRIVER", "directsound");
 	//init mixer
 	if (SDL_Init(SDL_INIT_EVERYTHING | SDL_INIT_AUDIO) != 0)
 	{
@@ -48,7 +46,6 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	SDL_SetRenderDrawColor(Renderer::MainRenderer, 0, 0, 0, 255);
 
 	//load all player animations
-	//Player.LoadAnimations("Assets/Sprites/Animations/master.txt");
 	LoadAnimations();
 	IsRunning = true;
 
@@ -57,8 +54,8 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	mapass.LoadMapTileAssets();
 	Map.LoadMap("Assets/Maps/Map1.txt", "", "", mapass);
 	
-
-	
+	//create player
+	Player.CreatePlayer(0, 0, this);
 
 	//create costume and equipment
 
@@ -75,25 +72,6 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 
 	Player.CurrentCostume = &item->Costume; 
 	Player.CurrentEquipment = &item1->Equipment;
-
-	//create player sprite and set animation
-	Player.PlayerSprite = new Sprite();
-	Player.PlayerSprite->CreateSprite(1000.0, 1000.0, "Assets/Sprites/transparent.png", 16, 4, &SpriteList);
-	Player.CostumeSprite = new Sprite();
-	Player.CostumeSprite->CreateSprite(1000.0, 1000.0, "Assets/Sprites/transparent.png", 16, 4, &SpriteList);
-	Player.EquipmentSprite = new Sprite();
-	Player.EquipmentSprite->CreateSprite(1000.0, 1000.0, "Assets/Sprites/transparent.png", 16, 4, &SpriteList);
-	Player.EffectSprite = new Sprite();
-	Player.EffectSprite->CreateSprite(1000.0, 1000.0, "Assets/Sprites/transparent.png", 16, 4, &SpriteList);
-	Player.PlayerSprite->Name = "PlayerSprite";
-	Player.CostumeSprite->Name = "CostumeSprite";
-	Player.EquipmentSprite->Name = "EquipmentSprite";
-	Player.EffectSprite->Name = "EffectSprite";
-	SetPlayerAnimation(this);
-	SetCostumeAnimation(this);
-	SetEquipmentAnimation(this);
-	
-
 
 	//create main menu
 	Scene MainMenu;
@@ -735,10 +713,6 @@ void Game::Render()
 		Map.DrawMap(&Camera);
 		SpriteList.Draw(this);
 		DrawCollsionBoxes(this);
-		
-		//SDL_Rect player_rect = {Camera.Position.x, Camera.Position.y, Camera.Size.x, Camera.Size.y };
-		//SDL_RenderCopy(Renderer::MainRenderer, Player.Sprite->Texture,NULL, &player_rect);
-
 		SDL_RenderPresent(Renderer::MainRenderer);
 	}
 	

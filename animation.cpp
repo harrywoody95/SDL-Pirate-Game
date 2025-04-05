@@ -231,7 +231,10 @@ void UpdateCharacterAnimation(Game* game)
 
 void UpdateEquipmentAnimation(Game* game)
 {
-	if ((game->Player.PlayerSprite->Movement.LastDirection != game->Player.PlayerSprite->Movement.CurrentDirection || game->Player.PlayerSprite->Movement.LastState != game->Player.PlayerSprite->Movement.CurrentState) && game->Player.CurrentEquipment != nullptr)
+	if (((game->Player.PlayerSprite->Movement.LastDirection != game->Player.PlayerSprite->Movement.CurrentDirection || 
+		game->Player.PlayerSprite->Movement.LastState != game->Player.PlayerSprite->Movement.CurrentState) && 
+		game->Player.CurrentEquipment != nullptr) 
+		|| game->Player.CurrentEquipment != nullptr && game->Player.CurrentEquipment->Type != EquipmentType::None && game->Player.PlayerAnimations.EquipmentAnimation == nullptr)
 	{
 		SetEquipmentAnimation(game);
 	}
@@ -264,7 +267,10 @@ void UpdateEquipmentAnimation(Game* game)
 
 void UpdateCostumeAnimation(Game* game)
 {
-	if ((game->Player.PlayerSprite->Movement.LastDirection != game->Player.PlayerSprite->Movement.CurrentDirection || game->Player.PlayerSprite->Movement.LastState != game->Player.PlayerSprite->Movement.CurrentState) && game->Player.CurrentCostume != nullptr)
+	if (((game->Player.PlayerSprite->Movement.LastDirection != game->Player.PlayerSprite->Movement.CurrentDirection || 
+		game->Player.PlayerSprite->Movement.LastState != game->Player.PlayerSprite->Movement.CurrentState) &&
+		game->Player.CurrentCostume != nullptr) 
+		|| game->Player.CurrentCostume != nullptr && game->Player.CurrentCostume->Type != CostumeType::None && game->Player.PlayerAnimations.CostumeAnimation == nullptr)
 	{
 		SetCostumeAnimation(game);
 	}

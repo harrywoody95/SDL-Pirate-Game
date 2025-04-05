@@ -11,7 +11,7 @@
 #include "Camera.h"
 #include <vector>
 #include "Map.h"
-#include "Projectile.h"
+//#include "Projectile.h"
 #include "Entity.h"
 
 
@@ -25,9 +25,10 @@ struct Game {
 	SpriteList SpriteList;
 	AnimationList AnimationList;
 	Player Player;
+	//Entity* Player;
 	std::vector <Scene> Scenes;
 	std::vector <Projectile> ProjectileList;
-	std::vector <Entity> EntityList;
+	std::vector <Entity*> EntityList;
 	Audio Audio;
 	Camera Camera;
 	Map Map;

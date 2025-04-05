@@ -21,16 +21,11 @@ struct Player
 	//equiped equitment
 
 
-	// 1: implement running - change speed of animation and player use shift to control it
-	// 2: create equipment
 	// 3: create inventory system
 	// 4: create animations for jump, attack(sword, gun, dig), decide on swimming 
 
-
-	void UpdatePlayerCollision(Game* game);
-	void HandleProjectileFiring(Game* game);
+	void CreatePlayer(float x, float y, Game* game);
 	void UpdatePlayer(Game* game);
-	void UpdatePlayerAnimation(Game* game);
 };
 
 
