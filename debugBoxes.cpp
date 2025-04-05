@@ -1,5 +1,6 @@
 #include "DebugBox.h"
 #include "Game.h"
+
 void DrawCollsionBoxes(Game* Game)
 {
 	Player* Player = &Game->PlayerEntity->Player;

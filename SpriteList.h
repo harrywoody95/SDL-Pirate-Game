@@ -2,6 +2,7 @@
 #include<vector>
 #include "Sprite.h"
 struct Game;
+
 struct SpriteList
 {
 	std::vector<Sprite*> Sprites;

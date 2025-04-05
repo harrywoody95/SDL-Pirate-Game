@@ -1,7 +1,6 @@
 #include "Animation.h"
 #include "Game.h"
 #include<fstream>
-
 #include "Player.h"
 
 Animation::Animation(std::string BasePath, std::string BaseFile, int frames, Direction Direction, State State)

@@ -8,6 +8,7 @@ enum Direction {
 	South,
 	West,
 };
+
 enum State {
 	Idle,
 	Walking,
@@ -54,27 +55,6 @@ struct Movement {
 	{
 		Position.x = Position.x + (Velocity.x * Speed);
 		Position.y = Position.y + (Velocity.y * Speed);
-	}
-	
-	void GetSpeed()
-	{
-		// maybe a switch would do better here
-		if (CurrentState == Walking)
-		{
-
-		}
-		if (CurrentState == Running)
-		{
-
-		}
-		if (CurrentState == Sailing)
-		{
-
-		}
-		if (CurrentState == FullSailing)
-		{
-
-		}
 	}
 };
 

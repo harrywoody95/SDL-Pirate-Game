@@ -84,4 +84,3 @@ struct PlayerAnimation {
 };
 
 EquipmentType StringToEquipmentType(std::string type);
-

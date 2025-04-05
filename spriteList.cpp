@@ -1,5 +1,6 @@
 #include "SpriteList.h"
 #include "Game.h"
+
 void SpriteList::Draw(Game* game)
 {
 	for (int x = 0; x < Sprites.size(); x++)

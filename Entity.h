@@ -2,14 +2,17 @@
 #include "player.h"
 #include "Item.h"
 #include "Projectile.h"
+
 struct Game;
+struct NoEntity {};
+
 enum class EntityType {
 	None,
 	Player,
 	Item,
 	Projectile,
 };
-struct NoEntity {};
+
 struct Entity {
 	static int Nextid;
 	EntityType Type;

@@ -4,6 +4,7 @@
 #include <iostream>
 
 bool CanFireGun = true;
+
 Entity* CreatePlayer(float x, float y, Game* game)
 {
 	Entity* entity = CreateEntity(x, y, game, EntityType::Player);

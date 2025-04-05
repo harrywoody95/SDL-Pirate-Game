@@ -2,10 +2,12 @@
 #include <string>
 #include "Costume.h"
 #include "Equipment.h"
+
 enum ItemType {
 	costume, 
 	equipment,
 };
+
 struct Item {
 	std::string Name = {};
 	int Value = {};
@@ -13,5 +15,5 @@ struct Item {
 	Costume Costume = {};
 	Equipment Equipment = {};
 };
-Item CreateItem(std::string Name, int Worth, ItemType ItemType);
 
+Item CreateItem(std::string Name, int Worth, ItemType ItemType);

@@ -4,7 +4,9 @@
 #include <iostream>
 #include "Vec2.h"
 #include "Collision.h"
+
 struct Camera;
+
 struct MapTile {
 	MapTileType Type;
 	SDL_Texture* Texture;

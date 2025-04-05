@@ -5,7 +5,9 @@
 #include "Animation.h"
 #include "Costume.h"
 #include "Collision.h"
+
 struct Game;
+
 struct Player
 {
 	Sprite* PlayerSprite;
@@ -28,4 +30,3 @@ struct Player
 };
 
 Entity* CreatePlayer(float x, float y, Game* game);
-

@@ -11,9 +11,7 @@
 #include "Camera.h"
 #include <vector>
 #include "Map.h"
-//#include "Projectile.h"
 #include "Entity.h"
-
 
 struct Game {
 
@@ -32,8 +30,6 @@ struct Game {
 	Map Map;
 
 	bool IsRunning = false;
-	//store arrray of maps? store the map im on?
-    //store preloaded assets here? maybe under a asset class?
 	
 	void CreateGame(const char* Title, int xpos, int ypos, int Width, int Height, bool Fullscreen);
 

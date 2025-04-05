@@ -4,12 +4,6 @@
 
 int main(int argc, char *argv[])
 {
-    //int width, height;
-    //std::cout << "Enter your resolution width: ";
-    //std::cin >> width;
-    //std::cout << "Enter your resolution height: ";
-    //std::cin >> height;
-
     const int FPS = 165;
     const int FrameDelay = 1000 / FPS;
     Uint32 FrameStart;

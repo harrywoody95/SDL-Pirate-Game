@@ -1,6 +1,7 @@
 #pragma once
 #include "Vec2.h"
 struct Game;
+
 struct UserInput {
 
 	bool KEY_W_PRESSED = false;

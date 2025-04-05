@@ -139,7 +139,6 @@
     <ClCompile Include="debugBoxes.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="game.cpp" />
-    <ClCompile Include="gameObj.cpp" />
     <ClCompile Include="item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -168,7 +167,6 @@
     <ClInclude Include="Equipment.h" />
     <ClInclude Include="Flags.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="GameObj.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapTile.h" />
