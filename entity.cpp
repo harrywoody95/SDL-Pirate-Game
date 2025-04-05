@@ -18,7 +18,7 @@ Entity* CreateEntity(float x, float y, Game* game, EntityType Type)
 	case EntityType::Player:
 	{
 		entity->Player = {};
-		entity->Player.CreatePlayer(x, y, game);
+		entity->Player.CreatePlayer(x, y, game, entity);
 		break;
 	}
 	case EntityType::Projectile:

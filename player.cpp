@@ -8,44 +8,46 @@ void HandlePlayerProjectileFiring(Game* game);
 void UpdatePlayerAnimation(Game* game);
 
 bool CanFireGun = true;
-void Player::CreatePlayer(float x, float y, Game* game)
+void Player::CreatePlayer(float x, float y, Game* game, Entity* Player)
 {
 	PlayerSprite = new Sprite();
-	PlayerSprite->CreateSprite(x, y, "Assets/Sprites/transparent.png", 16, 4, &game->SpriteList);
+	PlayerSprite->CreateSprite(x, y, "Assets/Sprites/Character/transparent.png", 16, 4, &game->SpriteList);
 	CostumeSprite = new Sprite();
-	CostumeSprite->CreateSprite(x, y, "Assets/Sprites/transparent.png", 16, 4, &game->SpriteList);
+	CostumeSprite->CreateSprite(x, y, "Assets/Sprites/Character/transparent.png", 16, 4, &game->SpriteList);
 	EquipmentSprite = new Sprite();
-	EquipmentSprite->CreateSprite(x, y, "Assets/Sprites/transparent.png", 16, 4, &game->SpriteList);
+	EquipmentSprite->CreateSprite(x, y, "Assets/Sprites/Character/transparent.png", 16, 4, &game->SpriteList);
 	EffectSprite = new Sprite();
-	EffectSprite->CreateSprite(x, y, "Assets/Sprites/transparent.png", 16, 4, &game->SpriteList);
+	EffectSprite->CreateSprite(x, y, "Assets/Sprites/Character/transparent.png", 16, 4, &game->SpriteList);
 	PlayerSprite->Name = "PlayerSprite";
 	CostumeSprite->Name = "CostumeSprite";
 	EquipmentSprite->Name = "EquipmentSprite";
 	EffectSprite->Name = "EffectSprite";
-	SetPlayerAnimation(game);
-	SetCostumeAnimation(game);
-	SetEquipmentAnimation(game);
+	SetPlayerAnimation(game, Player);
+	SetCostumeAnimation(game, Player);
+	SetEquipmentAnimation(game, Player);
 }
 
 void HandlePlayerProjectileFiring(Game* game)
 {
-	if (game->Player.CurrentEquipment == nullptr || game->Player.CurrentEquipment->Type == EquipmentType::Sword)
+	Player* Player = &game->PlayerEntity->Player;
+
+	if (Player->CurrentEquipment == nullptr || Player->CurrentEquipment->Type == EquipmentType::Sword)
 	{
 		return;
 	}
 
 	if (CanFireGun)
 	{
-		if (game->Player.PlayerSprite->Movement.CurrentState == Attack && game->Player.PlayerAnimations.CharacterAnimation->lastindex == 2)
+		if (Player->PlayerSprite->Movement.CurrentState == Attack && Player->PlayerAnimations.CharacterAnimation->lastindex == 2)
 		{
-			Projectile Projectile(game->Player.PlayerSprite->Movement.Position.x, game->Player.PlayerSprite->Movement.Position.y, ProjectileType::Bullet, game->Player.PlayerSprite->Movement.CurrentDirection, 10, &game->SpriteList);
+			Projectile Projectile(Player->PlayerSprite->Movement.Position.x, Player->PlayerSprite->Movement.Position.y, ProjectileType::Bullet, Player->PlayerSprite->Movement.CurrentDirection, 10, &game->SpriteList);
 			game->ProjectileList.push_back(Projectile);
 			CanFireGun = false;
 		}
 	}
 	else 
 	{
-		if (game->Player.PlayerAnimations.CharacterAnimation->lastindex != 2)
+		if (Player->PlayerAnimations.CharacterAnimation->lastindex != 2)
 		{
 			CanFireGun = true;
 		}
@@ -54,18 +56,20 @@ void HandlePlayerProjectileFiring(Game* game)
 
 void UpdatePlayerAnimation(Game* game)
 {
-	UpdateCharacterAnimation(game);
-	UpdateCostumeAnimation(game);
-	UpdateEquipmentAnimation(game);
-	UpdateEffectAnimation(game);
+	UpdateCharacterAnimation(game, game->PlayerEntity);
+	UpdateCostumeAnimation(game, game->PlayerEntity);
+	UpdateEquipmentAnimation(game, game->PlayerEntity);
+	UpdateEffectAnimation(game, game->PlayerEntity);
 }
 
 void UpdatePlayerCollision(Game* game)
 {
-	game->Player.Collision.Left = game->Player.PlayerSprite->Movement.Position.x;
-	game->Player.Collision.Top = game->Player.PlayerSprite->Movement.Position.y;
-	game->Player.Collision.Right = game->Player.PlayerSprite->Movement.Position.x + (game->Player.PlayerSprite->BitSize * game->Player.PlayerSprite->Scale);
-	game->Player.Collision.Bottom = game->Player.PlayerSprite->Movement.Position.y + (game->Player.PlayerSprite->BitSize * game->Player.PlayerSprite->Scale);
+	Player* Player = &game->PlayerEntity->Player;
+
+	Player->Collision.Left = Player->PlayerSprite->Movement.Position.x;
+	Player->Collision.Top = Player->PlayerSprite->Movement.Position.y;
+	Player->Collision.Right = Player->PlayerSprite->Movement.Position.x + (Player->PlayerSprite->BitSize * Player->PlayerSprite->Scale);
+	Player->Collision.Bottom = Player->PlayerSprite->Movement.Position.y + (Player->PlayerSprite->BitSize * Player->PlayerSprite->Scale);
 }
 
 void Player::UpdatePlayer(Game* game)

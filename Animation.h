@@ -9,6 +9,7 @@
 enum Direction;
 enum State;
 struct Game;
+struct Entity;
 
 enum AnimationType {
 	IdleUp,
@@ -59,14 +60,14 @@ struct Animation {
 	//need a function to control animation speed based on running/walking etc
 };
 
-void SetPlayerAnimation(Game* game);
-void SetCostumeAnimation(Game* game);
-void SetEquipmentAnimation(Game* game);
-void SetEffectAnimation(Game* game);
-void UpdateCharacterAnimation(Game* game);
-void UpdateCostumeAnimation(Game* game);
-void UpdateEquipmentAnimation(Game* game);
-void UpdateEffectAnimation(Game* game);
+void SetPlayerAnimation(Game* game, Entity* Character);
+void SetCostumeAnimation(Game* game, Entity* Character);
+void SetEquipmentAnimation(Game* game, Entity* Character);
+void SetEffectAnimation(Game* game, Entity* Character);
+void UpdateCharacterAnimation(Game* game, Entity* Character);
+void UpdateCostumeAnimation(Game* game, Entity* Character);
+void UpdateEquipmentAnimation(Game* game, Entity* Character);
+void UpdateEffectAnimation(Game* game, Entity* Character);
 
 struct AnimationList {
 	std::vector <Animation> CharacterAnimations;

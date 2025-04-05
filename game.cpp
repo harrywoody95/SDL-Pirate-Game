@@ -55,7 +55,7 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	Map.LoadMap("Assets/Maps/Map1.txt", "", "", mapass);
 	
 	//create player
-	Player.CreatePlayer(0, 0, this);
+	PlayerEntity = CreateEntity(0, 0, this, EntityType::Player);
 
 	//create costume and equipment
 
@@ -70,8 +70,8 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 
 
 
-	Player.CurrentCostume = &item->Costume; 
-	Player.CurrentEquipment = &item1->Equipment;
+	PlayerEntity->Player.CurrentCostume = &item->Costume; 
+	PlayerEntity->Player.CurrentEquipment = &item1->Equipment;
 
 	//create main menu
 	Scene MainMenu;
@@ -745,7 +745,7 @@ void Game::UpdateGame()
 	{
 		UserInput.Update(this);
 		SpriteList.Update();
-		Player.UpdatePlayer(this);
-		UpdateCamera(&Camera, &Player);
+		UpdateEntities(this);
+		UpdateCamera(&Camera, &PlayerEntity->Player);
 	}
 }

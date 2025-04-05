@@ -2,6 +2,7 @@
 #include "Game.h"
 void DrawCollsionBoxes(Game* Game)
 {
+	Player* Player = &Game->PlayerEntity->Player;
 	std::vector <Box> CollisionBoxes;
 
 	for (int x = 0; x < Game->Map.LayerOne.size(); x++)
@@ -46,10 +47,10 @@ void DrawCollsionBoxes(Game* Game)
 
 		TextureManager::Draw(text, Sbox, Dbox);
 	}
-	Dbox.x = Game->Player.Collision.Left;
-	Dbox.y = Game->Player.Collision.Top;
-	Dbox.w = Game->Player.Collision.Right - Game->Player.Collision.Left;
-	Dbox.h = Game->Player.Collision.Bottom - Game->Player.Collision.Top;
+	Dbox.x = Player->Collision.Left;
+	Dbox.y = Player->Collision.Top;
+	Dbox.w = Player->Collision.Right - Player->Collision.Left;
+	Dbox.h = Player->Collision.Bottom - Player->Collision.Top;
 
 	Sbox.x = 0;
 	Sbox.y = 0;

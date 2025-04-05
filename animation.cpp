@@ -92,28 +92,30 @@ void Animation::ResetAnimation()
 	Speed.Counter = 0;
 }
 
-void SetPlayerAnimation(Game* game)
+void SetPlayerAnimation(Game* game, Entity* Character)
 {
 	for (int x = 0; x < game->AnimationList.CharacterAnimations.size(); x++)
 	{
-		if (game->AnimationList.CharacterAnimations[x].direction == game->Player.PlayerSprite->Movement.CurrentDirection && game->AnimationList.CharacterAnimations[x].state == game->Player.PlayerSprite->Movement.CurrentState)
+		Player* Player = &Character->Player;
+
+		if (game->AnimationList.CharacterAnimations[x].direction == Player->PlayerSprite->Movement.CurrentDirection && game->AnimationList.CharacterAnimations[x].state == Player->PlayerSprite->Movement.CurrentState)
 		{
-			if (game->Player.PlayerSprite->Movement.CurrentState != Attack)
+			if (Player->PlayerSprite->Movement.CurrentState != Attack)
 			{
 				game->AnimationList.CharacterAnimations[x].ResetAnimation();
-				game->Player.PlayerAnimations.CharacterAnimation = &game->AnimationList.CharacterAnimations[x];
-				game->Player.PlayerSprite->Texture = game->Player.PlayerAnimations.CharacterAnimation->Textures[0];
+				Player->PlayerAnimations.CharacterAnimation = &game->AnimationList.CharacterAnimations[x];
+				Player->PlayerSprite->Texture = Player->PlayerAnimations.CharacterAnimation->Textures[0];
 				return;
 			}
-			if (game->Player.CurrentEquipment == nullptr)
+			if (Player->CurrentEquipment == nullptr)
 			{
 				return;
 			}
-			if (game->Player.CurrentEquipment->Type == game->AnimationList.CharacterAnimations[x].equipmentType)
+			if (Player->CurrentEquipment->Type == game->AnimationList.CharacterAnimations[x].equipmentType)
 			{
 				game->AnimationList.CharacterAnimations[x].ResetAnimation();
-				game->Player.PlayerAnimations.CharacterAnimation = &game->AnimationList.CharacterAnimations[x];
-				game->Player.PlayerSprite->Texture = game->Player.PlayerAnimations.CharacterAnimation->Textures[0];
+				Player->PlayerAnimations.CharacterAnimation = &game->AnimationList.CharacterAnimations[x];
+				Player->PlayerSprite->Texture = Player->PlayerAnimations.CharacterAnimation->Textures[0];
 				return;
 			}
 		}
@@ -121,223 +123,237 @@ void SetPlayerAnimation(Game* game)
 }
 
 //change this entity parameter to entity eventually
-void SetCostumeAnimation(Game* game)
+void SetCostumeAnimation(Game* game, Entity* Character)
 {
-	if (game->Player.CurrentCostume == nullptr)
+	Player* Player = &Character->Player;
+
+	if (Player->CurrentCostume == nullptr)
 	{
-		game->Player.PlayerAnimations.CostumeAnimation = nullptr;
-		game->Player.CostumeSprite->Texture = nullptr;
+		Player->PlayerAnimations.CostumeAnimation = nullptr;
+		Player->CostumeSprite->Texture = nullptr;
 		return;
 	}
 	for (int x = 0; x < game->AnimationList.CostumeAnimations.size(); x++)
 	{
-		if (game->AnimationList.CostumeAnimations[x].direction == game->Player.PlayerSprite->Movement.CurrentDirection &&
-			game->AnimationList.CostumeAnimations[x].state == game->Player.PlayerSprite->Movement.CurrentState &&
-			game->Player.CurrentCostume->Type == game->AnimationList.CostumeAnimations[x].costumeType &&
-			game->AnimationList.CostumeAnimations[x].colour == game->Player.CurrentCostume->CostumeColour)
+		if (game->AnimationList.CostumeAnimations[x].direction == Player->PlayerSprite->Movement.CurrentDirection &&
+			game->AnimationList.CostumeAnimations[x].state == Player->PlayerSprite->Movement.CurrentState &&
+			Player->CurrentCostume->Type == game->AnimationList.CostumeAnimations[x].costumeType &&
+			game->AnimationList.CostumeAnimations[x].colour == Player->CurrentCostume->CostumeColour)
 		{
-			if (game->Player.PlayerSprite->Movement.CurrentState != Attack)
+			if (Player->PlayerSprite->Movement.CurrentState != Attack)
 			{
 				game->AnimationList.CostumeAnimations[x].ResetAnimation();
-				game->Player.PlayerAnimations.CostumeAnimation = &game->AnimationList.CostumeAnimations[x];
-				game->Player.CostumeSprite->Texture = game->Player.PlayerAnimations.CostumeAnimation->Textures[0];
+				Player->PlayerAnimations.CostumeAnimation = &game->AnimationList.CostumeAnimations[x];
+				Player->CostumeSprite->Texture = Player->PlayerAnimations.CostumeAnimation->Textures[0];
 				return;
 			}
-			if (game->Player.CurrentEquipment == nullptr)
+			if (Player->CurrentEquipment == nullptr)
 			{
 				return;
 			}
-			if (game->Player.CurrentEquipment->Type == game->AnimationList.CostumeAnimations[x].equipmentType)
+			if (Player->CurrentEquipment->Type == game->AnimationList.CostumeAnimations[x].equipmentType)
 			{
 				game->AnimationList.CostumeAnimations[x].ResetAnimation();
-				game->Player.PlayerAnimations.CostumeAnimation = &game->AnimationList.CostumeAnimations[x];
-				game->Player.CostumeSprite->Texture = game->Player.PlayerAnimations.CostumeAnimation->Textures[0];
+				Player->PlayerAnimations.CostumeAnimation = &game->AnimationList.CostumeAnimations[x];
+				Player->CostumeSprite->Texture = Player->PlayerAnimations.CostumeAnimation->Textures[0];
 				return;
 			}
 		}
 	}
 }
 
-void SetEquipmentAnimation(Game* game)
+void SetEquipmentAnimation(Game* game, Entity* Character)
 {
-	if (game->Player.CurrentEquipment == nullptr || game->Player.PlayerSprite->Movement.CurrentState == Attack)
+	Player* Player = &Character->Player;
+
+	if (Player->CurrentEquipment == nullptr || Player->PlayerSprite->Movement.CurrentState == Attack)
 	{
-		game->Player.PlayerAnimations.EquipmentAnimation = nullptr;
-		game->Player.EquipmentSprite->Texture = nullptr;
+		Player->PlayerAnimations.EquipmentAnimation = nullptr;
+		Player->EquipmentSprite->Texture = nullptr;
 		return;
 	}
 	for (int x = 0; x < game->AnimationList.EquipmentAnimations.size(); x++)
 	{
-		if (game->AnimationList.EquipmentAnimations[x].direction == game->Player.PlayerSprite->Movement.CurrentDirection &&
-			game->AnimationList.EquipmentAnimations[x].state == game->Player.PlayerSprite->Movement.CurrentState &&
-			game->Player.CurrentEquipment->Type == game->AnimationList.EquipmentAnimations[x].equipmentType)
+		if (game->AnimationList.EquipmentAnimations[x].direction == Player->PlayerSprite->Movement.CurrentDirection &&
+			game->AnimationList.EquipmentAnimations[x].state == Player->PlayerSprite->Movement.CurrentState &&
+			Player->CurrentEquipment->Type == game->AnimationList.EquipmentAnimations[x].equipmentType)
 		{
 			game->AnimationList.EquipmentAnimations[x].ResetAnimation();
-			game->Player.PlayerAnimations.EquipmentAnimation = &game->AnimationList.EquipmentAnimations[x];
-			game->Player.EquipmentSprite->Texture = game->Player.PlayerAnimations.EquipmentAnimation->Textures[0];
+			Player->PlayerAnimations.EquipmentAnimation = &game->AnimationList.EquipmentAnimations[x];
+			Player->EquipmentSprite->Texture = Player->PlayerAnimations.EquipmentAnimation->Textures[0];
 		}
 	}
 }
 
-void SetEffectAnimation(Game* game)
+void SetEffectAnimation(Game* game, Entity* Character)
 {
-	if (game->Player.CurrentEquipment == nullptr || game->Player.PlayerSprite->Movement.CurrentState != Attack)
+	Player* Player = &Character->Player;
+
+	if (Player->CurrentEquipment == nullptr || Player->PlayerSprite->Movement.CurrentState != Attack)
 	{
-		if (game->Player.PlayerAnimations.EffectAnimation == nullptr)
+		if (Player->PlayerAnimations.EffectAnimation == nullptr)
 		{
 			return;
 		}
-		game->Player.PlayerAnimations.EffectAnimation = nullptr;
-		game->Player.EffectSprite->Texture = nullptr;
+		Player->PlayerAnimations.EffectAnimation = nullptr;
+		Player->EffectSprite->Texture = nullptr;
 		return;
 	}
 	for (int x = 0; x < game->AnimationList.EffectAnimations.size(); x++)
 	{
-		if (game->AnimationList.EffectAnimations[x].direction == game->Player.PlayerSprite->Movement.CurrentDirection &&
-			game->AnimationList.EffectAnimations[x].state == game->Player.PlayerSprite->Movement.CurrentState &&
-			game->Player.CurrentEquipment->Type == game->AnimationList.EffectAnimations[x].equipmentType)
+		if (game->AnimationList.EffectAnimations[x].direction == Player->PlayerSprite->Movement.CurrentDirection &&
+			game->AnimationList.EffectAnimations[x].state == Player->PlayerSprite->Movement.CurrentState &&
+			Player->CurrentEquipment->Type == game->AnimationList.EffectAnimations[x].equipmentType)
 		{
 			game->AnimationList.EffectAnimations[x].ResetAnimation();
-			game->Player.PlayerAnimations.EffectAnimation = &game->AnimationList.EffectAnimations[x];
+			Player->PlayerAnimations.EffectAnimation = &game->AnimationList.EffectAnimations[x];
 			//normally set the first texture to sprite but this one only has two. i either handle it in code or add a transparent sprite to each effect animation.
 		}
 	}
 }
 
-void UpdateCharacterAnimation(Game* game)
+void UpdateCharacterAnimation(Game* game, Entity* Character)
 {
-	if (game->Player.PlayerSprite->Movement.LastDirection != game->Player.PlayerSprite->Movement.CurrentDirection || game->Player.PlayerSprite->Movement.LastState != game->Player.PlayerSprite->Movement.CurrentState)
-	{
-		SetPlayerAnimation(game);
-	}
-	game->Player.PlayerAnimations.CharacterAnimation->Speed.Counter++;
+	Player* Player = &Character->Player;
 
-	if (!(game->Player.PlayerAnimations.CharacterAnimation->Speed.Counter == game->Player.PlayerAnimations.CharacterAnimation->Speed.TargetUntilChange))
+	if (Player->PlayerSprite->Movement.LastDirection != Player->PlayerSprite->Movement.CurrentDirection || Player->PlayerSprite->Movement.LastState != Player->PlayerSprite->Movement.CurrentState)
+	{
+		SetPlayerAnimation(game, Character);
+	}
+	Player->PlayerAnimations.CharacterAnimation->Speed.Counter++;
+
+	if (!(Player->PlayerAnimations.CharacterAnimation->Speed.Counter == Player->PlayerAnimations.CharacterAnimation->Speed.TargetUntilChange))
 	{
 		return;
 	}
 
-	game->Player.PlayerSprite->Texture = game->Player.PlayerAnimations.CharacterAnimation->Textures[game->Player.PlayerAnimations.CharacterAnimation->lastindex];
-	game->Player.PlayerAnimations.CharacterAnimation->lastindex++;
+	Player->PlayerSprite->Texture = Player->PlayerAnimations.CharacterAnimation->Textures[Player->PlayerAnimations.CharacterAnimation->lastindex];
+	Player->PlayerAnimations.CharacterAnimation->lastindex++;
 
-	if (game->Player.PlayerAnimations.CharacterAnimation->lastindex >= game->Player.PlayerAnimations.CharacterAnimation->Textures.size())
+	if (Player->PlayerAnimations.CharacterAnimation->lastindex >= Player->PlayerAnimations.CharacterAnimation->Textures.size())
 	{
-		game->Player.PlayerAnimations.CharacterAnimation->lastindex = 0;
+		Player->PlayerAnimations.CharacterAnimation->lastindex = 0;
 	}
 
-	game->Player.PlayerAnimations.CharacterAnimation->Speed.Counter = 0;
+	Player->PlayerAnimations.CharacterAnimation->Speed.Counter = 0;
 
 }
 
-void UpdateEquipmentAnimation(Game* game)
+void UpdateEquipmentAnimation(Game* game, Entity* Character)
 {
-	if (((game->Player.PlayerSprite->Movement.LastDirection != game->Player.PlayerSprite->Movement.CurrentDirection || 
-		game->Player.PlayerSprite->Movement.LastState != game->Player.PlayerSprite->Movement.CurrentState) && 
-		game->Player.CurrentEquipment != nullptr) 
-		|| game->Player.CurrentEquipment != nullptr && game->Player.CurrentEquipment->Type != EquipmentType::None && game->Player.PlayerAnimations.EquipmentAnimation == nullptr)
-	{
-		SetEquipmentAnimation(game);
-	}
-	if (game->Player.CurrentEquipment == nullptr || game->Player.CurrentEquipment->Type == EquipmentType::None || game->Player.PlayerAnimations.EquipmentAnimation == nullptr)
-	{
-		return;
-	}
-	game->Player.EquipmentSprite->Movement.Velocity = game->Player.PlayerSprite->Movement.Velocity;
-	game->Player.EquipmentSprite->Movement.Speed = game->Player.PlayerSprite->Movement.Speed;
-	game->Player.EquipmentSprite->Movement.Position = game->Player.PlayerSprite->Movement.Position;
-	game->Player.PlayerAnimations.EquipmentAnimation->Speed.Counter++;
+	Player* Player = &Character->Player;
 
-	if (!(game->Player.PlayerAnimations.EquipmentAnimation->Speed.Counter == game->Player.PlayerAnimations.EquipmentAnimation->Speed.TargetUntilChange))
+	if (((Player->PlayerSprite->Movement.LastDirection != Player->PlayerSprite->Movement.CurrentDirection || 
+		Player->PlayerSprite->Movement.LastState != Player->PlayerSprite->Movement.CurrentState) && 
+		Player->CurrentEquipment != nullptr) 
+		|| Player->CurrentEquipment != nullptr && Player->CurrentEquipment->Type != EquipmentType::None && Player->PlayerAnimations.EquipmentAnimation == nullptr)
+	{
+		SetEquipmentAnimation(game, Character);
+	}
+	if (Player->CurrentEquipment == nullptr || Player->CurrentEquipment->Type == EquipmentType::None || Player->PlayerAnimations.EquipmentAnimation == nullptr)
 	{
 		return;
 	}
+	Player->EquipmentSprite->Movement.Velocity = Player->PlayerSprite->Movement.Velocity;
+	Player->EquipmentSprite->Movement.Speed = Player->PlayerSprite->Movement.Speed;
+	Player->EquipmentSprite->Movement.Position = Player->PlayerSprite->Movement.Position;
+	Player->PlayerAnimations.EquipmentAnimation->Speed.Counter++;
 
-	game->Player.EquipmentSprite->Texture = game->Player.PlayerAnimations.EquipmentAnimation->Textures[game->Player.PlayerAnimations.EquipmentAnimation->lastindex];
-
-	game->Player.PlayerAnimations.EquipmentAnimation->lastindex++;
-
-	if (game->Player.PlayerAnimations.EquipmentAnimation->lastindex >= game->Player.PlayerAnimations.EquipmentAnimation->Textures.size())
+	if (!(Player->PlayerAnimations.EquipmentAnimation->Speed.Counter == Player->PlayerAnimations.EquipmentAnimation->Speed.TargetUntilChange))
 	{
-		game->Player.PlayerAnimations.EquipmentAnimation->lastindex = 0;
+		return;
 	}
 
-	game->Player.PlayerAnimations.EquipmentAnimation->Speed.Counter = 0;
+	Player->EquipmentSprite->Texture = Player->PlayerAnimations.EquipmentAnimation->Textures[Player->PlayerAnimations.EquipmentAnimation->lastindex];
+
+	Player->PlayerAnimations.EquipmentAnimation->lastindex++;
+
+	if (Player->PlayerAnimations.EquipmentAnimation->lastindex >= Player->PlayerAnimations.EquipmentAnimation->Textures.size())
+	{
+		Player->PlayerAnimations.EquipmentAnimation->lastindex = 0;
+	}
+
+	Player->PlayerAnimations.EquipmentAnimation->Speed.Counter = 0;
 
 }
 
-void UpdateCostumeAnimation(Game* game)
+void UpdateCostumeAnimation(Game* game, Entity* Character)
 {
-	if (((game->Player.PlayerSprite->Movement.LastDirection != game->Player.PlayerSprite->Movement.CurrentDirection || 
-		game->Player.PlayerSprite->Movement.LastState != game->Player.PlayerSprite->Movement.CurrentState) &&
-		game->Player.CurrentCostume != nullptr) 
-		|| game->Player.CurrentCostume != nullptr && game->Player.CurrentCostume->Type != CostumeType::None && game->Player.PlayerAnimations.CostumeAnimation == nullptr)
-	{
-		SetCostumeAnimation(game);
-	}
-	if (game->Player.CurrentCostume == nullptr || game->Player.CurrentCostume->Type == CostumeType::None || game->Player.PlayerAnimations.CostumeAnimation == nullptr)
-	{
-		return;
-	}
-	game->Player.CostumeSprite->Movement.Velocity = game->Player.PlayerSprite->Movement.Velocity;
-	game->Player.CostumeSprite->Movement.Speed = game->Player.PlayerSprite->Movement.Speed;
-	game->Player.CostumeSprite->Movement.Position = game->Player.PlayerSprite->Movement.Position;
-	game->Player.PlayerAnimations.CostumeAnimation->Speed.Counter++;
+	Player* Player = &Character->Player;
 
-	if (!(game->Player.PlayerAnimations.CostumeAnimation->Speed.Counter == game->Player.PlayerAnimations.CostumeAnimation->Speed.TargetUntilChange))
+	if (((Player->PlayerSprite->Movement.LastDirection != Player->PlayerSprite->Movement.CurrentDirection || 
+		Player->PlayerSprite->Movement.LastState != Player->PlayerSprite->Movement.CurrentState) &&
+		Player->CurrentCostume != nullptr) 
+		|| Player->CurrentCostume != nullptr && Player->CurrentCostume->Type != CostumeType::None && Player->PlayerAnimations.CostumeAnimation == nullptr)
+	{
+		SetCostumeAnimation(game, Character);
+	}
+	if (Player->CurrentCostume == nullptr || Player->CurrentCostume->Type == CostumeType::None || Player->PlayerAnimations.CostumeAnimation == nullptr)
 	{
 		return;
 	}
+	Player->CostumeSprite->Movement.Velocity = Player->PlayerSprite->Movement.Velocity;
+	Player->CostumeSprite->Movement.Speed = Player->PlayerSprite->Movement.Speed;
+	Player->CostumeSprite->Movement.Position = Player->PlayerSprite->Movement.Position;
+	Player->PlayerAnimations.CostumeAnimation->Speed.Counter++;
 
-	game->Player.CostumeSprite->Texture = game->Player.PlayerAnimations.CostumeAnimation->Textures[game->Player.PlayerAnimations.CostumeAnimation->lastindex];
-	game->Player.PlayerAnimations.CostumeAnimation->lastindex++;
-
-	if (game->Player.PlayerAnimations.CostumeAnimation->lastindex >= game->Player.PlayerAnimations.CostumeAnimation->Textures.size())
+	if (!(Player->PlayerAnimations.CostumeAnimation->Speed.Counter == Player->PlayerAnimations.CostumeAnimation->Speed.TargetUntilChange))
 	{
-		game->Player.PlayerAnimations.CostumeAnimation->lastindex = 0;
+		return;
 	}
 
-	game->Player.PlayerAnimations.CostumeAnimation->Speed.Counter = 0;
+	Player->CostumeSprite->Texture = Player->PlayerAnimations.CostumeAnimation->Textures[Player->PlayerAnimations.CostumeAnimation->lastindex];
+	Player->PlayerAnimations.CostumeAnimation->lastindex++;
+
+	if (Player->PlayerAnimations.CostumeAnimation->lastindex >= Player->PlayerAnimations.CostumeAnimation->Textures.size())
+	{
+		Player->PlayerAnimations.CostumeAnimation->lastindex = 0;
+	}
+
+	Player->PlayerAnimations.CostumeAnimation->Speed.Counter = 0;
 
 }
 
-void UpdateEffectAnimation(Game* game)
+void UpdateEffectAnimation(Game* game, Entity* Character)
 {
-	if ((game->Player.PlayerSprite->Movement.LastDirection != game->Player.PlayerSprite->Movement.CurrentDirection || game->Player.PlayerSprite->Movement.LastState != game->Player.PlayerSprite->Movement.CurrentState) && game->Player.CurrentEquipment != nullptr)
+	Player* Player = &Character->Player;
+
+	if ((Player->PlayerSprite->Movement.LastDirection != Player->PlayerSprite->Movement.CurrentDirection || Player->PlayerSprite->Movement.LastState != Player->PlayerSprite->Movement.CurrentState) && Player->CurrentEquipment != nullptr)
 	{
-		SetEffectAnimation(game);
+		SetEffectAnimation(game, Character);
 	}
-	if (game->Player.CurrentEquipment == nullptr || game->Player.CurrentEquipment->Type == EquipmentType::None || game->Player.PlayerSprite->Movement.CurrentState != Attack)
+	if (Player->CurrentEquipment == nullptr || Player->CurrentEquipment->Type == EquipmentType::None || Player->PlayerSprite->Movement.CurrentState != Attack)
 	{
 		return;
 	}
 
-	game->Player.EffectSprite->Movement.Velocity = game->Player.PlayerSprite->Movement.Velocity;
-	game->Player.EffectSprite->Movement.Speed = game->Player.PlayerSprite->Movement.Speed;
-	game->Player.EffectSprite->Movement.Position = game->Player.PlayerSprite->Movement.Position;
-	game->Player.PlayerAnimations.EffectAnimation->Speed.Counter++;
+	Player->EffectSprite->Movement.Velocity = Player->PlayerSprite->Movement.Velocity;
+	Player->EffectSprite->Movement.Speed = Player->PlayerSprite->Movement.Speed;
+	Player->EffectSprite->Movement.Position = Player->PlayerSprite->Movement.Position;
+	Player->PlayerAnimations.EffectAnimation->Speed.Counter++;
 
-	if (!(game->Player.PlayerAnimations.EffectAnimation->Speed.Counter == game->Player.PlayerAnimations.EffectAnimation->Speed.TargetUntilChange))
+	if (!(Player->PlayerAnimations.EffectAnimation->Speed.Counter == Player->PlayerAnimations.EffectAnimation->Speed.TargetUntilChange))
 	{
 		return;
 	}
-	if (game->Player.PlayerAnimations.EffectAnimation->lastindex != 0)
+	if (Player->PlayerAnimations.EffectAnimation->lastindex != 0)
 	{
 
-		game->Player.EffectSprite->Texture = game->Player.PlayerAnimations.EffectAnimation->Textures[game->Player.PlayerAnimations.EffectAnimation->lastindex - 1];
-		game->Player.PlayerAnimations.EffectAnimation->lastindex++;
+		Player->EffectSprite->Texture = Player->PlayerAnimations.EffectAnimation->Textures[Player->PlayerAnimations.EffectAnimation->lastindex - 1];
+		Player->PlayerAnimations.EffectAnimation->lastindex++;
 
-		if (game->Player.PlayerAnimations.EffectAnimation->lastindex >= game->Player.PlayerAnimations.EffectAnimation->Textures.size() + 1)
+		if (Player->PlayerAnimations.EffectAnimation->lastindex >= Player->PlayerAnimations.EffectAnimation->Textures.size() + 1)
 		{
-			game->Player.PlayerAnimations.EffectAnimation->lastindex = 0;
+			Player->PlayerAnimations.EffectAnimation->lastindex = 0;
 		}
 
-		game->Player.PlayerAnimations.EffectAnimation->Speed.Counter = 0;
+		Player->PlayerAnimations.EffectAnimation->Speed.Counter = 0;
 		return;
 	}
-	if (game->Player.PlayerAnimations.EffectAnimation->lastindex == 0)
+	if (Player->PlayerAnimations.EffectAnimation->lastindex == 0)
 	{
-		game->Player.EffectSprite->Texture = game->Player.PlayerAnimations.EffectAnimation->PlainTexture;
+		Player->EffectSprite->Texture = Player->PlayerAnimations.EffectAnimation->PlainTexture;
 	}
-	game->Player.PlayerAnimations.EffectAnimation->Speed.Counter = 0;
-	game->Player.PlayerAnimations.EffectAnimation->lastindex++;
+	Player->PlayerAnimations.EffectAnimation->Speed.Counter = 0;
+	Player->PlayerAnimations.EffectAnimation->lastindex++;
 }
