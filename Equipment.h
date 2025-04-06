@@ -11,3 +11,5 @@ struct Equipment {
 	int DamageStat;
 	EquipmentType Type = EquipmentType::None;
 };
+
+Equipment* CreateEquipment(EquipmentType Type, int Damage);

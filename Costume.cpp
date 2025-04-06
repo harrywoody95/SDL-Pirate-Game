@@ -37,3 +37,12 @@ CostumeType StringToCostumeType(std::string Type) {
 		return CostumeType::Advanced;
 	}
 }
+
+Costume* CreateCostume(CostumeType Type, Colour Colour, int DefenceStat)
+{
+	Costume* costume = new Costume();
+	costume->CostumeColour = Colour;
+	costume->Type = Type;
+	costume->DefenceStat = DefenceStat;
+	return costume;
+}

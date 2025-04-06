@@ -4,17 +4,17 @@
 #include <iostream>
 
 static int Nextid = 0;
-Entity::Entity() {};
+
 Entity::~Entity() {};
 
 Entity* CreateEntity(float x, float y, Game* game, EntityType Type)
 {
-	Entity* entity = new Entity();
+	Entity* entity = new Entity{};
 
 	entity->id = Nextid++;
 	entity->Type = Type;
 
-	switch (Type) {
+	switch (entity->Type) {
 	case EntityType::Player:
 	{
 		entity->Player = {};
@@ -27,6 +27,7 @@ Entity* CreateEntity(float x, float y, Game* game, EntityType Type)
 	}
 	case EntityType::Item:
 	{
+		entity->Item = {};
 		break;
 	}
 	case EntityType::None:
@@ -75,4 +76,9 @@ void UpdateEntities(Game* game)
 		}
 		}
 	}
+}
+
+void DestroyEntity(Game* game, Entity* Entity)
+{
+
 }

@@ -1,10 +1,12 @@
 #include "Item.h"
+#include "Game.h"
 
-Item CreateItem(std::string Name, int Worth, ItemType ItemType)
+Entity* CreateItem(std::string Name, int Worth, ItemType ItemType, Game* game)
 {
-	Item item;
-	item.Name = Name;
-	item.Value = Worth;
-	item.Type = ItemType;
-	return item;
+	Entity* entity = CreateEntity(0.0f, 0.0f, game, EntityType::Item);
+	Item* item = &entity->Item;
+	item->Name = Name;
+	item->Value = Worth;
+	item->Type = ItemType;
+	return entity;
 }

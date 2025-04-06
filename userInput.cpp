@@ -123,6 +123,7 @@ void UserInput::HandleUserInput(Game* Game)
 {
 	Player* Player = &Game->PlayerEntity->Player;
 
+
 	Player->PlayerSprite->Movement.Velocity.x = 0;
 	Player->PlayerSprite->Movement.Velocity.y = 0;
 	Player->PlayerSprite->Movement.LastDirection = Player->PlayerSprite->Movement.CurrentDirection;
@@ -195,7 +196,8 @@ void UserInput::HandleUserInput(Game* Game)
 	}
 
 	//if idle
-	if (!KEY_W_RELEASED && !KEY_W_PRESSED && !KEY_A_PRESSED && !KEY_A_RELEASED && !KEY_D_PRESSED && !KEY_D_RELEASED && !KEY_S_PRESSED && !KEY_S_RELEASED && !MOUSE_LBUTTON_PRESSED && !MOUSE_LBUTTON_RELEASED )
+	if (!KEY_W_RELEASED && !KEY_W_PRESSED && !KEY_A_PRESSED && !KEY_A_RELEASED && !KEY_D_PRESSED && !KEY_D_RELEASED && !KEY_S_PRESSED && !KEY_S_RELEASED && !MOUSE_LBUTTON_PRESSED && !MOUSE_LBUTTON_RELEASED 
+		||(MOUSE_LBUTTON_PRESSED && Player->CurrentEquipment == nullptr && !KEY_W_RELEASED && !KEY_W_PRESSED && !KEY_A_PRESSED && !KEY_A_RELEASED && !KEY_D_PRESSED && !KEY_D_RELEASED && !KEY_S_PRESSED && !KEY_S_RELEASED))
 	{
 		Player->PlayerSprite->Movement.CurrentState = Idle;
 	}

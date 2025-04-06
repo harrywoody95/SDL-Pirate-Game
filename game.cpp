@@ -57,20 +57,14 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	PlayerEntity = CreatePlayer(0, 0, this);
 
 	//create costume and equipment
+	Entity* costume = CreateItem("BlackBeard's Cloak", 250, ItemType::Costume, this);
+	costume->Item.Costume = CreateCostume(CostumeType::Advanced, Colour::Green, 20);
 
-	Item* item = new Item(CreateItem("BlackBeard's Cloak", 250, costume));
-	item->Costume.DefenceStat = 20;
-	item->Costume.CostumeColour = Colour::Green;
-	item->Costume.Type = CostumeType::Advanced;
+	Entity* Gun = CreateItem("BlackBeard's Gun", 500, ItemType::Equipment, this);
+	Gun->Item.Equipment = CreateEquipment(EquipmentType::Gun, 20);
 
-	Item* item1 = new Item(CreateItem("BlackBeard's Gun", 500, equipment));
-	item1->Equipment.DamageStat = 20;
-	item1->Equipment.Type= EquipmentType::Gun;
-
-
-
-	PlayerEntity->Player.CurrentCostume = &item->Costume; 
-	PlayerEntity->Player.CurrentEquipment = &item1->Equipment;
+	PlayerEntity->Player.CurrentCostume = costume->Item.Costume; 
+	PlayerEntity->Player.CurrentEquipment = Gun->Item.Equipment;
 
 	//create main menu
 	Scene MainMenu;
@@ -79,7 +73,6 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 
 	//add music
 	Audio.MusicList.AddMusic("Assets/Audio/Music/m.ogg", "MainMenu");
-	
 }
 
 void Game::LoadAnimations()

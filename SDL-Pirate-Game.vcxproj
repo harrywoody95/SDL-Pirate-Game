@@ -138,6 +138,7 @@
     <ClCompile Include="Costume.cpp" />
     <ClCompile Include="debugBoxes.cpp" />
     <ClCompile Include="entity.cpp" />
+    <ClCompile Include="equipment.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="item.cpp" />
     <ClCompile Include="main.cpp" />

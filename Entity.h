@@ -1,5 +1,5 @@
 #pragma once
-#include "player.h"
+#include "Player.h"
 #include "Item.h"
 #include "Projectile.h"
 
@@ -24,7 +24,6 @@ struct Entity {
 		Item Item;
 		Projectile Projectile;
 	};
-	Entity();
 	~Entity();
 };
 
