@@ -1,24 +1,25 @@
 #pragma once
 #include "SDL.h"
-#include "Sprite.h"
+#include "Character.h"
+//#include "Sprite.h"
 #include <vector>
-#include "Animation.h"
-#include "Costume.h"
-#include "Collision.h"
+//#include "Animation.h"
+//#include "Costume.h"
+//#include "Collision.h"
 
 struct Game;
 
-struct Player
+struct Player : public Character
 {
-	Sprite* PlayerSprite;
-	Sprite* CostumeSprite;
-	Sprite* EquipmentSprite;
-	Sprite* EffectSprite;
-	Costume* CurrentCostume = nullptr;
-	Equipment* CurrentEquipment = nullptr;
-	PlayerAnimation PlayerAnimations;
+	//Sprite* PlayerSprite;
+	//Sprite* CostumeSprite;
+	//Sprite* EquipmentSprite;
+	//Sprite* EffectSprite;
+	//Costume* CurrentCostume = nullptr;
+	//Equipment* CurrentEquipment = nullptr;
+	//PlayerAnimation PlayerAnimations;
 	int InventoryLimit = 5;
-	Box Collision;
+	//Box Collision;
 	//inventory vector
 	//equiped equitment
 

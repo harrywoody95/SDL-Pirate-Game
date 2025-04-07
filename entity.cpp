@@ -30,6 +30,11 @@ Entity* CreateEntity(float x, float y, Game* game, EntityType Type)
 		entity->Item = {};
 		break;
 	}
+	case EntityType::NPC:
+	{
+		entity->NPC = {};
+		break;
+	}
 	case EntityType::None:
 	{
 		break;
@@ -54,6 +59,11 @@ void UpdateEntities(Game* game)
 		case EntityType::Player:
 		{
 			game->EntityList[x]->Player.UpdatePlayer(game);
+			break;
+		}
+		case EntityType::NPC:
+		{
+			game->EntityList[x]->NPC.UpdateNPC(game);
 			break;
 		}
 		case EntityType::Projectile:

@@ -5,11 +5,13 @@
 #include "Equipment.h"
 #include "Costume.h"
 #include "TextureManager.h"
+#include <optional>
 
 enum Direction;
 enum State;
 struct Game;
 struct Entity;
+struct Character;
 
 enum AnimationType {
 	IdleUp,
@@ -60,14 +62,14 @@ struct Animation {
 	//need a function to control animation speed based on running/walking etc
 };
 
-void SetPlayerAnimation(Game* game, Entity* Character);
-void SetCostumeAnimation(Game* game, Entity* Character);
-void SetEquipmentAnimation(Game* game, Entity* Character);
-void SetEffectAnimation(Game* game, Entity* Character);
-void UpdateCharacterAnimation(Game* game, Entity* Character);
-void UpdateCostumeAnimation(Game* game, Entity* Character);
-void UpdateEquipmentAnimation(Game* game, Entity* Character);
-void UpdateEffectAnimation(Game* game, Entity* Character);
+void SetPlayerAnimation(Game* game, Character* Character);
+void SetCostumeAnimation(Game* game, Character* Character);
+void SetEquipmentAnimation(Game* game, Character* Character);
+void SetEffectAnimation(Game* game, Character* Character);
+void UpdateCharacterAnimation(Game* game, Character* Character);
+void UpdateCostumeAnimation(Game* game, Character* Character);
+void UpdateEquipmentAnimation(Game* game, Character* Character);
+void UpdateEffectAnimation(Game* game, Character* Character);
 
 struct AnimationList {
 	std::vector <Animation> CharacterAnimations;
@@ -77,10 +79,10 @@ struct AnimationList {
 };
 
 struct PlayerAnimation {
-	Animation* CharacterAnimation = nullptr;
-	Animation* CostumeAnimation = nullptr;
-	Animation* EquipmentAnimation = nullptr;
-	Animation* EffectAnimation = nullptr;
+	Animation CharacterAnimation;
+	std::optional<Animation> CostumeAnimation;
+	std::optional<Animation> EquipmentAnimation;
+	std::optional<Animation> EffectAnimation;
 };
 
 EquipmentType StringToEquipmentType(std::string type);

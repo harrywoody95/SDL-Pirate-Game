@@ -66,6 +66,8 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	PlayerEntity->Player.CurrentCostume = costume->Item.Costume; 
 	PlayerEntity->Player.CurrentEquipment = Gun->Item.Equipment;
 
+	Entity* npc = CreateNPC(150, 150, this);
+
 	//create main menu
 	Scene MainMenu;
 	MainMenu.CreateScene(SceneType::Mainmenu, this);

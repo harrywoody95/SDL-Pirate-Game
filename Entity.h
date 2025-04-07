@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Item.h"
 #include "Projectile.h"
+#include "NPC.h"
 
 struct Game;
 struct NoEntity {};
@@ -9,6 +10,7 @@ struct NoEntity {};
 enum class EntityType {
 	None,
 	Player,
+	NPC,
 	Item,
 	Projectile,
 };
@@ -21,6 +23,7 @@ struct Entity {
 	union {
 		NoEntity NoEntity;
 		Player Player;
+		NPC NPC;
 		Item Item;
 		Projectile Projectile;
 	};
