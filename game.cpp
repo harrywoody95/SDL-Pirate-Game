@@ -77,6 +77,10 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	npc->NPC.PatrolRoute.Route.push_back(Direction::West);
 	npc->NPC.PatrolRoute.Route.push_back(Direction::West);
 	npc->NPC.PatrolRoute.Route.push_back(Direction::East);
+	npc->NPC.PatrolRoute.Route.push_back(Direction::North);
+	npc->NPC.PatrolRoute.Route.push_back(Direction::South);
+	npc->NPC.PatrolRoute.Route.push_back(Direction::South);
+	npc->NPC.PatrolRoute.Route.push_back(Direction::North);
 	npc->NPC.CurrentCostume = npccostume->Item.Costume;
 	npc->NPC.CurrentEquipment = sword->Item.Equipment;
 

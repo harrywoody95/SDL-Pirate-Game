@@ -20,7 +20,6 @@ void SpriteList::Update()
 
 SpriteList* SortSpriteDrawingOrder(SpriteList list)
 {
-	//SpriteList oldList = list;
 	SpriteList* OrderedSpriteList = new SpriteList();
 	Sprite* Lowest = new Sprite();
 	int size = list.Sprites.size();
@@ -64,56 +63,5 @@ SpriteList* SortSpriteDrawingOrder(SpriteList list)
 			}
 		}
 	}
-	//int playerindex = -1;
-	//int costumeindex = -1;
-	//int equipmentindex = -1;
-	//int effectindex = -1;
-	//int listindex = 0;
-	//for (listindex; listindex < OrderedSpriteList->Sprites.size(); listindex++)
-	//{
-	//	if (OrderedSpriteList->Sprites[listindex]->Name == "PlayerSprite")
-	//	{
-	//		playerindex = listindex;
-	//	}
-	//	if (OrderedSpriteList->Sprites[listindex]->Name == "CostumeSprite")
-	//	{
-	//		costumeindex = listindex;
-	//	}
-	//	if (OrderedSpriteList->Sprites[listindex]->Name == "EquipmentSprite")
-	//	{
-	//		equipmentindex = listindex;
-	//	}
-	//	if (OrderedSpriteList->Sprites[listindex]->Name == "EffectSprite")
-	//	{
-	//		effectindex = listindex;
-	//	}
-	//	if (playerindex > -1 && costumeindex > -1 && equipmentindex > -1 && effectindex > -1)
-	//	{
-	//		std::cout << playerindex << costumeindex << equipmentindex << effectindex << std::endl;
-	//		// If PlayerSprite and CostumeSprite are not in correct order, swap them
-	//		if (costumeindex < playerindex) {
-	//			std::swap(OrderedSpriteList->Sprites[playerindex], OrderedSpriteList->Sprites[costumeindex]);
-	//			playerindex = costumeindex;  // Update the playerindex after swap
-	//		}
-
-	//		// If EquipmentSprite is not in correct order, swap it
-	//		if (equipmentindex < costumeindex) {
-	//			std::swap(OrderedSpriteList->Sprites[costumeindex], OrderedSpriteList->Sprites[equipmentindex]);
-	//			costumeindex = equipmentindex;  // Update the costumeindex after swap
-	//		}
-
-	//		// If EffectSprite is not in correct order, swap it
-	//		if (effectindex < equipmentindex) {
-	//			std::swap(OrderedSpriteList->Sprites[equipmentindex], OrderedSpriteList->Sprites[effectindex]);
-	//			equipmentindex = effectindex;
-	//		}
-	//		std::cout << playerindex << costumeindex << equipmentindex << effectindex << std::endl;
-
-	//		playerindex = -1;
-	//		costumeindex = -1;
-	//		equipmentindex = -1;
-	//		effectindex = -1;
-	//	}
-	//}
 	return OrderedSpriteList;
 }

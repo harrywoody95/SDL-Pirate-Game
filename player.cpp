@@ -27,48 +27,6 @@ Entity* CreatePlayer(float x, float y, Game* game)
 	return entity;
 }
 
-//void HandleCharacterProjectileFiring(Character* character, Game* game)
-//{
-//	//Player* Player = &game->PlayerEntity->Player;
-//
-//	if (character->CurrentEquipment == nullptr || character->CurrentEquipment->Type == EquipmentType::Sword)
-//	{
-//		return;
-//	}
-//
-//	if (CanFireGun)
-//	{
-//		if (character->PlayerSprite->Movement.CurrentState == Attack && character->PlayerAnimations.CharacterAnimation->lastindex == 2)
-//		{
-//			Entity* Projectile = CreateProjectile(character->PlayerSprite->Movement.Position.x, character->PlayerSprite->Movement.Position.y, ProjectileType::Bullet, character->PlayerSprite->Movement.CurrentDirection, 10, game);
-//			CanFireGun = false;
-//		}
-//	}
-//	else 
-//	{
-//		if (character->PlayerAnimations.CharacterAnimation->lastindex != 2)
-//		{
-//			CanFireGun = true;
-//		}
-//	}
-//}
-
-//void UpdatePlayerAnimation(Game* game)
-//{
-//	UpdateCharacterAnimation(game, game->PlayerEntity);
-//	UpdateCostumeAnimation(game, game->PlayerEntity);
-//	UpdateEquipmentAnimation(game, game->PlayerEntity);
-//	UpdateEffectAnimation(game, game->PlayerEntity);
-//}
-
-//void UpdateCharacterCollision(Character* character)
-//{
-//	character->Collision.Left = character->PlayerSprite->Movement.Position.x;
-//	character->Collision.Top = character->PlayerSprite->Movement.Position.y;
-//	character->Collision.Right = character->PlayerSprite->Movement.Position.x + (character->PlayerSprite->BitSize * character->PlayerSprite->Scale);
-//	character->Collision.Bottom = character->PlayerSprite->Movement.Position.y + (character->PlayerSprite->BitSize * character->PlayerSprite->Scale);
-//}
-
 void Player::UpdatePlayer(Game* game)
 {
 	UpdateCharacterCollision(this);
