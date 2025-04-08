@@ -27,6 +27,11 @@ void DrawCollsionBoxes(Game* Game)
 			CollisionBoxes.push_back(Game->Map.LayerThree[x].Collision);
 		}
 	}
+	std::vector <Entity*> list = GetEntitites(Game, EntityType::NPC);
+	for (int x = 0; x < list.size(); x++)
+	{
+		CollisionBoxes.push_back(list[x]->NPC.Collision);
+	}
 	SDL_Texture* text = TextureManager::LoadTexture(static_cast<const char*>("Assets/Sprites/debug.png"));
 	SDL_Rect Dbox, Sbox;
 

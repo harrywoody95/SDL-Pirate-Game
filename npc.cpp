@@ -70,8 +70,53 @@ Entity* CreateNPC(float x, float y, Game* game)
 //	NPC->Collision.Bottom = NPC->PlayerSprite->Movement.Position.y + (NPC->PlayerSprite->BitSize * NPC->PlayerSprite->Scale);
 //}
 
+void NPC::UpdatePatrolRoute()
+{
+
+	int travelDistance = (PlayerSprite->BitSize * PlayerSprite->Scale) * 2;
+
+	PlayerSprite->Movement.Speed = 1;
+	PlayerSprite->Movement.LastState = PlayerSprite->Movement.CurrentState;
+	PlayerSprite->Movement.LastDirection = PlayerSprite->Movement.CurrentDirection;
+
+	if (PatrolRoute.Counter == 0)
+	{
+		
+		PlayerSprite->Movement.CurrentDirection = PatrolRoute.Route[PatrolRoute.Currentindex];
+		PlayerSprite->Movement.CurrentState = State::Walking;
+		PlayerSprite->Movement.Velocity = DirectionToVelocity(PatrolRoute.Route[PatrolRoute.Currentindex]);
+	}
+	if ((PatrolRoute.LastPosition.x + travelDistance < PlayerSprite->Movement.Position.x ||
+		PatrolRoute.LastPosition.y + travelDistance < PlayerSprite->Movement.Position.y ||
+		PatrolRoute.LastPosition.x - travelDistance > PlayerSprite->Movement.Position.x ||
+		PatrolRoute.LastPosition.y - travelDistance > PlayerSprite->Movement.Position.y )&&
+		PatrolRoute.Counter == 0
+		)
+	{
+		PlayerSprite->Movement.CurrentState = State::Idle;
+		PlayerSprite->Movement.Velocity = { 0,0 };
+		PatrolRoute.Counter++;
+		PatrolRoute.Currentindex++;
+		if (PatrolRoute.Currentindex >= PatrolRoute.Route.size())
+		{
+			PatrolRoute.Currentindex = 0;
+		}
+		// so im thinking check to see if theyre going the same direction again and dont make them stop if they are
+	}
+	if (PatrolRoute.Counter != 0)
+	{
+		PatrolRoute.Counter++;
+	}
+	if (PatrolRoute.Counter > PatrolRoute.WaitTick)
+	{
+		PatrolRoute.Counter = 0;
+		PatrolRoute.LastPosition = PlayerSprite->Movement.Position;
+	}
+}
+
 void NPC::UpdateNPC(Game* game)
 {
+	UpdatePatrolRoute();
 	UpdateCharacterCollision(this);
 	UpdateAllCharacterAnimation(game, this);
 	HandleCharacterProjectileFiring(this, game);

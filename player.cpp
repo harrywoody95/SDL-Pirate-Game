@@ -17,10 +17,10 @@ Entity* CreatePlayer(float x, float y, Game* game)
 	Player->EquipmentSprite->CreateSprite(x, y, "Assets/Sprites/Character/transparent.png", 16, 4, &game->SpriteList);
 	Player->EffectSprite = new Sprite();
 	Player->EffectSprite->CreateSprite(x, y, "Assets/Sprites/Character/transparent.png", 16, 4, &game->SpriteList);
-	//Player->PlayerSprite->Name = "PlayerSprite";
-	//Player->CostumeSprite->Name = "CostumeSprite";
-	//Player->EquipmentSprite->Name = "EquipmentSprite";
-	//Player->EffectSprite->Name = "EffectSprite";
+	Player->PlayerSprite->Name = "PlayerSprite";
+	Player->CostumeSprite->Name = "CostumeSprite";
+	Player->EquipmentSprite->Name = "EquipmentSprite";
+	Player->EffectSprite->Name = "EffectSprite";
 	SetPlayerAnimation(game, Player);
 	SetCostumeAnimation(game, Player);
 	SetEquipmentAnimation(game, Player);

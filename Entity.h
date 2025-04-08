@@ -34,3 +34,4 @@ struct Entity {
 Entity* CreateEntity(float x, float y, Game* game, EntityType Type);
 void UpdateEntities(Game* Game);
 void DestroyEntity(Game* game, Entity* Entity);
+std::vector<Entity*> GetEntitites(Game* game, EntityType Type);

@@ -92,3 +92,16 @@ void DestroyEntity(Game* game, Entity* Entity)
 {
 
 }
+
+std::vector<Entity*> GetEntitites(Game* game, EntityType Type)
+{
+	std::vector <Entity*> list;
+	for (int x = 0; x < game->EntityList.size(); x++)
+	{
+		if (game->EntityList[x]->Type == Type)
+		{
+			list.push_back(game->EntityList[x]);
+		}
+	}
+	return list;
+}

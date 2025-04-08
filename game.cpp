@@ -60,13 +60,25 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	Entity* costume = CreateItem("BlackBeard's Cloak", 250, ItemType::Costume, this);
 	costume->Item.Costume = CreateCostume(CostumeType::Advanced, Colour::Green, 20);
 
+	Entity* npccostume = CreateItem("BlackBeard's skipper", 250, ItemType::Costume, this);
+	npccostume->Item.Costume = CreateCostume(CostumeType::Basic, Colour::White, 20);
+
 	Entity* Gun = CreateItem("BlackBeard's Gun", 500, ItemType::Equipment, this);
 	Gun->Item.Equipment = CreateEquipment(EquipmentType::Gun, 20);
+
+	Entity* sword = CreateItem("BlackBeard's sword", 500, ItemType::Equipment, this);
+	sword->Item.Equipment = CreateEquipment(EquipmentType::Sword, 20);
 
 	PlayerEntity->Player.CurrentCostume = costume->Item.Costume; 
 	PlayerEntity->Player.CurrentEquipment = Gun->Item.Equipment;
 
 	Entity* npc = CreateNPC(150, 150, this);
+	npc->NPC.PatrolRoute.Route.push_back(Direction::East);
+	npc->NPC.PatrolRoute.Route.push_back(Direction::West);
+	npc->NPC.PatrolRoute.Route.push_back(Direction::West);
+	npc->NPC.PatrolRoute.Route.push_back(Direction::East);
+	npc->NPC.CurrentCostume = npccostume->Item.Costume;
+	npc->NPC.CurrentEquipment = sword->Item.Equipment;
 
 	//create main menu
 	Scene MainMenu;

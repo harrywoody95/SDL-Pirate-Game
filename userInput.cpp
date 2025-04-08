@@ -225,7 +225,12 @@ void UserInput::HandleUserInput(Game* Game)
 			CollisionBoxes.push_back(Game->Map.LayerThree[x].Collision);
 		}
 	}
-	
+	std::vector <Entity*> list = GetEntitites(Game, EntityType::NPC);
+	for (int x = 0; x < list.size(); x++)
+	{
+		CollisionBoxes.push_back(list[x]->NPC.Collision);
+	}
+
 	for (int x = 0; x < CollisionBoxes.size(); x++)
 	{
 		if (BoxesOverlap(Player->Collision, CollisionBoxes[x]))

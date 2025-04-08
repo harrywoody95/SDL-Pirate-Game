@@ -16,20 +16,28 @@ void Map::LoadMap(const char* LayerOneFileName, const char* LayerTwoFilename, co
 		std::string line = "";
 		std::string data = "";
 		int convertedData = 0;
+		bool makeSolid = false;
+		int count = 0;
 		while (std::getline(file, line))
 		{
 			Col = 0;
 			for (int x = 0; x < line.size(); x++)
 			{
+				count++;
 
 				if (line.at(x) == ',')
 				{
+					if (count % 16 == 0)
+					{
+						makeSolid = true;
+					}
 					convertedData = stoi(data);
 					MapTile MT;
-					MT.CreateMapTile(Col, Row, (MapTileType)convertedData, 32, 2, MTA, true);
+					MT.CreateMapTile(Col, Row, (MapTileType)convertedData, 32, 2, MTA, makeSolid);
 					LayerOne.push_back(MT);
 					data = "";
 					Col += 64;
+					makeSolid = false;
 				}
 				else
 				{

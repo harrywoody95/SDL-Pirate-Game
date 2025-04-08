@@ -10,3 +10,5 @@ struct SpriteList
 	void Update();
 	void Draw(Game* game);
 };
+
+SpriteList* SortSpriteDrawingOrder(SpriteList list);
