@@ -4,10 +4,18 @@ bool CanFireGun = true;
 
 void UpdateCharacterCollision(Character* character)
 {
-	character->Collision.Left = character->PlayerSprite->Movement.Position.x;
-	character->Collision.Top = character->PlayerSprite->Movement.Position.y;
-	character->Collision.Right = character->PlayerSprite->Movement.Position.x + (character->PlayerSprite->BitSize * character->PlayerSprite->Scale);
-	character->Collision.Bottom = character->PlayerSprite->Movement.Position.y + (character->PlayerSprite->BitSize * character->PlayerSprite->Scale);
+	character->Collision.Left = (character->PlayerSprite->Movement.Position.x + ((character->PlayerSprite->BitSize * character->PlayerSprite->Scale) * CharacterCollisionBoxScale.Left ));
+	character->Collision.Top = (character->PlayerSprite->Movement.Position.y + ((character->PlayerSprite->BitSize * character->PlayerSprite->Scale) * CharacterCollisionBoxScale.Top));
+
+	character->Collision.Bottom = (character->PlayerSprite->Movement.Position.y + ((character->PlayerSprite->BitSize * character->PlayerSprite->Scale) - 
+		((character->PlayerSprite->BitSize * character->PlayerSprite->Scale) * CharacterCollisionBoxScale.Bottom)));
+
+	character->Collision.Right = (character->PlayerSprite->Movement.Position.x + ((character->PlayerSprite->BitSize * character->PlayerSprite->Scale) -
+		((character->PlayerSprite->BitSize * character->PlayerSprite->Scale) * CharacterCollisionBoxScale.Right)));
+	//character->Collision.Left = character->PlayerSprite->Movement.Position.x;
+	//character->Collision.Top = character->PlayerSprite->Movement.Position.y;
+	//character->Collision.Right = character->PlayerSprite->Movement.Position.x + (character->PlayerSprite->BitSize * character->PlayerSprite->Scale);
+	//character->Collision.Bottom = character->PlayerSprite->Movement.Position.y + (character->PlayerSprite->BitSize * character->PlayerSprite->Scale);
 }
 
 void HandleCharacterProjectileFiring(Character* character, Game* game)

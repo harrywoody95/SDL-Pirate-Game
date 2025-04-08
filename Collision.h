@@ -10,6 +10,9 @@ struct Box {
 	float Bottom;
 };
 
+//the bigger the scale value, the smaller the box. not sure how to flip that - research
+const static Box CharacterCollisionBoxScale = { 0.25f, 0.25f, 0.3f, 0.3f };
+
 bool IsPointInsideBox(Box box, Vec2 point);
 
 bool BoxesOverlap(Box a, Box b);
