@@ -30,6 +30,7 @@ Entity* CreatePlayer(float x, float y, Game* game)
 void Player::UpdatePlayer(Game* game)
 {
 	UpdateCharacterCollision(this);
+	UpdateCharacterHitbox(this);
 	UpdateAllCharacterAnimation(game, this);
 	HandleCharacterProjectileFiring(this, game);
 }

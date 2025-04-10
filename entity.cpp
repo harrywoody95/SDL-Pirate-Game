@@ -68,7 +68,7 @@ void UpdateEntities(Game* game)
 		}
 		case EntityType::Projectile:
 		{
-			UpdateProjectile(game->EntityList[x]);
+			UpdateProjectile(game, game->EntityList[x]);
 			break;
 		}
 		case EntityType::Item:
@@ -90,7 +90,13 @@ void UpdateEntities(Game* game)
 
 void DestroyEntity(Game* game, Entity* Entity)
 {
-
+	for (int x = 0; x < game->EntityList.size(); x++)
+	{
+		if (game->EntityList[x] == Entity)
+		{
+			game->EntityList.erase(game->EntityList.begin() + x);
+		}
+	}
 }
 
 std::vector<Entity*> GetEntitites(Game* game, EntityType Type)

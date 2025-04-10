@@ -12,7 +12,7 @@ struct PatrolRoute {
 struct NPC : public Character
 {
 	//path
-	int health;
+	int health = 100;
 	PatrolRoute PatrolRoute;
 	void UpdateNPC(Game* game);
 	void UpdatePatrolRoute();

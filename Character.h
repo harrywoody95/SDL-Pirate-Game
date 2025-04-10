@@ -12,8 +12,10 @@ struct Character {
 	Equipment* CurrentEquipment = nullptr;
 	PlayerAnimation PlayerAnimations;
 	Box Collision;
+	Box HitBox;
 };
 
 void UpdateCharacterCollision(Character* character);
+void UpdateCharacterHitbox(Character* character);
 void HandleCharacterProjectileFiring(Character* character, Game* game);
 void UpdateAllCharacterAnimation(Game* game, Character* Character);

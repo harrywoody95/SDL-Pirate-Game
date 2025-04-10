@@ -18,9 +18,39 @@ Entity* CreateProjectile(float x, float y, ProjectileType Type, Direction Direct
 	return entity;
 }
 
-void UpdateProjectile(Entity* Entity)
+void UpdateProjectile(Game* game, Entity* entity)
 {
+	UpdateHitBox(entity);
+	std::vector<Entity*> NPCList = GetEntitites(game, EntityType::NPC);
+	for (int x = 0; x < NPCList.size(); x++)
+	{
+		if (BoxesOverlap(entity->Projectile.HitBox, NPCList[x]->NPC.HitBox))
+		{
+			std::cout << "Projectile hit NPC" << std::endl;
+			NPCList[x]->NPC.health -= entity->Projectile.Damage;
+			std::cout << NPCList[x]->NPC.health << "/100" << std::endl;
+			entity->Projectile.ProjectileSprite->DeleteSprite(&game->SpriteList);
+			DestroyEntity(game, entity);
 
+		}
+	}
+		if (BoxesOverlap(entity->Projectile.HitBox, game->PlayerEntity->Player.HitBox))
+		{
+			std::cout << "Projectile hit Player" << std::endl;
+		}
+	
+}
+
+void UpdateHitBox(Entity* Entity)
+{
+	Entity->Projectile.HitBox.Left = (Entity->Projectile.ProjectileSprite->Movement.Position.x + ((Entity->Projectile.ProjectileSprite->BitSize * Entity->Projectile.ProjectileSprite->Scale) * BulletHitBoxScale.Left));
+	Entity->Projectile.HitBox.Top = (Entity->Projectile.ProjectileSprite->Movement.Position.y + ((Entity->Projectile.ProjectileSprite->BitSize * Entity->Projectile.ProjectileSprite->Scale) * BulletHitBoxScale.Top));
+
+	Entity->Projectile.HitBox.Bottom = (Entity->Projectile.ProjectileSprite->Movement.Position.y + ((Entity->Projectile.ProjectileSprite->BitSize * Entity->Projectile.ProjectileSprite->Scale) -
+		((Entity->Projectile.ProjectileSprite->BitSize * Entity->Projectile.ProjectileSprite->Scale) * BulletHitBoxScale.Bottom)));
+
+	Entity->Projectile.HitBox.Right = (Entity->Projectile.ProjectileSprite->Movement.Position.x + ((Entity->Projectile.ProjectileSprite->BitSize * Entity->Projectile.ProjectileSprite->Scale) -
+		((Entity->Projectile.ProjectileSprite->BitSize * Entity->Projectile.ProjectileSprite->Scale) * BulletHitBoxScale.Right)));
 }
 
 std::string GetProjectileFileName(ProjectileType Type, Direction Direction)

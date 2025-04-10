@@ -71,6 +71,7 @@ void NPC::UpdateNPC(Game* game)
 {
 	UpdatePatrolRoute();
 	UpdateCharacterCollision(this);
+	UpdateCharacterHitbox(this);
 	UpdateAllCharacterAnimation(game, this);
 	HandleCharacterProjectileFiring(this, game);
 }

@@ -112,6 +112,7 @@ void SetPlayerAnimation(Game* game, Character* Character)
 			if (Character->CurrentEquipment->Type == game->AnimationList.CharacterAnimations[x].equipmentType)
 			{
 				game->AnimationList.CharacterAnimations[x].ResetAnimation();
+				//game->AnimationList.CharacterAnimations[x].Speed.TargetUntilChange = 25;
 				Character->PlayerAnimations.CharacterAnimation = game->AnimationList.CharacterAnimations[x];
 				Character->PlayerSprite->Texture = Character->PlayerAnimations.CharacterAnimation.Textures[0];
 				return;

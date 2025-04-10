@@ -12,6 +12,7 @@ struct Box {
 
 //the bigger the scale value, the smaller the box. not sure how to flip that - research
 const static Box CharacterCollisionBoxScale = { 0.25f, 0.25f, 0.3f, 0.3f };
+const static Box BulletHitBoxScale = { 0.4f, 0.4f, 0.4f, 0.4f };
 
 bool IsPointInsideBox(Box box, Vec2 point);
 

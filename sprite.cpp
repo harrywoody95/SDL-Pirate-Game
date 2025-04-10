@@ -40,6 +40,9 @@ void Sprite::Draw(Camera* Camera)
 	DestinationBox.h = BitSize * Scale;
 	DestinationBox.x = static_cast<int>(Movement.Position.x - Camera->Position.x);
 	DestinationBox.y = static_cast<int>(Movement.Position.y - Camera->Position.y);
+	// some texture mods
+	//SDL_SetTextureColorMod(Texture, 100, 100, 100);
+	//SDL_SetTextureAlphaMod(Texture, 50);
 	TextureManager::Draw(Texture, SourceBox, DestinationBox);
 }
 
