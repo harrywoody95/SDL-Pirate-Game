@@ -21,7 +21,8 @@ struct Projectile {
 };
 
 Entity* CreateProjectile(float x, float y, ProjectileType Type, Direction Direction, int Damage, Game* game);
-void UpdateProjectile(Game* game, Entity* Entity);
+void UpdateProjectile(Game* game, Entity* Projectile);
 void UpdateHitBox(Entity* Entity);
+void HandleProjectileHit(Game* game, Entity* Projectile);
 std::string GetProjectileFileName(ProjectileType Type, Direction Direction);
 Vec2 DirectionToVelocity(Direction Direction);

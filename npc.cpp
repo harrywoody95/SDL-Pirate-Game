@@ -31,7 +31,10 @@ void NPC::UpdatePatrolRoute()
 	PlayerSprite->Movement.Speed = 1;
 	PlayerSprite->Movement.LastState = PlayerSprite->Movement.CurrentState;
 	PlayerSprite->Movement.LastDirection = PlayerSprite->Movement.CurrentDirection;
-
+	if (PatrolRoute.Route.size() == 0)
+	{
+		return;
+	}
 	if (PatrolRoute.Counter == 0)
 	{
 		

@@ -3,7 +3,9 @@
 #include "Animation.h"
 #include "Collision.h"
 struct Game;
+struct Entity;
 struct Character {
+	int Health = 100;
 	Sprite* PlayerSprite;
 	Sprite* CostumeSprite;
 	Sprite* EquipmentSprite;
@@ -18,4 +20,5 @@ struct Character {
 void UpdateCharacterCollision(Character* character);
 void UpdateCharacterHitbox(Character* character);
 void HandleCharacterProjectileFiring(Character* character, Game* game);
+void HandleCharacterProjectileHit(Character* character, Entity* projectile, Game* game);
 void UpdateAllCharacterAnimation(Game* game, Character* Character);

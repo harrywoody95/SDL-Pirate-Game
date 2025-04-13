@@ -18,27 +18,30 @@ Entity* CreateProjectile(float x, float y, ProjectileType Type, Direction Direct
 	return entity;
 }
 
-void UpdateProjectile(Game* game, Entity* entity)
+void UpdateProjectile(Game* game, Entity* projectile)
 {
-	UpdateHitBox(entity);
+	UpdateHitBox(projectile);
+	HandleProjectileHit(game, projectile);
+}
+
+void HandleProjectileHit(Game* game, Entity* projectile)
+{
+	//Player and NPC
 	std::vector<Entity*> NPCList = GetEntitites(game, EntityType::NPC);
 	for (int x = 0; x < NPCList.size(); x++)
 	{
-		if (BoxesOverlap(entity->Projectile.HitBox, NPCList[x]->NPC.HitBox))
+		if (BoxesOverlap(projectile->Projectile.HitBox, NPCList[x]->NPC.HitBox))
 		{
-			std::cout << "Projectile hit NPC" << std::endl;
-			NPCList[x]->NPC.health -= entity->Projectile.Damage;
-			std::cout << NPCList[x]->NPC.health << "/100" << std::endl;
-			entity->Projectile.ProjectileSprite->DeleteSprite(&game->SpriteList);
-			DestroyEntity(game, entity);
-
+			HandleCharacterProjectileHit(&NPCList[x]->NPC, projectile, game);
 		}
 	}
-		if (BoxesOverlap(entity->Projectile.HitBox, game->PlayerEntity->Player.HitBox))
-		{
-			std::cout << "Projectile hit Player" << std::endl;
-		}
-	
+	if (BoxesOverlap(projectile->Projectile.HitBox, game->PlayerEntity->Player.HitBox))
+	{
+		HandleCharacterProjectileHit(&game->PlayerEntity->Player, projectile, game);
+	}
+
+	//ships?
+
 }
 
 void UpdateHitBox(Entity* Entity)

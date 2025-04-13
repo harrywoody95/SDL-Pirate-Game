@@ -68,7 +68,7 @@ void HandleCharacterProjectileFiring(Character* character, Game* game)
 			}
 
 
-			Entity* Projectile = CreateProjectile(ProjectilePosition.x, ProjectilePosition.y, ProjectileType::Bullet, character->PlayerSprite->Movement.CurrentDirection, 10, game);
+			Entity* Projectile = CreateProjectile(ProjectilePosition.x, ProjectilePosition.y, ProjectileType::Bullet, character->PlayerSprite->Movement.CurrentDirection, character->CurrentEquipment->DamageStat, game);
 			CanFireGun = false;
 		}
 	}
@@ -87,4 +87,18 @@ void UpdateAllCharacterAnimation(Game* game, Character* Character)
 	UpdateCostumeAnimation(game, Character);
 	UpdateEquipmentAnimation(game, Character);
 	UpdateEffectAnimation(game, Character);
+}
+
+void HandleCharacterProjectileHit(Character* character, Entity* projectile, Game* game)
+{
+	int DamageReduction = 0;
+	if (character->CurrentCostume != nullptr)
+	{
+		DamageReduction = character->CurrentCostume->DefenceStat;
+	}
+	std::cout << "Projectile hit NPC" << std::endl;
+	character->Health -= projectile->Projectile.Damage - DamageReduction;
+	std::cout << character->Health << "/100" << std::endl;
+	projectile->Projectile.ProjectileSprite->DeleteSprite(&game->SpriteList);
+	DestroyEntity(game, projectile);
 }

@@ -231,14 +231,21 @@ void UserInput::HandleUserInput(Game* Game)
 		CollisionBoxes.push_back(list[x]->NPC.Collision);
 	}
 
-	for (int x = 0; x < CollisionBoxes.size(); x++)
+	Vec2 OutVelocity = { 0.0, 0.0 };
+	
+	if (BoxCollision(Player->Collision, CollisionBoxes, Player->PlayerSprite->Movement.Speed, &Player->PlayerSprite->Movement.CurrentDirection, Player->PlayerSprite->Movement.Velocity, &OutVelocity))
 	{
-		if (BoxesOverlap(Player->Collision, CollisionBoxes[x]))
-		{
-			//do something if collidied? i actually need to know before and adjust speed to make sure i dont go over the box
-			std::cout << "Box Collision" << std::endl;
-		}
+		Player->PlayerSprite->Movement.Velocity = OutVelocity;
 	}
+
+	//for (int x = 0; x < CollisionBoxes.size(); x++)
+	//{
+	//	if (BoxesOverlap(Player->Collision, CollisionBoxes[x]))
+	//	{
+	//		//do something if collidied? i actually need to know before and adjust speed to make sure i dont go over the box
+	//		std::cout << "Box Collision" << std::endl;
+	//	}
+	//}
 }
 
 void UserInput::Update(Game* Game)
