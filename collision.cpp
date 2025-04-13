@@ -65,10 +65,7 @@ bool BoxesOverlap(Box a, Box b)
 bool MoveBlockedX(Box Moving, Box Stationary, Direction direction)
 {
     float margin = 2.00f;
-    //if (direction == Direction::North || direction == Direction::South)
-    //{
-    //    return false;
-    //}
+
     if (direction == Direction::East)
     {
         if (std::abs(Stationary.Left - Moving.Right) < margin && LinesOverlap(Stationary.Top, Stationary.Bottom, Moving.Top, Moving.Bottom))
@@ -89,10 +86,7 @@ bool MoveBlockedX(Box Moving, Box Stationary, Direction direction)
 bool MoveBlockedY(Box Moving, Box Stationary, Direction direction)
 {
     float margin = 2.00f;
-    //if (direction == Direction::East || direction == Direction::West)
-    //{
-    //    return false;
-    //}
+
     if (direction == Direction::North)
     {
         if (std::abs(Stationary.Bottom - Moving.Top ) < margin && LinesOverlap(Stationary.Left, Stationary.Right, Moving.Left, Moving.Right))

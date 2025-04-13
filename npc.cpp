@@ -75,6 +75,51 @@ void NPC::UpdateNPC(Game* game)
 	UpdatePatrolRoute();
 	UpdateCharacterCollision(this);
 	UpdateCharacterHitbox(this);
+	NPCBoxCollision(game);
 	UpdateAllCharacterAnimation(game, this);
 	HandleCharacterProjectileFiring(this, game);
+}
+
+void NPC::NPCBoxCollision(Game* Game)
+{
+	std::vector <Box> CollisionBoxes;
+
+	for (int x = 0; x < Game->Map.LayerOne.size(); x++)
+	{
+		if (Game->Map.LayerOne[x].Solid)
+		{
+			CollisionBoxes.push_back(Game->Map.LayerOne[x].Collision);
+		}
+	}
+	for (int x = 0; x < Game->Map.LayerTwo.size(); x++)
+	{
+		if (Game->Map.LayerTwo[x].Solid)
+		{
+			CollisionBoxes.push_back(Game->Map.LayerTwo[x].Collision);
+		}
+	}
+	for (int x = 0; x < Game->Map.LayerThree.size(); x++)
+	{
+		if (Game->Map.LayerThree[x].Solid)
+		{
+			CollisionBoxes.push_back(Game->Map.LayerThree[x].Collision);
+		}
+	}
+	std::vector <Entity*> list = GetEntitites(Game, EntityType::NPC);
+	for (int x = 0; x < list.size(); x++)
+	{
+		if (this != &list[x]->NPC)
+		{
+			CollisionBoxes.push_back(list[x]->NPC.Collision);
+		}
+	}
+	CollisionBoxes.push_back(Game->PlayerEntity->Player.Collision);
+
+	Vec2 OutVelocity = { 0.0, 0.0 };
+
+	if (BoxCollision(this->Collision, CollisionBoxes, this->PlayerSprite->Movement.Speed, &this->PlayerSprite->Movement.CurrentDirection, this->PlayerSprite->Movement.Velocity, &OutVelocity))
+	{
+		this->PlayerSprite->Movement.Velocity = OutVelocity;
+		this->PlayerSprite->Movement.CurrentState = Idle;
+	}
 }

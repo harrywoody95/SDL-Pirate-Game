@@ -14,6 +14,7 @@ struct NPC : public Character
 	//path
 	PatrolRoute PatrolRoute;
 	void UpdateNPC(Game* game);
+	void NPCBoxCollision(Game* game);
 	void UpdatePatrolRoute();
 };
 
