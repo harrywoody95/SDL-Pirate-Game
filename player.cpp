@@ -33,4 +33,5 @@ void Player::UpdatePlayer(Game* game)
 	UpdateCharacterHitbox(this);
 	UpdateAllCharacterAnimation(game, this);
 	HandleCharacterProjectileFiring(this, game);
+	HandleCharacterSwordSlash(this, game);
 }

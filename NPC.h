@@ -11,7 +11,7 @@ struct PatrolRoute {
 
 struct NPC : public Character
 {
-	//path
+	bool Hostile = false;
 	PatrolRoute PatrolRoute;
 	void UpdateNPC(Game* game);
 	void NPCBoxCollision(Game* game);

@@ -20,5 +20,7 @@ struct Character {
 void UpdateCharacterCollision(Character* character);
 void UpdateCharacterHitbox(Character* character);
 void HandleCharacterProjectileFiring(Character* character, Game* game);
+void HandleCharacterSwordSlash(Character* character, Game* game);
+void HandleCharacterSwordHit(Character* character, Equipment* item, Game* game);
 void HandleCharacterProjectileHit(Character* character, Entity* projectile, Game* game);
 void UpdateAllCharacterAnimation(Game* game, Character* Character);

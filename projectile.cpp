@@ -38,7 +38,6 @@ void RemoveDistantProjectile(Game* game, Entity* projectile)
 		projectile->Projectile.ProjectileSprite->DeleteSprite(&game->SpriteList);
 		DestroyEntity(game, projectile);
 	}
-
 }
 
 void HandleProjectileHit(Game* game, Entity* projectile)

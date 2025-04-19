@@ -1,6 +1,9 @@
 #include "Character.h"
 #include "Game.h"
+#include "Movement.h"
 bool CanFireGun = true;
+bool CanSwordSlash = true;
+std::vector <Character*> NearbyCharacters(Game* game, Character* character);
 
 void UpdateCharacterCollision(Character* character)
 {
@@ -81,6 +84,36 @@ void HandleCharacterProjectileFiring(Character* character, Game* game)
 	}
 }
 
+void HandleCharacterSwordSlash(Character* character, Game* game)
+{
+	//Player* Player = &game->PlayerEntity->Player;
+
+	if (character->CurrentEquipment == nullptr || character->CurrentEquipment->Type == EquipmentType::Gun)
+	{
+		return;
+	}
+
+	if (CanSwordSlash)
+	{
+		std::vector <Character*> CharactersToSlash = NearbyCharacters(game, character);
+		if (character->PlayerSprite->Movement.CurrentState == Attack && character->PlayerAnimations.CharacterAnimation.lastindex == 2)
+		{
+			CanSwordSlash = false;
+			for (int x = 0; x < CharactersToSlash.size(); x++)
+			{
+				HandleCharacterSwordHit(CharactersToSlash[x], character->CurrentEquipment, game);
+			}
+		}
+	}
+	else
+	{
+		if (character->PlayerAnimations.CharacterAnimation.lastindex != 2)
+		{
+			CanSwordSlash = true;
+		}
+	}
+}
+
 void UpdateAllCharacterAnimation(Game* game, Character* Character)
 {
 	UpdateCharacterAnimation(game, Character);
@@ -101,4 +134,80 @@ void HandleCharacterProjectileHit(Character* character, Entity* projectile, Game
 	std::cout << character->Health << "/100" << std::endl;
 	projectile->Projectile.ProjectileSprite->DeleteSprite(&game->SpriteList);
 	DestroyEntity(game, projectile);
+}
+
+void HandleCharacterSwordHit(Character* character, Equipment* item, Game* game)
+{
+	int DamageReduction = 0;
+	if (character->CurrentCostume != nullptr)
+	{
+		DamageReduction = character->CurrentCostume->DefenceStat;
+	}
+	std::cout << "Sword hit NPC" << std::endl;
+	character->Health -= item->DamageStat - DamageReduction;
+	std::cout << character->Health << "/100" << std::endl;
+}
+
+bool CharacterFacingCharacter(Character* primaryCharacter, Character* secondaryCharacter)
+{
+	Vec2 PrimaryCharacterEntity = primaryCharacter->PlayerSprite->Movement.Position;
+	Vec2 SeconaryCharacterEntity = secondaryCharacter->PlayerSprite->Movement.Position;
+	int PrimaryCharacterDirection = primaryCharacter->PlayerSprite->Movement.CurrentDirection;
+	if (PrimaryCharacterDirection == West && PrimaryCharacterEntity.x > SeconaryCharacterEntity.x)
+		return true;
+
+	if (PrimaryCharacterDirection == East && PrimaryCharacterEntity.x < SeconaryCharacterEntity.x)
+		return true;
+
+	if (PrimaryCharacterDirection == North && PrimaryCharacterEntity.y > SeconaryCharacterEntity.y)
+		return true;
+
+	if (PrimaryCharacterDirection == South && PrimaryCharacterEntity.y < SeconaryCharacterEntity.y)
+		return true;
+
+	return false;
+}
+
+bool IsCharacterCloseToCharacter(Vec2 PrimaryCharacter, Vec2 SecondaryCharacter, int range)
+{
+
+	if (((PrimaryCharacter.x < SecondaryCharacter.x + range && PrimaryCharacter.x > SecondaryCharacter.x - range) && (PrimaryCharacter.y < SecondaryCharacter.y + range && PrimaryCharacter.y > SecondaryCharacter.y - range)))
+		return true;
+	else
+		return false;
+}
+
+bool IsSameCharacter(Character* PrimaryCharacter, Character* SecondaryCharacter)
+{
+	if (PrimaryCharacter->PlayerSprite->Movement.Position.x == SecondaryCharacter->PlayerSprite->Movement.Position.x && PrimaryCharacter->PlayerSprite->Movement.Position.y == SecondaryCharacter->PlayerSprite->Movement.Position.y)
+	{
+		if (PrimaryCharacter->Health == SecondaryCharacter->Health)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+std::vector <Character*> NearbyCharacters(Game* game, Character* character)
+{
+	std::vector <Entity*> AllCharactersList = GetEntitites(game, EntityType::NPC);
+	std::vector <Character*> CharactersToHitList;
+	
+	for (int x = 0; x < AllCharactersList.size(); x++)
+	{
+		if (CharacterFacingCharacter(character, &AllCharactersList[x]->NPC) && 
+			IsCharacterCloseToCharacter(character->PlayerSprite->Movement.Position, AllCharactersList[x]->NPC.PlayerSprite->Movement.Position, 70) && 
+			!IsSameCharacter(character, &AllCharactersList[x]->NPC))
+		{
+			CharactersToHitList.push_back(&AllCharactersList[x]->NPC);
+		}
+	}
+	if (CharacterFacingCharacter(character, &game->PlayerEntity->Player) &&
+		IsCharacterCloseToCharacter(character->PlayerSprite->Movement.Position, game->PlayerEntity->Player.PlayerSprite->Movement.Position, 70) &&
+		!IsSameCharacter(character, &game->PlayerEntity->Player))
+	{
+		CharactersToHitList.push_back(&game->PlayerEntity->Player);
+	}
+	return CharactersToHitList;
 }
