@@ -4,6 +4,8 @@
 #include "Entity.h"
 #include "Game.h"
 
+void RemoveDistantProjectile(Game* game, Entity* projectile);
+
 Entity* CreateProjectile(float x, float y, ProjectileType Type, Direction Direction, int Damage, Game* game) {
 	Entity* entity = CreateEntity(x, y, game, EntityType::Projectile);
 	Projectile* Projectile = &entity->Projectile;
@@ -22,6 +24,21 @@ void UpdateProjectile(Game* game, Entity* projectile)
 {
 	UpdateHitBox(projectile);
 	HandleProjectileHit(game, projectile);
+	RemoveDistantProjectile(game, projectile);
+}
+
+void RemoveDistantProjectile(Game* game, Entity* projectile)
+{
+	int DestroyDistance = 1500;
+	Vec2 ProjectilePosition = projectile->Projectile.ProjectileSprite->Movement.Position;
+	Vec2 PlayerPosition = game->PlayerEntity->Player.PlayerSprite->Movement.Position;
+	if (ProjectilePosition.x > PlayerPosition.x + DestroyDistance || ProjectilePosition.x < PlayerPosition.x - DestroyDistance ||
+		ProjectilePosition.y > PlayerPosition.y + DestroyDistance || ProjectilePosition.y < PlayerPosition.y - DestroyDistance)
+	{
+		projectile->Projectile.ProjectileSprite->DeleteSprite(&game->SpriteList);
+		DestroyEntity(game, projectile);
+	}
+
 }
 
 void HandleProjectileHit(Game* game, Entity* projectile)
