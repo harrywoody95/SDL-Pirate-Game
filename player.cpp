@@ -29,6 +29,10 @@ Entity* CreatePlayer(float x, float y, Game* game)
 
 void Player::UpdatePlayer(Game* game)
 {
+	if (Health <= 0)
+	{
+		return;
+	}
 	UpdateCharacterCollision(this);
 	UpdateCharacterHitbox(this);
 	UpdateAllCharacterAnimation(game, this);

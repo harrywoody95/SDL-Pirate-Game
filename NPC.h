@@ -12,10 +12,12 @@ struct PatrolRoute {
 struct NPC : public Character
 {
 	bool Hostile = false;
+	Character* Target = nullptr;
 	PatrolRoute PatrolRoute;
 	void UpdateNPC(Game* game);
 	void NPCBoxCollision(Game* game);
 	void UpdatePatrolRoute();
+	void UpdateHostile();
 };
 
 

@@ -58,13 +58,13 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 
 	//create costume and equipment
 	Entity* costume = CreateItem("BlackBeard's Cloak", 250, ItemType::Costume, this);
-	costume->Item.Costume = CreateCostume(CostumeType::Advanced, Colour::Green, 20);
+	costume->Item.Costume = CreateCostume(CostumeType::Advanced, Colour::Yellow, 20);
 
 	Entity* npccostume = CreateItem("BlackBeard's skipper", 250, ItemType::Costume, this);
 	npccostume->Item.Costume = CreateCostume(CostumeType::Basic, Colour::White, 5);
 
 	Entity* Gun = CreateItem("BlackBeard's Gun", 500, ItemType::Equipment, this);
-	Gun->Item.Equipment = CreateEquipment(EquipmentType::Sword, 10);
+	Gun->Item.Equipment = CreateEquipment(EquipmentType::Gun, 50);
 
 	Entity* sword = CreateItem("BlackBeard's sword", 500, ItemType::Equipment, this);
 	sword->Item.Equipment = CreateEquipment(EquipmentType::Sword, 20);

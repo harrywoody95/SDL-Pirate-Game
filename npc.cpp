@@ -31,7 +31,7 @@ void NPC::UpdatePatrolRoute()
 	PlayerSprite->Movement.Speed = 1;
 	PlayerSprite->Movement.LastState = PlayerSprite->Movement.CurrentState;
 	PlayerSprite->Movement.LastDirection = PlayerSprite->Movement.CurrentDirection;
-	if (PatrolRoute.Route.size() == 0)
+	if (PatrolRoute.Route.size() == 0 || Hostile)
 	{
 		return;
 	}
@@ -70,8 +70,47 @@ void NPC::UpdatePatrolRoute()
 	}
 }
 
+void NPC::UpdateHostile()
+{
+	if (!Hostile)
+	{
+		return;
+	}
+
+	if (CurrentEquipment->Type != EquipmentType::Gun || CurrentEquipment->Type != EquipmentType::Sword)
+	{
+		return;
+	}
+	
+	if (CurrentEquipment->Type == EquipmentType::Gun)
+	{
+		// if no line of sight find next move to have line of sight and move
+		//if line of sight attack
+		// EXAMPLE - Using player direction to decide, for example if its above and the enemy is below walking east, the character could shoot gun from two blocks ahead of the player downwards so the player will walk into them)
+	}
+
+	if (CurrentEquipment->Type == EquipmentType::Sword)
+	{
+		if (Target == nullptr)
+		{
+			//TARGET IS PLAYER/PLAYERS CREW
+			//is a target in range
+			//set target
+
+			//no target in range clear target
+		}
+		// Find next move to player and move
+		// if in range attack
+	}
+}
+
 void NPC::UpdateNPC(Game* game)
 {
+	if (Health <= 0)
+	{
+		//death animation
+		return;
+	}
 	UpdatePatrolRoute();
 	UpdateCharacterCollision(this);
 	UpdateCharacterHitbox(this);
