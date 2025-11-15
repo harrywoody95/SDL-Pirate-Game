@@ -95,6 +95,19 @@ void SetPlayerAnimation(Game* game, Character* Character)
 {
 	for (int x = 0; x < game->AnimationList.CharacterAnimations.size(); x++)
 	{
+		if (Character->Health < 1)
+		{
+
+			if (game->AnimationList.CharacterAnimations[x].direction == East && game->AnimationList.CharacterAnimations[x].state == Dead && Character->PlayerSprite->Movement.LastState != Dead)
+			{
+				game->AnimationList.CharacterAnimations[x].ResetAnimation();
+				Character->PlayerAnimations.CharacterAnimation = game->AnimationList.CharacterAnimations[x];
+				Character->PlayerSprite->Texture = Character->PlayerAnimations.CharacterAnimation.Textures[0];
+				return;
+			}
+			else
+				continue;
+		}
 
 		if (game->AnimationList.CharacterAnimations[x].direction == Character->PlayerSprite->Movement.CurrentDirection && game->AnimationList.CharacterAnimations[x].state == Character->PlayerSprite->Movement.CurrentState)
 		{
@@ -132,6 +145,21 @@ void SetCostumeAnimation(Game* game, Character* Character)
 	}
 	for (int x = 0; x < game->AnimationList.CostumeAnimations.size(); x++)
 	{
+		if (Character->Health < 1)
+		{
+
+			if (game->AnimationList.CostumeAnimations[x].direction == East && game->AnimationList.CostumeAnimations[x].state == Dead &&
+				Character->CurrentCostume->Type == game->AnimationList.CostumeAnimations[x].costumeType &&
+				game->AnimationList.CostumeAnimations[x].colour == Character->CurrentCostume->CostumeColour &&
+				Character->PlayerSprite->Movement.LastState != Dead)
+			{
+				game->AnimationList.CostumeAnimations[x].ResetAnimation();
+				Character->PlayerAnimations.CostumeAnimation = {};
+				Character->PlayerAnimations.CostumeAnimation = game->AnimationList.CostumeAnimations[x];
+				Character->CostumeSprite->Texture = Character->PlayerAnimations.CostumeAnimation.value().Textures[0];
+				return;
+			}
+		}
 		if (game->AnimationList.CostumeAnimations[x].direction == Character->PlayerSprite->Movement.CurrentDirection &&
 			game->AnimationList.CostumeAnimations[x].state == Character->PlayerSprite->Movement.CurrentState &&
 			Character->CurrentCostume->Type == game->AnimationList.CostumeAnimations[x].costumeType &&
@@ -163,7 +191,7 @@ void SetCostumeAnimation(Game* game, Character* Character)
 
 void SetEquipmentAnimation(Game* game, Character* Character)
 {
-	if (Character->CurrentEquipment == nullptr || Character->PlayerSprite->Movement.CurrentState == Attack)
+	if (Character->CurrentEquipment == nullptr || Character->PlayerSprite->Movement.CurrentState == Attack || Character->Health < 1)
 	{
 		Character->PlayerAnimations.EquipmentAnimation.reset();
 		Character->EquipmentSprite->Texture = nullptr;
@@ -210,6 +238,7 @@ void SetEffectAnimation(Game* game, Character* Character)
 
 void UpdateCharacterAnimation(Game* game, Character* Character)
 {
+
 	if (Character->PlayerSprite->Movement.LastDirection != Character->PlayerSprite->Movement.CurrentDirection || Character->PlayerSprite->Movement.LastState != Character->PlayerSprite->Movement.CurrentState)
 	{
 		SetPlayerAnimation(game, Character);
@@ -226,6 +255,11 @@ void UpdateCharacterAnimation(Game* game, Character* Character)
 
 	if (Character->PlayerAnimations.CharacterAnimation.lastindex >= Character->PlayerAnimations.CharacterAnimation.Textures.size())
 	{
+		if (Character->PlayerSprite->Movement.CurrentState == Dead)
+		{
+			return;
+		}
+
 		Character->PlayerAnimations.CharacterAnimation.lastindex = 0;
 	}
 
@@ -297,6 +331,11 @@ void UpdateCostumeAnimation(Game* game, Character* Character)
 
 	if (Character->PlayerAnimations.CostumeAnimation.value().lastindex >= Character->PlayerAnimations.CostumeAnimation.value().Textures.size())
 	{
+		if (Character->PlayerSprite->Movement.CurrentState == Dead)
+		{
+			return;
+		}
+
 		Character->PlayerAnimations.CostumeAnimation.value().lastindex = 0;
 	}
 

@@ -11,13 +11,16 @@ struct PatrolRoute {
 
 struct NPC : public Character
 {
-	bool Hostile = false;
+	bool Hostile = true;
 	Character* Target = nullptr;
 	PatrolRoute PatrolRoute;
 	void UpdateNPC(Game* game);
 	void NPCBoxCollision(Game* game);
 	void UpdatePatrolRoute();
-	void UpdateHostile();
+	void UpdateHostile(Game* game);
+	int DeadBodyDisappearCounter = 0;
+	bool PlayerInRange(Game* game, int Tollerence);
+	void Die(Game* game);
 };
 
 

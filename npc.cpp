@@ -31,7 +31,7 @@ void NPC::UpdatePatrolRoute()
 	PlayerSprite->Movement.Speed = 1;
 	PlayerSprite->Movement.LastState = PlayerSprite->Movement.CurrentState;
 	PlayerSprite->Movement.LastDirection = PlayerSprite->Movement.CurrentDirection;
-	if (PatrolRoute.Route.size() == 0 || Hostile)
+	if (PatrolRoute.Route.size() == 0 || Target != nullptr)
 	{
 		return;
 	}
@@ -70,20 +70,29 @@ void NPC::UpdatePatrolRoute()
 	}
 }
 
-void NPC::UpdateHostile()
+void NPC::UpdateHostile(Game* game)
 {
 	if (!Hostile)
 	{
 		return;
 	}
 
-	if (CurrentEquipment->Type != EquipmentType::Gun || CurrentEquipment->Type != EquipmentType::Sword)
+	if (CurrentEquipment->Type != EquipmentType::Gun && CurrentEquipment->Type != EquipmentType::Sword)
 	{
 		return;
 	}
 	
 	if (CurrentEquipment->Type == EquipmentType::Gun)
 	{
+		if (PlayerInRange(game, 300))
+		{
+			std::cout << "Yes" << std::endl;
+		}
+		else
+		{
+
+		}
+		//is player in range
 		// if no line of sight find next move to have line of sight and move
 		//if line of sight attack
 		// EXAMPLE - Using player direction to decide, for example if its above and the enemy is below walking east, the character could shoot gun from two blocks ahead of the player downwards so the player will walk into them)
@@ -93,14 +102,33 @@ void NPC::UpdateHostile()
 	{
 		if (Target == nullptr)
 		{
+			if (PlayerInRange(game, 300))
+			{
+				std::cout << "Yes" << std::endl;
+				//settarget
+				
+
+
+
+			}
+			else
+			{
+
+			}
+
 			//TARGET IS PLAYER/PLAYERS CREW
+			// 
+			// 
 			//is a target in range
 			//set target
 
 			//no target in range clear target
 		}
+		//StartHere ----------------------------------------------------------------------------------
+
 		// Find next move to player and move
 		// if in range attack
+		//no target in range clear target
 	}
 }
 
@@ -108,7 +136,7 @@ void NPC::UpdateNPC(Game* game)
 {
 	if (Health <= 0)
 	{
-		//death animation
+		Die(game);
 		return;
 	}
 	UpdatePatrolRoute();
@@ -117,6 +145,7 @@ void NPC::UpdateNPC(Game* game)
 	NPCBoxCollision(game);
 	UpdateAllCharacterAnimation(game, this);
 	HandleCharacterProjectileFiring(this, game);
+	UpdateHostile(game);
 }
 
 void NPC::NPCBoxCollision(Game* Game)
@@ -161,4 +190,76 @@ void NPC::NPCBoxCollision(Game* Game)
 		this->PlayerSprite->Movement.Velocity = OutVelocity;
 		this->PlayerSprite->Movement.CurrentState = Idle;
 	}
+}
+
+bool NPC::PlayerInRange(Game* game, int Tolerence)
+{
+	Entity* player = game->PlayerEntity;
+	
+	int DistanceX = 0;
+	int DistanceY = 0;
+
+	if (player->Player.PlayerSprite->Movement.Position.x > this->PlayerSprite->Movement.Position.x)
+	{
+		DistanceX = player->Player.PlayerSprite->Movement.Position.x - this->PlayerSprite->Movement.Position.x;
+	}
+	else
+	{
+		DistanceX = this->PlayerSprite->Movement.Position.x - player->Player.PlayerSprite->Movement.Position.x;
+	}
+
+	if (player->Player.PlayerSprite->Movement.Position.y > this->PlayerSprite->Movement.Position.y)
+	{
+		if(player->Player.PlayerSprite->Movement.Position.y - this->PlayerSprite->Movement.Position.y)
+		{
+			DistanceY = player->Player.PlayerSprite->Movement.Position.y - this->PlayerSprite->Movement.Position.y;
+		}
+	}
+	else
+	{
+		DistanceY = this->PlayerSprite->Movement.Position.y - player->Player.PlayerSprite->Movement.Position.y;
+	}
+
+	if (DistanceX < 0)
+	{
+		DistanceX = DistanceX * -1;
+	}
+
+	if (DistanceY < 0)
+	{
+		DistanceY = DistanceY * -1;
+	}
+
+	if (DistanceX <= Tolerence && DistanceY <= Tolerence)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+void NPC::Die(Game* game)
+{
+	if (DeadBodyDisappearCounter > 2000)
+	{
+		PlayerSprite->DeleteSprite(&game->SpriteList);
+		CostumeSprite->DeleteSprite(&game->SpriteList);
+		EquipmentSprite->DeleteSprite(&game->SpriteList);
+		EffectSprite->DeleteSprite(&game->SpriteList);
+		for (int x = 0; x < game->EntityList.size(); x++)
+		{
+			if (&game->EntityList[x]->NPC == this)
+			{
+				DestroyEntity(game, game->EntityList[x]);
+				return;
+			}
+		}
+	}
+	PlayerSprite->Movement.Speed = 0;
+	PlayerSprite->Movement.CurrentState = Dead;
+	UpdateAllCharacterAnimation(game, this);
+	PlayerSprite->Movement.LastState = Dead;
+	Collision = { 0,0,0,0 };
+	DeadBodyDisappearCounter++;
+	return;
 }

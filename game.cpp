@@ -58,7 +58,7 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 
 	//create costume and equipment
 	Entity* costume = CreateItem("BlackBeard's Cloak", 250, ItemType::Costume, this);
-	costume->Item.Costume = CreateCostume(CostumeType::Advanced, Colour::Yellow, 20);
+	costume->Item.Costume = CreateCostume(CostumeType::Basic, Colour::Red, 20);
 
 	Entity* npccostume = CreateItem("BlackBeard's skipper", 250, ItemType::Costume, this);
 	npccostume->Item.Costume = CreateCostume(CostumeType::Basic, Colour::White, 5);
@@ -492,7 +492,7 @@ void Game::LoadAnimations()
 			std::string FileName = "";
 			std::string BasePath = Path + ColourText + "/";
 			FileName = "Player-Die-" + CostumeText + "-" + ColourText;
-			Animation a = Animation(BasePath, FileName, 4, Direction::East, State::Dead);
+			Animation a = Animation(BasePath, FileName, 4, Direction::East, State::Dead, StringToCostumeType(CostumeText), StringToColour(ColourText));
 			AnimationList.CostumeAnimations.push_back(a);
 			//player die here
 
