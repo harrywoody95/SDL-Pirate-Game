@@ -32,9 +32,7 @@ void NPC::UpdatePatrolRoute()
 
 	int travelDistance = (PlayerSprite->BitSize * PlayerSprite->Scale) * 2;
 
-	PlayerSprite->Movement.Speed = 1;
-	PlayerSprite->Movement.LastState = PlayerSprite->Movement.CurrentState;
-	PlayerSprite->Movement.LastDirection = PlayerSprite->Movement.CurrentDirection;
+	SetSpeed(1);
 	if (PatrolRoute.Route.size() == 0 || Target != nullptr)
 	{
 		return;
@@ -495,6 +493,7 @@ void NPC::MoveInDirection(Direction direction)
 		Direction* d = new Direction(direction);
 		HostileDirection = d;
 	}
+	// if move blocked find a path around
 	return;
 }
 
