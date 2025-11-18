@@ -2,5 +2,5 @@
 using FLAG = bool;
 
 struct Flags {
-	FLAG MainMenu = true;
+	FLAG MainMenu = false;
 };

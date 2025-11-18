@@ -11,7 +11,7 @@ struct PatrolRoute {
 
 struct NPC : public Character
 {
-	bool Hostile = true;
+	bool Hostile = false;
 	Character* Target = nullptr;
 	PatrolRoute PatrolRoute;
 	Direction* HostileDirection = nullptr;

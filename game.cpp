@@ -70,7 +70,7 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	sword->Item.Equipment = CreateEquipment(EquipmentType::Sword, 20);
 
 	PlayerEntity->Player.CurrentCostume = costume->Item.Costume; 
-	PlayerEntity->Player.CurrentEquipment = Gun->Item.Equipment;
+	PlayerEntity->Player.CurrentEquipment = sword->Item.Equipment;
 
 	Entity* npc = CreateNPC(150, 150, this);
 	npc->NPC.PatrolRoute.Route.push_back(Direction::East);
@@ -713,7 +713,7 @@ void Game::Render()
 		{
 			if (Scenes[x].Name == "MainMenu")
 			{
-				Scenes[x].DrawScene(SceneType::Mainmenu);
+				Scenes[x].DrawScene(SceneType::Mainmenu, this);
 			}
 		}
 		SDL_RenderPresent(Renderer::MainRenderer);

@@ -13,7 +13,7 @@ struct Scene {
 	std::vector<Sprite*> Textures;
 	int fade;
 	void CreateScene(SceneType st, Game* game);
-	void DrawScene(SceneType st);
+	void DrawScene(SceneType st, Game* game);
 	void UpdateScene(SceneType st, Game* Game);
 	void FadeIn(Game* Game);
 	void FadeOut(Game* Game);

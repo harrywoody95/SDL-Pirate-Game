@@ -137,6 +137,7 @@ void HandleCharacterProjectileHit(Character* character, Entity* projectile, Game
 	std::cout << character->Health << "/100" << std::endl;
 	projectile->Projectile.ProjectileSprite->DeleteSprite(&game->SpriteList);
 	DestroyEntity(game, projectile);
+	character->BeenAttacked = true;
 }
 
 void HandleCharacterSwordHit(Character* character, Equipment* item, Game* game)
@@ -149,6 +150,7 @@ void HandleCharacterSwordHit(Character* character, Equipment* item, Game* game)
 	std::cout << "Sword hit NPC" << std::endl;
 	character->Health -= item->DamageStat - DamageReduction;
 	std::cout << character->Health << "/100" << std::endl;
+	character->BeenAttacked = true;
 }
 
 bool CharacterFacingCharacter(Character* primaryCharacter, Character* secondaryCharacter)

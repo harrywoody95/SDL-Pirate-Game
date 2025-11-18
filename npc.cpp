@@ -352,6 +352,10 @@ void NPC::UpdateNPC(Game* game)
 		Die(game);
 		return;
 	}
+	if (BeenAttacked)
+	{
+		Hostile = true;
+	}
 	UpdatePatrolRoute();
 	UpdateCharacterCollision(this);
 	UpdateCharacterHitbox(this);

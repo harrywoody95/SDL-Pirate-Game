@@ -18,6 +18,7 @@ struct Character {
 	int GunCooldown = 0;
 	bool CanFireGun = true;
 	bool CanSwordSlash = true;
+	bool BeenAttacked = false;
 };
 
 void UpdateCharacterCollision(Character* character);

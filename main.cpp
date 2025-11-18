@@ -14,7 +14,6 @@ int main(int argc, char *argv[])
 
     Game Game;
     Game.CreateGame("Pirate Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, false);
-    Game.Flags.MainMenu = false;
 
     while (Game.IsRunning)
     {
