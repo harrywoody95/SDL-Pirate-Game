@@ -1,8 +1,7 @@
 #include "Character.h"
 #include "Game.h"
 #include "Movement.h"
-bool CanFireGun = true;
-bool CanSwordSlash = true;
+
 std::vector <Character*> NearbyCharacters(Game* game, Character* character);
 
 void UpdateCharacterCollision(Character* character)
@@ -34,12 +33,12 @@ void HandleCharacterProjectileFiring(Character* character, Game* game)
 {
 	//Player* Player = &game->PlayerEntity->Player;
 
-	if (character->CurrentEquipment == nullptr || character->CurrentEquipment->Type == EquipmentType::Sword)
+	if (character->CurrentEquipment == nullptr || character->CurrentEquipment->Type != EquipmentType::Gun)
 	{
 		return;
 	}
 
-	if (CanFireGun)
+	if (character->CanFireGun)
 	{
 		if (character->PlayerSprite->Movement.CurrentState == Attack && character->PlayerAnimations.CharacterAnimation.lastindex == 2)
 		{
@@ -72,14 +71,18 @@ void HandleCharacterProjectileFiring(Character* character, Game* game)
 
 
 			Entity* Projectile = CreateProjectile(ProjectilePosition.x, ProjectilePosition.y, ProjectileType::Bullet, character->PlayerSprite->Movement.CurrentDirection, character->CurrentEquipment->DamageStat, game);
-			CanFireGun = false;
+			
+			character->CanFireGun = false;
+			//character->PlayerSprite->Movement.LastState = character->PlayerSprite->Movement.CurrentState;
+			//character->PlayerSprite->Movement.CurrentState = Idle;
 		}
 	}
 	else
 	{
+		
 		if (character->PlayerAnimations.CharacterAnimation.lastindex != 2)
 		{
-			CanFireGun = true;
+			character->CanFireGun = true;
 		}
 	}
 }
@@ -88,17 +91,17 @@ void HandleCharacterSwordSlash(Character* character, Game* game)
 {
 	//Player* Player = &game->PlayerEntity->Player;
 
-	if (character->CurrentEquipment == nullptr || character->CurrentEquipment->Type == EquipmentType::Gun)
+	if (character->CurrentEquipment == nullptr || character->CurrentEquipment->Type != EquipmentType::Sword)
 	{
 		return;
 	}
 
-	if (CanSwordSlash)
+	if (character->CanSwordSlash)
 	{
 		std::vector <Character*> CharactersToSlash = NearbyCharacters(game, character);
 		if (character->PlayerSprite->Movement.CurrentState == Attack && character->PlayerAnimations.CharacterAnimation.lastindex == 2)
 		{
-			CanSwordSlash = false;
+			character->CanSwordSlash = false;
 			for (int x = 0; x < CharactersToSlash.size(); x++)
 			{
 				HandleCharacterSwordHit(CharactersToSlash[x], character->CurrentEquipment, game);
@@ -109,7 +112,7 @@ void HandleCharacterSwordSlash(Character* character, Game* game)
 	{
 		if (character->PlayerAnimations.CharacterAnimation.lastindex != 2)
 		{
-			CanSwordSlash = true;
+			character->CanSwordSlash = true;
 		}
 	}
 }

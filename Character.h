@@ -15,6 +15,9 @@ struct Character {
 	PlayerAnimation PlayerAnimations;
 	Box Collision;
 	Box HitBox;
+	int GunCooldown = 0;
+	bool CanFireGun = true;
+	bool CanSwordSlash = true;
 };
 
 void UpdateCharacterCollision(Character* character);
