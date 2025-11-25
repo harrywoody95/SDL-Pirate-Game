@@ -70,7 +70,7 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	sword->Item.Equipment = CreateEquipment(EquipmentType::Sword, 20);
 
 	PlayerEntity->Player.CurrentCostume = costume->Item.Costume; 
-	PlayerEntity->Player.CurrentEquipment = sword->Item.Equipment;
+	PlayerEntity->Player.CurrentEquipment = Gun->Item.Equipment;
 
 	Entity* npc = CreateNPC(150, 150, this);
 	npc->NPC.PatrolRoute.Route.push_back(Direction::East);
@@ -82,7 +82,7 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	npc->NPC.PatrolRoute.Route.push_back(Direction::South);
 	npc->NPC.PatrolRoute.Route.push_back(Direction::North);
 	npc->NPC.CurrentCostume = npccostume->Item.Costume;
-	npc->NPC.CurrentEquipment = sword->Item.Equipment;
+	npc->NPC.CurrentEquipment = Gun->Item.Equipment;
 
 	//create main menu
 	Scene MainMenu;
