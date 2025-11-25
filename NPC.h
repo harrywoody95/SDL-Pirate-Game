@@ -25,6 +25,10 @@ struct NPC : public Character
 	void Die(Game* game);
 	bool LineOfSight(Character* Target);
 	void FaceTarget(Character* Target);
+	void AttackTarget(Character* Target);
+	void MoveInDirection(Direction Direction);
+	bool ScanforTarget(Game* game, int range);
+	void SetSpeed(int speed);
 };
 
 

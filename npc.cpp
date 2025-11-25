@@ -32,9 +32,7 @@ void NPC::UpdatePatrolRoute()
 
 	int travelDistance = (PlayerSprite->BitSize * PlayerSprite->Scale) * 2;
 
-	PlayerSprite->Movement.Speed = 1;
-	PlayerSprite->Movement.LastState = PlayerSprite->Movement.CurrentState;
-	PlayerSprite->Movement.LastDirection = PlayerSprite->Movement.CurrentDirection;
+	SetSpeed(1);
 	if (PatrolRoute.Route.size() == 0 || Target != nullptr)
 	{
 		return;
@@ -88,153 +86,61 @@ void NPC::UpdateHostile(Game* game)
 	
 	if (CurrentEquipment->Type == EquipmentType::Gun)
 	{
-		if (PlayerInRange(game, 500) && Target == nullptr)
-		{
-			Target = &game->PlayerEntity->Player;
-		}
-		if (!PlayerInRange(game, 500))
-		{
-			Target = nullptr;
-		}
-		if (Target == nullptr)
-		{
-			return;
-		}
+		ScanforTarget(game, 500);
 		if (LineOfSight(this->Target))
 		{
 			//dont move.. attack
-			PlayerSprite->Movement.LastState = PlayerSprite->Movement.CurrentState;
-			FaceTarget(Target);
-			PlayerSprite->Movement.CurrentState = Attack;
-			PlayerSprite->Movement.Velocity = { 0,0 };
-			if (HostileDirection != nullptr)
-			{
-				delete HostileDirection;
-				HostileDirection = nullptr;
-			}
+			AttackTarget(this->Target);
 			return;
 		}
 
-		if (HostileDirection == nullptr || game->PlayerEntity->Player.PlayerSprite->Movement.CurrentDirection != game->PlayerEntity->Player.PlayerSprite->Movement.LastDirection)
+		if (HostileDirection != nullptr && game->PlayerEntity->Player.PlayerSprite->Movement.CurrentDirection == game->PlayerEntity->Player.PlayerSprite->Movement.LastDirection)
 		{
+			return;
+		}
 
-			Vec2* HostilePosition = &this->PlayerSprite->Movement.Position;
-			Vec2* TargetPosition = &game->PlayerEntity->Player.PlayerSprite->Movement.Position;
+		Vec2* HostilePosition = &this->PlayerSprite->Movement.Position;
+		Vec2* TargetPosition = &game->PlayerEntity->Player.PlayerSprite->Movement.Position;
+		int distanceX = abs(TargetPosition->x - HostilePosition->x);
+		int distanceY = abs(TargetPosition->y - HostilePosition->y);
 
-			int distanceX = abs(TargetPosition->x - HostilePosition->x);
-			int distanceY = abs(TargetPosition->y - HostilePosition->y);
-			if (distanceY > distanceX)
+		if (distanceY > distanceX)
+		{
+			SetSpeed(1);
+			if (HostilePosition->y > TargetPosition->y)
 			{
-
-				PlayerSprite->Movement.Speed = 1;
-				PlayerSprite->Movement.LastState = PlayerSprite->Movement.CurrentState;
-				PlayerSprite->Movement.LastDirection = PlayerSprite->Movement.CurrentDirection;
-				if (HostilePosition->y > TargetPosition->y)
-				{
-					PlayerSprite->Movement.CurrentDirection = North;
-					PlayerSprite->Movement.CurrentState = State::Walking;
-					if (!MoveBlocked)
-					{
-						PlayerSprite->Movement.Velocity = DirectionToVelocity(PlayerSprite->Movement.CurrentDirection);
-					}
-					if (HostileDirection != nullptr)
-					{
-						delete HostileDirection;
-						HostileDirection = nullptr;
-					}
-					Direction* d = new Direction(North);
-					HostileDirection = d;
-					return;
-				}
-				else
-				{
-					PlayerSprite->Movement.CurrentDirection = South;
-					PlayerSprite->Movement.CurrentState = State::Walking;
-					if (!MoveBlocked)
-					{
-						PlayerSprite->Movement.Velocity = DirectionToVelocity(PlayerSprite->Movement.CurrentDirection);
-					}
-					if (HostileDirection != nullptr)
-					{
-						delete HostileDirection;
-						HostileDirection = nullptr;
-					}
-					Direction* d = new Direction(South);
-					HostileDirection = d;
-					return;
-				}
+				MoveInDirection(North);
+				return;
 			}
 			else
 			{
-
-				PlayerSprite->Movement.Speed = 1;
-				PlayerSprite->Movement.LastState = PlayerSprite->Movement.CurrentState;
-				PlayerSprite->Movement.LastDirection = PlayerSprite->Movement.CurrentDirection;
-				if (HostilePosition->x > TargetPosition->x)
-				{
-					PlayerSprite->Movement.CurrentDirection = West;
-					PlayerSprite->Movement.CurrentState = State::Walking;
-					if (!MoveBlocked)
-					{
-						PlayerSprite->Movement.Velocity = DirectionToVelocity(PlayerSprite->Movement.CurrentDirection);
-					}
-					if (HostileDirection != nullptr)
-					{
-						delete HostileDirection;
-						HostileDirection = nullptr;
-					}
-					Direction* d = new Direction(West);
-					HostileDirection = d;
-					return;
-				}
-				else
-				{
-					PlayerSprite->Movement.CurrentDirection = East;
-					PlayerSprite->Movement.CurrentState = State::Walking;
-					if (!MoveBlocked)
-					{
-						PlayerSprite->Movement.Velocity = DirectionToVelocity(PlayerSprite->Movement.CurrentDirection);
-					}
-					if (HostileDirection != nullptr)
-					{
-						delete HostileDirection;
-						HostileDirection = nullptr;
-					}
-					Direction* d = new Direction(East);
-					HostileDirection = d;
-					return;
-				}
+				MoveInDirection(South);
+				return;
+			}
+		}
+		else
+		{
+			SetSpeed(1);
+			if (HostilePosition->x > TargetPosition->x)
+			{
+				MoveInDirection(West);
+				return;
+			}
+			else
+			{
+				MoveInDirection(East);
+				return;
 			}
 		}
 	}
 
 	if (CurrentEquipment->Type == EquipmentType::Sword)
 	{
-		if (PlayerInRange(game, 500) && Target == nullptr)
-		{
-			Target = &game->PlayerEntity->Player;
-		}
-		if (!PlayerInRange(game, 500))
-		{
-			Target = nullptr;
-		}
-		if (Target == nullptr)
-		{
-			return;
-		}
+		ScanforTarget(game, 500);
 		if (PlayerInRange(game, 40))
 		{
 			//dont move.. attack
-			PlayerSprite->Movement.LastState = PlayerSprite->Movement.CurrentState;
-			FaceTarget(Target);
-			PlayerSprite->Movement.CurrentState = Attack;
-			PlayerSprite->Movement.Velocity = { 0,0 };
-			if (HostileDirection != nullptr)
-			{
-				delete HostileDirection;
-				HostileDirection = nullptr;
-			}
-			return;
+			AttackTarget(Target);
 		}
 
 		if (HostileDirection == nullptr || game->PlayerEntity->Player.PlayerSprite->Movement.CurrentDirection != game->PlayerEntity->Player.PlayerSprite->Movement.LastDirection || !PlayerInRange(game, 20))
@@ -261,83 +167,31 @@ void NPC::UpdateHostile(Game* game)
 
 			if (distanceY > distanceX)
 			{
-				PlayerSprite->Movement.Speed = 2;
-				PlayerSprite->Movement.LastState = PlayerSprite->Movement.CurrentState;
-				PlayerSprite->Movement.LastDirection = PlayerSprite->Movement.CurrentDirection;
+				SetSpeed(2);
 
 				if (HostilePosition->y > TargetPosition->y)
 				{
-					PlayerSprite->Movement.CurrentDirection = North;
-					PlayerSprite->Movement.CurrentState = State::Walking;
-					if (!MoveBlocked)
-					{
-						PlayerSprite->Movement.Velocity = DirectionToVelocity(PlayerSprite->Movement.CurrentDirection);
-					}
-					if (HostileDirection != nullptr)
-					{
-						delete HostileDirection;
-						HostileDirection = nullptr;
-					}
-					Direction* d = new Direction(North);
-					HostileDirection = d;
+					MoveInDirection(North);
 					return;
 				}
 				else
 				{
-					PlayerSprite->Movement.CurrentDirection = South;
-					PlayerSprite->Movement.CurrentState = State::Walking;
-					if (!MoveBlocked)
-					{
-						PlayerSprite->Movement.Velocity = DirectionToVelocity(PlayerSprite->Movement.CurrentDirection);
-					}
-					if (HostileDirection != nullptr)
-					{
-						delete HostileDirection;
-						HostileDirection = nullptr;
-					}
-					Direction* d = new Direction(South);
-					HostileDirection = d;
+					MoveInDirection(South);
 					return;
 				}
 			}
 			else
 			{
-				PlayerSprite->Movement.Speed = 2;
-				PlayerSprite->Movement.LastState = PlayerSprite->Movement.CurrentState;
-				PlayerSprite->Movement.LastDirection = PlayerSprite->Movement.CurrentDirection;
+				SetSpeed(2);
 
 				if (HostilePosition->x > TargetPosition->x)
 				{
-					PlayerSprite->Movement.CurrentDirection = West;
-					PlayerSprite->Movement.CurrentState = State::Walking;
-					if (!MoveBlocked)
-					{
-						PlayerSprite->Movement.Velocity = DirectionToVelocity(PlayerSprite->Movement.CurrentDirection);
-					}
-					if (HostileDirection != nullptr)
-					{
-						delete HostileDirection;
-						HostileDirection = nullptr;
-					}
-					Direction* d = new Direction(West);
-					HostileDirection = d;
+					MoveInDirection(West);
 					return;
 				}
 				else
 				{
-					PlayerSprite->Movement.CurrentDirection = East;
-					PlayerSprite->Movement.CurrentState = State::Walking;
-					if (!MoveBlocked)
-					{
-						PlayerSprite->Movement.Velocity = DirectionToVelocity(PlayerSprite->Movement.CurrentDirection);
-					}
-					if (HostileDirection != nullptr)
-					{
-						delete HostileDirection;
-						HostileDirection = nullptr;
-					}
-					Direction* d = new Direction(East);
-					HostileDirection = d;
+					MoveInDirection(East);
 					return;
 				}
 			}
@@ -607,3 +461,63 @@ void NPC::FaceTarget(Character* Target)
 	}
 }
 
+void NPC::AttackTarget(Character* Target)
+{
+	PlayerSprite->Movement.LastState = PlayerSprite->Movement.CurrentState;
+	FaceTarget(Target);
+	PlayerSprite->Movement.CurrentState = Attack;
+	PlayerSprite->Movement.Velocity = { 0,0 };
+	if (HostileDirection != nullptr)
+	{
+		delete HostileDirection;
+		HostileDirection = nullptr;
+	}
+	return;
+}
+
+void NPC::MoveInDirection(Direction direction)
+{
+	PlayerSprite->Movement.CurrentDirection = direction;
+	PlayerSprite->Movement.CurrentState = State::Walking;
+	if (!MoveBlocked)
+	{
+		PlayerSprite->Movement.Velocity = DirectionToVelocity(PlayerSprite->Movement.CurrentDirection);
+	}
+	if (HostileDirection != nullptr)
+	{
+		delete HostileDirection;
+		HostileDirection = nullptr;
+	}
+	if (Hostile)
+	{
+		Direction* d = new Direction(direction);
+		HostileDirection = d;
+	}
+	// if move blocked find a path around
+	return;
+}
+
+bool NPC::ScanforTarget(Game* game, int range)
+{
+	if (PlayerInRange(game, range) && Target == nullptr)
+	{
+		Target = &game->PlayerEntity->Player;
+		return true;
+	}
+	if (!PlayerInRange(game, range))
+	{
+		Target = nullptr;
+		return false;
+	}
+	if (Target == nullptr)
+	{
+		return false;
+	}
+}
+
+void NPC::SetSpeed(int speed)
+{
+	PlayerSprite->Movement.Speed = speed;
+	PlayerSprite->Movement.LastState = PlayerSprite->Movement.CurrentState;
+	PlayerSprite->Movement.LastDirection = PlayerSprite->Movement.CurrentDirection;
+}
