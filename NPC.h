@@ -16,11 +16,12 @@ struct NPC : public Character
 	PatrolRoute PatrolRoute;
 	Direction* HostileDirection = nullptr;
 	bool MoveBlocked =false;
+	int DeadBodyDisappearCounter = 0;
+
 	void UpdateNPC(Game* game);
 	void NPCBoxCollision(Game* game);
 	void UpdatePatrolRoute();
 	void UpdateHostile(Game* game);
-	int DeadBodyDisappearCounter = 0;
 	bool PlayerInRange(Game* game, int Tollerence);
 	void Die(Game* game);
 	bool LineOfSight(Character* Target);

@@ -1,4 +1,7 @@
 ﻿#include "Game.h"
+#include "imgui/imgui.h"
+#include "imgui/backends/imgui_impl_sdl2.h"
+#include "imgui/backends/imgui_impl_sdlrenderer2.h"
 #include <iostream>
 #include "Scenes.h"
 #include "SDL_mixer.h"
@@ -709,20 +712,32 @@ void Game::Render()
 	//add stuff to be rendered
 	if (Flags.MainMenu)
 	{
-		for (int x = 0; x < Scenes.size(); x++)
-		{
-			if (Scenes[x].Name == "MainMenu")
-			{
-				Scenes[x].DrawScene(SceneType::Mainmenu, this);
-			}
-		}
-		SDL_RenderPresent(Renderer::MainRenderer);
+		//for (int x = 0; x < Scenes.size(); x++)
+		//{
+		//	if (Scenes[x].Name == "MainMenu")
+		//	{
+		//		Scenes[x].DrawScene(SceneType::Mainmenu, this);
+		//	}
+		//}
+		//SDL_RenderPresent(Renderer::MainRenderer);
 	}
 	else
 	{
 		Map.DrawMap(&Camera);
 		SpriteList.Draw(this);
 		DrawCollsionBoxes(this);
+
+		//imgui render
+
+		if (Flags.EditorActive)
+		{
+			Editor.RenderEditor();
+		}
+
+		ImGui::Render();
+		ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData(), this->Renderer.MainRenderer);
+	
+
 		SDL_RenderPresent(Renderer::MainRenderer);
 	}
 	
