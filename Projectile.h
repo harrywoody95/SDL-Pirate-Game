@@ -15,9 +15,8 @@ struct Projectile {
 	Entity* ShooterPtr;
 	ProjectileType Type;
 	int Damage;
+	// **** collision box instead? ****
 	Box HitBox;
-
-
 };
 
 Entity* CreateProjectile(float x, float y, ProjectileType Type, Direction Direction, int Damage, Game* game);

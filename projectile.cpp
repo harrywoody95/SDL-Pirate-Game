@@ -31,7 +31,7 @@ void RemoveDistantProjectile(Game* game, Entity* projectile)
 {
 	int DestroyDistance = 1500;
 	Vec2 ProjectilePosition = projectile->Projectile.ProjectileSprite->Movement.Position;
-	Vec2 PlayerPosition = game->PlayerEntity->Player.PlayerSprite->Movement.Position;
+	Vec2 PlayerPosition = game->PlayerEntity->Player.Sprites.Body->Movement.Position;
 	if (ProjectilePosition.x > PlayerPosition.x + DestroyDistance || ProjectilePosition.x < PlayerPosition.x - DestroyDistance ||
 		ProjectilePosition.y > PlayerPosition.y + DestroyDistance || ProjectilePosition.y < PlayerPosition.y - DestroyDistance)
 	{

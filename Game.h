@@ -6,7 +6,6 @@
 #include "Flags.h"
 #include "SpriteList.h"
 #include "UserInput.h"
-#include "Scenes.h"
 #include "Audio.h"
 #include "Camera.h"
 #include <vector>
@@ -23,7 +22,6 @@ struct Game {
 	SpriteList SpriteList;
 	AnimationList AnimationList;
 	Entity* PlayerEntity;
-	std::vector <Scene> Scenes;
 	std::vector <Entity*> EntityList;
 	Audio Audio;
 	Camera Camera;

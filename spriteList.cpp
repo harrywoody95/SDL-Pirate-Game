@@ -48,7 +48,7 @@ SpriteList* SortSpriteDrawingOrder(SpriteList list)
 				b.Right = list.Sprites[x]->Movement.Position.x + Lowest->BitSize * Lowest->Scale;
 				b.Bottom = list.Sprites[x]->Movement.Position.y + Lowest->BitSize * Lowest->Scale;
 
-				if (b.Bottom < a.Bottom )//- ((a.Bottom - a.Top) / 2))
+				if (b.Bottom < a.Bottom )
 				{
 					Lowest = list.Sprites[x];
 				}

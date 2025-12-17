@@ -13,6 +13,9 @@ struct Game;
 struct Entity;
 struct Character;
 
+// **** This should be characterstate ****
+//**** Need animation type (costume, character, effect) and store that ****
+// **** Animation are game engine. do i really need to know what the animation is? can i not just play all animations when needed? ****
 enum AnimationType {
 	IdleUp,
 	IdleDown,
@@ -44,6 +47,7 @@ struct Animation {
 	Direction direction = {};
 	State state = {};
 	Colour colour = {};
+	// **** Can i use a template here as i know im getting a type of some sorts.. them use animation type to distinguish ****
 	CostumeType costumeType = CostumeType::None;
 	EquipmentType equipmentType = EquipmentType::None;
 	EffectType effectType = EffectType::None;
@@ -51,6 +55,7 @@ struct Animation {
 	int lastindex = 0;
 	Speed Speed = {};
 
+	// **** anything else i can think of for this? seems a lot of the same ****
 	Animation(std::string BasePath, std::string BaseFile, int frames, Direction Direction, State state);
 	Animation(std::string BasePath, std::string BaseFile, int frames, Direction Direction, State state, EquipmentType EquipmentType);
 	Animation(std::string BasePath, std::string BaseFile, int frames, Direction Direction, State State, CostumeType CostumeType, Colour Colour);

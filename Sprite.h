@@ -12,6 +12,7 @@ struct Sprite
 	SDL_Texture* Texture = nullptr;
 	int Scale;
 	int BitSize;
+	// **** Move collision box into entity using it. NPC, Player etc. ****
 	SDL_Rect CollisionBox = {};
 
 	void CreateSprite(float x, float y, const char* Filename, int SpriteBitSize, int Scale, SpriteList* SpriteList);
@@ -19,4 +20,11 @@ struct Sprite
 
 	void Update();
 	void Draw(Camera* camera);
+};
+
+struct CharacterSprites
+{
+	Sprite* Body;
+	Sprite* Costume;
+	Sprite* Equipment;
 };

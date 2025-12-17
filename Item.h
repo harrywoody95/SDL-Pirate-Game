@@ -16,6 +16,7 @@ struct Item {
 	std::string Name = "";
 	int Value = 0;
 	ItemType Type = ItemType::None;
+	// **** can i use template instead of having a varible for all? ****
 	Costume* Costume = nullptr;
 	Equipment* Equipment = nullptr;
 };

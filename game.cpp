@@ -1,6 +1,5 @@
 ﻿#include "Game.h"
 #include <iostream>
-#include "Scenes.h"
 #include "SDL_mixer.h"
 #include <fstream>
 #include "DebugBox.h"
@@ -83,11 +82,6 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	npc->NPC.PatrolRoute.Route.push_back(Direction::North);
 	npc->NPC.CurrentCostume = npccostume->Item.Costume;
 	npc->NPC.CurrentEquipment = Gun->Item.Equipment;
-
-	//create main menu
-	Scene MainMenu;
-	MainMenu.CreateScene(SceneType::Mainmenu, this);
-	Scenes.push_back(MainMenu);
 
 	//add music
 	Audio.MusicList.AddMusic("Assets/Audio/Music/m.ogg", "MainMenu");
@@ -706,26 +700,10 @@ void Game::HandleWindowEvent()
 void Game::Render()
 {
 	SDL_RenderClear(Renderer::MainRenderer);
-	//add stuff to be rendered
-	if (Flags.MainMenu)
-	{
-		for (int x = 0; x < Scenes.size(); x++)
-		{
-			if (Scenes[x].Name == "MainMenu")
-			{
-				Scenes[x].DrawScene(SceneType::Mainmenu, this);
-			}
-		}
-		SDL_RenderPresent(Renderer::MainRenderer);
-	}
-	else
-	{
-		Map.DrawMap(&Camera);
-		SpriteList.Draw(this);
-		DrawCollsionBoxes(this);
-		SDL_RenderPresent(Renderer::MainRenderer);
-	}
-	
+	Map.DrawMap(&Camera);
+	SpriteList.Draw(this);
+	DrawCollsionBoxes(this);
+	SDL_RenderPresent(Renderer::MainRenderer);
 }
 
 void Game::DestroyGame()
@@ -741,21 +719,8 @@ void Game::DestroyGame()
 
 void Game::UpdateGame()
 {
-	if (Flags.MainMenu)
-	{
-		for (int x = 0; x < Scenes.size(); x++)
-		{
-			if (Scenes[x].Name == "MainMenu")
-			{
-				Scenes[x].UpdateScene(SceneType::Mainmenu, this);
-			}
-		}
-	}
-	else
-	{
 		UserInput.Update(this);
 		SpriteList.Update();
 		UpdateEntities(this);
 		UpdateCamera(&Camera, &PlayerEntity->Player);
-	}
 }

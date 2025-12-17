@@ -8,7 +8,7 @@ enum class EquipmentType {
 };
 
 struct Equipment {
-	int DamageStat;
+	int DamageStat = 0;
 	EquipmentType Type = EquipmentType::None;
 };
 

@@ -19,10 +19,9 @@ enum Colour {
 
 struct Costume
 {
-
 	int DefenceStat;
 	CostumeType Type = CostumeType::None;
-	Colour CostumeColour;
+	Colour Colour;
 
 };
 

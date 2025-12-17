@@ -16,7 +16,6 @@ enum class EntityType {
 };
 
 struct Entity {
-	static int Nextid;
 	EntityType Type;
 	int id;
 

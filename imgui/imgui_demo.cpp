@@ -6992,7 +6992,7 @@ static void DemoWindowTables()
     {
         HelpMarker(
             "By default, right-clicking over a TableHeadersRow()/TableHeader() line will open the default context-menu.\n"
-            "Using ImGuiTableFlags_ContextMenuInBody we also allow right-clicking over columns body.");
+            "Using ImGuiTableFlags_ContextMenuInBody we also allow right-clicking over columns Body->");
         static ImGuiTableFlags flags1 = ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable | ImGuiTableFlags_Hideable | ImGuiTableFlags_Borders | ImGuiTableFlags_ContextMenuInBody;
 
         PushStyleCompact();

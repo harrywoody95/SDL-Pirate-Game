@@ -6,33 +6,23 @@ std::vector <Character*> NearbyCharacters(Game* game, Character* character);
 
 void UpdateCharacterCollision(Character* character)
 {
-	character->Collision.Left = (character->PlayerSprite->Movement.Position.x + ((character->PlayerSprite->BitSize * character->PlayerSprite->Scale) * CharacterCollisionBoxScale.Left ));
-	character->Collision.Top = (character->PlayerSprite->Movement.Position.y + ((character->PlayerSprite->BitSize * character->PlayerSprite->Scale) * CharacterCollisionBoxScale.Top));
+	character->Collision.Left = (character->Sprites.Body->Movement.Position.x + ((character->Sprites.Body->BitSize * character->Sprites.Body->Scale) * CharacterCollisionBoxScale.Left ));
+	character->Collision.Top = (character->Sprites.Body->Movement.Position.y + ((character->Sprites.Body->BitSize * character->Sprites.Body->Scale) * CharacterCollisionBoxScale.Top));
 
-	character->Collision.Bottom = (character->PlayerSprite->Movement.Position.y + ((character->PlayerSprite->BitSize * character->PlayerSprite->Scale) - 
-		((character->PlayerSprite->BitSize * character->PlayerSprite->Scale) * CharacterCollisionBoxScale.Bottom)));
+	character->Collision.Bottom = (character->Sprites.Body->Movement.Position.y + ((character->Sprites.Body->BitSize * character->Sprites.Body->Scale) - 
+		((character->Sprites.Body->BitSize * character->Sprites.Body->Scale) * CharacterCollisionBoxScale.Bottom)));
 
-	character->Collision.Right = (character->PlayerSprite->Movement.Position.x + ((character->PlayerSprite->BitSize * character->PlayerSprite->Scale) -
-		((character->PlayerSprite->BitSize * character->PlayerSprite->Scale) * CharacterCollisionBoxScale.Right)));
-	//character->Collision.Left = character->PlayerSprite->Movement.Position.x;
-	//character->Collision.Top = character->PlayerSprite->Movement.Position.y;
-	//character->Collision.Right = character->PlayerSprite->Movement.Position.x + (character->PlayerSprite->BitSize * character->PlayerSprite->Scale);
-	//character->Collision.Bottom = character->PlayerSprite->Movement.Position.y + (character->PlayerSprite->BitSize * character->PlayerSprite->Scale);
+	character->Collision.Right = (character->Sprites.Body->Movement.Position.x + ((character->Sprites.Body->BitSize * character->Sprites.Body->Scale) -
+		((character->Sprites.Body->BitSize * character->Sprites.Body->Scale) * CharacterCollisionBoxScale.Right)));
 }
 
 void UpdateCharacterHitbox(Character* character)
 {
 	character->HitBox = character->Collision;
-	//character->HitBox.Left = character->PlayerSprite->Movement.Position.x;
-	//character->HitBox.Top = character->PlayerSprite->Movement.Position.y;
-	//character->HitBox.Right = character->PlayerSprite->Movement.Position.x + (character->PlayerSprite->BitSize * character->PlayerSprite->Scale);
-	//character->HitBox.Bottom = character->PlayerSprite->Movement.Position.y + (character->PlayerSprite->BitSize * character->PlayerSprite->Scale);
 }
 
 void HandleCharacterProjectileFiring(Character* character, Game* game)
 {
-	//Player* Player = &game->PlayerEntity->Player;
-
 	if (character->CurrentEquipment == nullptr || character->CurrentEquipment->Type != EquipmentType::Gun)
 	{
 		return;
@@ -40,41 +30,41 @@ void HandleCharacterProjectileFiring(Character* character, Game* game)
 
 	if (character->CanFireGun)
 	{
-		if (character->PlayerSprite->Movement.CurrentState == Attack && character->PlayerAnimations.CharacterAnimation.lastindex == 2)
+		if (character->Sprites.Body->Movement.CurrentState == Attack && character->PlayerAnimations.CharacterAnimation.lastindex == 2)
 		{
-			Vec2 velocity = DirectionToVelocity(character->PlayerSprite->Movement.CurrentDirection);
+			Vec2 velocity = DirectionToVelocity(character->Sprites.Body->Movement.CurrentDirection);
 			Vec2 ProjectilePosition = {0,0};
 
 			if (velocity.x == 1)
 			{
-				ProjectilePosition.x = character->PlayerSprite->Movement.Position.x + (character->PlayerSprite->BitSize * character->PlayerSprite->Scale - 40);
+				ProjectilePosition.x = character->Sprites.Body->Movement.Position.x + (character->Sprites.Body->BitSize * character->Sprites.Body->Scale - 40);
 			}
 			else if (velocity.x == -1)
 			{
-				ProjectilePosition.x = character->PlayerSprite->Movement.Position.x - (character->PlayerSprite->BitSize * character->PlayerSprite->Scale - 40);
+				ProjectilePosition.x = character->Sprites.Body->Movement.Position.x - (character->Sprites.Body->BitSize * character->Sprites.Body->Scale - 40);
 			}
 			else {
-				ProjectilePosition.x = character->PlayerSprite->Movement.Position.x;
+				ProjectilePosition.x = character->Sprites.Body->Movement.Position.x;
 			}
 
 			if (velocity.y == 1)
 			{
-				ProjectilePosition.y = character->PlayerSprite->Movement.Position.y + (character->PlayerSprite->BitSize * character->PlayerSprite->Scale - 40);
+				ProjectilePosition.y = character->Sprites.Body->Movement.Position.y + (character->Sprites.Body->BitSize * character->Sprites.Body->Scale - 40);
 			}
 			else if (velocity.y == -1)
 			{
-				ProjectilePosition.y = character->PlayerSprite->Movement.Position.y - (character->PlayerSprite->BitSize * character->PlayerSprite->Scale - 40);
+				ProjectilePosition.y = character->Sprites.Body->Movement.Position.y - (character->Sprites.Body->BitSize * character->Sprites.Body->Scale - 40);
 			}
 			else {
-				ProjectilePosition.y = character->PlayerSprite->Movement.Position.y;
+				ProjectilePosition.y = character->Sprites.Body->Movement.Position.y;
 			}
 
 
-			Entity* Projectile = CreateProjectile(ProjectilePosition.x, ProjectilePosition.y, ProjectileType::Bullet, character->PlayerSprite->Movement.CurrentDirection, character->CurrentEquipment->DamageStat, game);
+			Entity* Projectile = CreateProjectile(ProjectilePosition.x, ProjectilePosition.y, ProjectileType::Bullet, character->Sprites.Body->Movement.CurrentDirection, character->CurrentEquipment->DamageStat, game);
 			
 			character->CanFireGun = false;
-			//character->PlayerSprite->Movement.LastState = character->PlayerSprite->Movement.CurrentState;
-			//character->PlayerSprite->Movement.CurrentState = Idle;
+			//Character->Sprites.Body->Movement.LastState = Character->Sprites.Body->Movement.CurrentState;
+			//Character->Sprites.Body->Movement.CurrentState = Idle;
 		}
 	}
 	else
@@ -99,7 +89,7 @@ void HandleCharacterSwordSlash(Character* character, Game* game)
 	if (character->CanSwordSlash)
 	{
 		std::vector <Character*> CharactersToSlash = NearbyCharacters(game, character);
-		if (character->PlayerSprite->Movement.CurrentState == Attack && character->PlayerAnimations.CharacterAnimation.lastindex == 2)
+		if (character->Sprites.Body->Movement.CurrentState == Attack && character->PlayerAnimations.CharacterAnimation.lastindex == 2)
 		{
 			character->CanSwordSlash = false;
 			for (int x = 0; x < CharactersToSlash.size(); x++)
@@ -155,9 +145,9 @@ void HandleCharacterSwordHit(Character* character, Equipment* item, Game* game)
 
 bool CharacterFacingCharacter(Character* primaryCharacter, Character* secondaryCharacter)
 {
-	Vec2 PrimaryCharacterEntity = primaryCharacter->PlayerSprite->Movement.Position;
-	Vec2 SeconaryCharacterEntity = secondaryCharacter->PlayerSprite->Movement.Position;
-	int PrimaryCharacterDirection = primaryCharacter->PlayerSprite->Movement.CurrentDirection;
+	Vec2 PrimaryCharacterEntity = primaryCharacter->Sprites.Body->Movement.Position;
+	Vec2 SeconaryCharacterEntity = secondaryCharacter->Sprites.Body->Movement.Position;
+	int PrimaryCharacterDirection = primaryCharacter->Sprites.Body->Movement.CurrentDirection;
 	if (PrimaryCharacterDirection == West && PrimaryCharacterEntity.x > SeconaryCharacterEntity.x)
 		return true;
 
@@ -184,7 +174,7 @@ bool IsCharacterCloseToCharacter(Vec2 PrimaryCharacter, Vec2 SecondaryCharacter,
 
 bool IsSameCharacter(Character* PrimaryCharacter, Character* SecondaryCharacter)
 {
-	if (PrimaryCharacter->PlayerSprite->Movement.Position.x == SecondaryCharacter->PlayerSprite->Movement.Position.x && PrimaryCharacter->PlayerSprite->Movement.Position.y == SecondaryCharacter->PlayerSprite->Movement.Position.y)
+	if (PrimaryCharacter->Sprites.Body->Movement.Position.x == SecondaryCharacter->Sprites.Body->Movement.Position.x && PrimaryCharacter->Sprites.Body->Movement.Position.y == SecondaryCharacter->Sprites.Body->Movement.Position.y)
 	{
 		if (PrimaryCharacter->Health == SecondaryCharacter->Health)
 		{
@@ -202,14 +192,14 @@ std::vector <Character*> NearbyCharacters(Game* game, Character* character)
 	for (int x = 0; x < AllCharactersList.size(); x++)
 	{
 		if (CharacterFacingCharacter(character, &AllCharactersList[x]->NPC) && 
-			IsCharacterCloseToCharacter(character->PlayerSprite->Movement.Position, AllCharactersList[x]->NPC.PlayerSprite->Movement.Position, 70) && 
+			IsCharacterCloseToCharacter(character->Sprites.Body->Movement.Position, AllCharactersList[x]->NPC.Sprites.Body->Movement.Position, 70) && 
 			!IsSameCharacter(character, &AllCharactersList[x]->NPC))
 		{
 			CharactersToHitList.push_back(&AllCharactersList[x]->NPC);
 		}
 	}
 	if (CharacterFacingCharacter(character, &game->PlayerEntity->Player) &&
-		IsCharacterCloseToCharacter(character->PlayerSprite->Movement.Position, game->PlayerEntity->Player.PlayerSprite->Movement.Position, 70) &&
+		IsCharacterCloseToCharacter(character->Sprites.Body->Movement.Position, game->PlayerEntity->Player.Sprites.Body->Movement.Position, 70) &&
 		!IsSameCharacter(character, &game->PlayerEntity->Player))
 	{
 		CharactersToHitList.push_back(&game->PlayerEntity->Player);

@@ -124,48 +124,48 @@ void UserInput::HandleUserInput(Game* Game)
 	Player* Player = &Game->PlayerEntity->Player;
 
 
-	Player->PlayerSprite->Movement.Velocity.x = 0;
-	Player->PlayerSprite->Movement.Velocity.y = 0;
-	Player->PlayerSprite->Movement.LastDirection = Player->PlayerSprite->Movement.CurrentDirection;
-	Player->PlayerSprite->Movement.LastState = Player->PlayerSprite->Movement.CurrentState;
+	Player->Sprites.Body->Movement.Velocity.x = 0;
+	Player->Sprites.Body->Movement.Velocity.y = 0;
+	Player->Sprites.Body->Movement.LastDirection = Player->Sprites.Body->Movement.CurrentDirection;
+	Player->Sprites.Body->Movement.LastState = Player->Sprites.Body->Movement.CurrentState;
 	
 	//pressed
 	if (KEY_W_PRESSED)
 	{
-		Player->PlayerSprite->Movement.Velocity.y = -1;
-		Player->PlayerSprite->Movement.CurrentDirection = North;
-		Player->PlayerSprite->Movement.CurrentState = Walking;
+		Player->Sprites.Body->Movement.Velocity.y = -1;
+		Player->Sprites.Body->Movement.CurrentDirection = North;
+		Player->Sprites.Body->Movement.CurrentState = Walking;
 	}
 	else if (KEY_S_PRESSED)
 	{
-		Player->PlayerSprite->Movement.Velocity.y = 1;
-		Player->PlayerSprite->Movement.CurrentDirection = South;
-		Player->PlayerSprite->Movement.CurrentState = Walking;
+		Player->Sprites.Body->Movement.Velocity.y = 1;
+		Player->Sprites.Body->Movement.CurrentDirection = South;
+		Player->Sprites.Body->Movement.CurrentState = Walking;
 	}
 	else if (KEY_A_PRESSED)
 	{
-		Player->PlayerSprite->Movement.Velocity.x = -1;
-		Player->PlayerSprite->Movement.CurrentDirection = West;
-		Player->PlayerSprite->Movement.CurrentState = Walking;
+		Player->Sprites.Body->Movement.Velocity.x = -1;
+		Player->Sprites.Body->Movement.CurrentDirection = West;
+		Player->Sprites.Body->Movement.CurrentState = Walking;
 	}
 	else if (KEY_D_PRESSED)
 	{
-		Player->PlayerSprite->Movement.Velocity.x = 1;
-		Player->PlayerSprite->Movement.CurrentDirection = East;
-		Player->PlayerSprite->Movement.CurrentState = Walking;
+		Player->Sprites.Body->Movement.Velocity.x = 1;
+		Player->Sprites.Body->Movement.CurrentDirection = East;
+		Player->Sprites.Body->Movement.CurrentState = Walking;
 	}
 
 	if (KEY_LSHIFT_PRESSED)
 	{
-		Player->PlayerSprite->Movement.Speed = Player->PlayerSprite->Movement.RunningSpeed;
+		Player->Sprites.Body->Movement.Speed = Player->Sprites.Body->Movement.RunningSpeed;
 	}
 
 	if (MOUSE_LBUTTON_PRESSED)
 	{
 		if (Player->CurrentEquipment != nullptr)
 		{
-			Player->PlayerSprite->Movement.CurrentState = Attack;
-			Player->PlayerSprite->Movement.Speed = Player->PlayerSprite->Movement.AttackSpeed;
+			Player->Sprites.Body->Movement.CurrentState = Attack;
+			Player->Sprites.Body->Movement.Speed = Player->Sprites.Body->Movement.AttackSpeed;
 		}
 	}
 
@@ -188,18 +188,18 @@ void UserInput::HandleUserInput(Game* Game)
 	}
 	if (KEY_LSHIFT_RELEASED)
 	{
-		Player->PlayerSprite->Movement.Speed = Player->PlayerSprite->Movement.WalkingSpeed;
+		Player->Sprites.Body->Movement.Speed = Player->Sprites.Body->Movement.WalkingSpeed;
 	}
 	if (MOUSE_LBUTTON_RELEASED)
 	{
-		Player->PlayerSprite->Movement.Speed = Player->PlayerSprite->Movement.WalkingSpeed;
+		Player->Sprites.Body->Movement.Speed = Player->Sprites.Body->Movement.WalkingSpeed;
 	}
 
 	//if idle
 	if (!KEY_W_RELEASED && !KEY_W_PRESSED && !KEY_A_PRESSED && !KEY_A_RELEASED && !KEY_D_PRESSED && !KEY_D_RELEASED && !KEY_S_PRESSED && !KEY_S_RELEASED && !MOUSE_LBUTTON_PRESSED && !MOUSE_LBUTTON_RELEASED 
 		||(MOUSE_LBUTTON_PRESSED && Player->CurrentEquipment == nullptr && !KEY_W_RELEASED && !KEY_W_PRESSED && !KEY_A_PRESSED && !KEY_A_RELEASED && !KEY_D_PRESSED && !KEY_D_RELEASED && !KEY_S_PRESSED && !KEY_S_RELEASED))
 	{
-		Player->PlayerSprite->Movement.CurrentState = Idle;
+		Player->Sprites.Body->Movement.CurrentState = Idle;
 	}
 
 	std::vector <Box> CollisionBoxes;
@@ -233,19 +233,10 @@ void UserInput::HandleUserInput(Game* Game)
 
 	Vec2 OutVelocity = { 0.0, 0.0 };
 	
-	if (BoxCollision(Player->Collision, CollisionBoxes, Player->PlayerSprite->Movement.Speed, &Player->PlayerSprite->Movement.CurrentDirection, Player->PlayerSprite->Movement.Velocity, &OutVelocity))
+	if (BoxCollision(Player->Collision, CollisionBoxes, Player->Sprites.Body->Movement.Speed, &Player->Sprites.Body->Movement.CurrentDirection, Player->Sprites.Body->Movement.Velocity, &OutVelocity))
 	{
-		Player->PlayerSprite->Movement.Velocity = OutVelocity;
+		Player->Sprites.Body->Movement.Velocity = OutVelocity;
 	}
-
-	//for (int x = 0; x < CollisionBoxes.size(); x++)
-	//{
-	//	if (BoxesOverlap(Player->Collision, CollisionBoxes[x]))
-	//	{
-	//		//do something if collidied? i actually need to know before and adjust speed to make sure i dont go over the box
-	//		std::cout << "Box Collision" << std::endl;
-	//	}
-	//}
 }
 
 void UserInput::Update(Game* Game)

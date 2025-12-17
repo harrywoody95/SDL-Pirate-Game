@@ -165,7 +165,6 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="projectile.cpp" />
     <ClCompile Include="renderer.cpp" />
-    <ClCompile Include="scenes.cpp" />
     <ClCompile Include="sprite.cpp" />
     <ClCompile Include="spriteList.cpp" />
     <ClCompile Include="textureManager.cpp" />
@@ -202,7 +201,6 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="Renderer.h" />
-    <ClInclude Include="Scenes.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteList.h" />
     <ClInclude Include="TextureManager.h" />

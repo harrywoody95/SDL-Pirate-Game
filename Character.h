@@ -6,15 +6,20 @@ struct Game;
 struct Entity;
 struct Character {
 	int Health = 100;
-	Sprite* PlayerSprite;
-	Sprite* CostumeSprite;
-	Sprite* EquipmentSprite;
+	// **** Group together these sprite.. seperate effect sprites so not linked to character ****
+	CharacterSprites Sprites;
+	//Sprite* Sprites.Body;
+	//Sprite* Sprites.Costume;
+	//Sprite* Sprites.Equipment;
 	Sprite* EffectSprite;
+
 	Costume* CurrentCostume = nullptr;
 	Equipment* CurrentEquipment = nullptr;
 	PlayerAnimation PlayerAnimations;
 	Box Collision;
 	Box HitBox;
+
+	// **** can i move these or avoid using them? ****
 	int GunCooldown = 0;
 	bool CanFireGun = true;
 	bool CanSwordSlash = true;

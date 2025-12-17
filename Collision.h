@@ -18,7 +18,6 @@ const static Box BulletHitBoxScale = { 0.4f, 0.4f, 0.4f, 0.4f };
 
 bool IsPointInsideBox(Box box, Vec2 point);
 bool BoxesOverlap(Box a, Box b);
-bool MoveBlockedX(Box Moving, Box Stationary, Direction direction);
 bool BoxCollision(Box Moving, std::vector<Box> StationaryBoxes, int speed, Direction* Direction, Vec2 CurrenVelocity, Vec2* OutVelocity);
 
 #endif // COLLISION_H
