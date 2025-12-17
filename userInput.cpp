@@ -11,6 +11,7 @@ void UserInput::GetUserInput()
 	KEY_D_RELEASED = false;
 	KEY_LSHIFT_RELEASED = false;
 	MOUSE_LBUTTON_RELEASED = false;
+	KEY_F5_RELEASED = false;
 
 	if (Game::Event.type == SDL_KEYDOWN)
 	{
@@ -40,6 +41,10 @@ void UserInput::GetUserInput()
 		{
 			KEY_LSHIFT_PRESSED = true;
 			break;
+		}
+		case SDLK_F5:
+		{
+			KEY_F5_PRESSED = true;
 		}
 		default:
 			break;
@@ -80,6 +85,11 @@ void UserInput::GetUserInput()
 			KEY_LSHIFT_RELEASED = true;
 			break;
 		}
+		case SDLK_F5:
+		{
+			KEY_F5_PRESSED = false;
+			KEY_F5_RELEASED = true;
+		}
 		default:
 			break;
 		}
@@ -119,7 +129,7 @@ void UserInput::GetUserInput()
 	}
 }
 
-void UserInput::HandleUserInput(Game* Game)
+void UserInput::HandleUserGameInput(Game* Game)
 {
 	Entity* Player = Game->PlayerEntity;
 
@@ -194,6 +204,10 @@ void UserInput::HandleUserInput(Game* Game)
 	{
 		Player->Movement.Speed = Player->Movement.WalkingSpeed;
 	}
+	if (KEY_F5_RELEASED)
+	{
+		Game->Flags.EditorActive = !Game->Flags.EditorActive;
+	}
 
 	//if idle
 	if (!KEY_W_RELEASED && !KEY_W_PRESSED && !KEY_A_PRESSED && !KEY_A_RELEASED && !KEY_D_PRESSED && !KEY_D_RELEASED && !KEY_S_PRESSED && !KEY_S_RELEASED && !MOUSE_LBUTTON_PRESSED && !MOUSE_LBUTTON_RELEASED 
@@ -239,8 +253,82 @@ void UserInput::HandleUserInput(Game* Game)
 	}
 }
 
+void UserInput::HandleUserEditorInput(Game* Game)
+{
+	
+	Game->PlayerEntity->Movement.Velocity.x = 0;
+	Game->PlayerEntity->Movement.Velocity.y = 0;
+	Game->PlayerEntity->Movement.LastDirection = Game->PlayerEntity->Movement.CurrentDirection;
+	Game->PlayerEntity->Movement.LastState = Game->PlayerEntity->Movement.CurrentState;
+
+	//pressed
+	if (KEY_W_PRESSED)
+	{
+
+	}
+	else if (KEY_S_PRESSED)
+	{
+
+	}
+	else if (KEY_A_PRESSED)
+	{
+
+	}
+	else if (KEY_D_PRESSED)
+	{
+
+	}
+
+	if (KEY_LSHIFT_PRESSED)
+	{
+
+	}
+
+	if (MOUSE_LBUTTON_PRESSED)
+	{
+
+	}
+
+	//released
+	if (KEY_W_RELEASED)
+	{
+
+	}
+	if (KEY_A_RELEASED)
+	{
+
+	}
+	if (KEY_S_RELEASED)
+	{
+
+	}
+	if (KEY_D_RELEASED)
+	{
+
+	}
+	if (KEY_LSHIFT_RELEASED)
+	{
+
+	}
+	if (MOUSE_LBUTTON_RELEASED)
+	{
+
+	}
+	if (KEY_F5_RELEASED)
+	{
+		Game->Flags.EditorActive = !Game->Flags.EditorActive;
+	}
+}
+
 void UserInput::Update(Game* Game)
 {
 	GetUserInput();
-	HandleUserInput(Game);
+	if (Game->Flags.EditorActive)
+	{
+		HandleUserEditorInput(Game);
+	}
+	else
+	{
+		HandleUserGameInput(Game);
+	}
 }

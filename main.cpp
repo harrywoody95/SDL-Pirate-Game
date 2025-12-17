@@ -1,4 +1,7 @@
 #include <iostream>
+#include "imgui/imgui.h"
+#include "imgui/backends/imgui_impl_sdl2.h"
+#include "imgui/backends/imgui_impl_sdlrenderer2.h"
 #include "SDL.h"
 #include "Game.h"
 
@@ -15,12 +18,28 @@ int main(int argc, char *argv[])
     Game Game;
     Game.CreateGame("Pirate Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, false);
 
+    //init IMGUI
+
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+
+    ImGui_ImplSDL2_InitForSDLRenderer(Game.Window.GetWindow(), Game.Renderer.MainRenderer);
+    ImGui_ImplSDLRenderer2_Init(Game.Renderer.MainRenderer);
+
     while (Game.IsRunning)
     {
         SDL_GetMouseState(&Game.UserInput.MousePos.x, &Game.UserInput.MousePos.y);
         FrameStart = SDL_GetTicks();
 
         Game.HandleWindowEvent();
+
+        //begin imgui frame
+
+        ImGui_ImplSDLRenderer2_NewFrame();
+        ImGui_ImplSDL2_NewFrame();
+        ImGui::NewFrame();
+
         Game.UpdateGame();
         Game.Render();
 
@@ -40,6 +59,12 @@ int main(int argc, char *argv[])
             std::cout << "FPS: " << ActualFPS << std::endl; // Output the FPS.
         }
     }
+
+    //destroy IMGui
+    ImGui_ImplSDLRenderer2_Shutdown();
+    ImGui_ImplSDL2_Shutdown();
+    ImGui::DestroyContext();
+
     Game.DestroyGame();
     return 0;
 }

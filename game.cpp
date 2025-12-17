@@ -1,4 +1,7 @@
 ﻿#include "Game.h"
+#include "imgui/imgui.h"
+#include "imgui/backends/imgui_impl_sdl2.h"
+#include "imgui/backends/imgui_impl_sdlrenderer2.h"
 #include <iostream>
 #include "SDL_mixer.h"
 #include <fstream>
@@ -700,10 +703,23 @@ void Game::HandleWindowEvent()
 void Game::Render()
 {
 	SDL_RenderClear(Renderer::MainRenderer);
-	Map.DrawMap(&Camera);
-	SpriteList.Draw(this);
-	DrawCollsionBoxes(this);
-	SDL_RenderPresent(Renderer::MainRenderer);
+
+		Map.DrawMap(&Camera);
+		SpriteList.Draw(this);
+		DrawCollsionBoxes(this);
+
+		//imgui render
+
+		if (Flags.EditorActive)
+		{
+			Editor.RenderEditor();
+		}
+
+		ImGui::Render();
+		ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData(), this->Renderer.MainRenderer);
+	
+
+		SDL_RenderPresent(Renderer::MainRenderer);
 }
 
 void Game::DestroyGame()

@@ -18,7 +18,6 @@ struct NPC : public Character
 	bool MoveBlocked =false;
 	void UpdateNPC(Game* game, Entity* NPC);
 	int DeadBodyDisappearCounter = 0;
-	
 };
 
 bool PlayerInRange(Game* game, Entity* SearchingEntity, int Tollerence);
