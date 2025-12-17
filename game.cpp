@@ -81,7 +81,7 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	npc->NPC.PatrolRoute.Route.push_back(Direction::South);
 	npc->NPC.PatrolRoute.Route.push_back(Direction::North);
 	npc->NPC.CurrentCostume = npccostume->Item.Costume;
-	npc->NPC.CurrentEquipment = Gun->Item.Equipment;
+	npc->NPC.CurrentEquipment = sword->Item.Equipment;
 
 	//add music
 	Audio.MusicList.AddMusic("Assets/Audio/Music/m.ogg", "MainMenu");
@@ -720,7 +720,7 @@ void Game::DestroyGame()
 void Game::UpdateGame()
 {
 		UserInput.Update(this);
-		SpriteList.Update();
 		UpdateEntities(this);
-		UpdateCamera(&Camera, &PlayerEntity->Player);
+		UpdateCamera(&Camera, PlayerEntity);
+		SpriteList.Update();
 }

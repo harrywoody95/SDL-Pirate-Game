@@ -12,24 +12,25 @@ struct PatrolRoute {
 struct NPC : public Character
 {
 	bool Hostile = false;
-	Character* Target = nullptr;
+	Entity* Target = nullptr;
 	PatrolRoute PatrolRoute;
 	Direction* HostileDirection = nullptr;
 	bool MoveBlocked =false;
-	void UpdateNPC(Game* game);
-	void NPCBoxCollision(Game* game);
-	void UpdatePatrolRoute();
-	void UpdateHostile(Game* game);
+	void UpdateNPC(Game* game, Entity* NPC);
 	int DeadBodyDisappearCounter = 0;
-	bool PlayerInRange(Game* game, int Tollerence);
-	void Die(Game* game);
-	bool LineOfSight(Character* Target);
-	void FaceTarget(Character* Target);
-	void AttackTarget(Character* Target);
-	void MoveInDirection(Direction Direction);
-	bool ScanforTarget(Game* game, int range);
-	void SetSpeed(int speed);
+	
 };
+
+bool PlayerInRange(Game* game, Entity* SearchingEntity, int Tollerence);
+void Die(Game* game, Entity* e);
+bool LineOfSight(Entity* Target, Entity* Attacker);
+void FaceTarget(Entity* Target, Entity* Attacker);
+void AttackTarget(Entity* Target, Entity* Attacker);
+void NPCMoveInDirection(Direction direction, Entity* e);
+void NPCBoxCollision(Game* Game, Entity* e);
+void UpdatePatrolRoute(Game* game, Entity* Patroller);
+void UpdateHostile(Game* game, Entity* e);
+bool ScanforTarget(Game* game, Entity* Scanner, int range);
 
 
 Entity* CreateNPC(float x, float y, Game* game);

@@ -19,9 +19,9 @@ Entity* CreatePlayer(float x, float y, Game* game)
 	Player->Sprites.Costume->Name = "Sprites.Costume";
 	Player->Sprites.Equipment->Name = "Sprites.Equipment";
 	Player->EffectSprite->Name = "EffectSprite";
-	SetPlayerAnimation(game, Player);
-	SetCostumeAnimation(game, Player);
-	SetEquipmentAnimation(game, Player);
+	SetPlayerAnimation(game, entity);
+	SetCostumeAnimation(game, entity);
+	SetEquipmentAnimation(game, entity);
 	return entity;
 }
 
@@ -31,9 +31,9 @@ void Player::UpdatePlayer(Game* game)
 	{
 		return;
 	}
-	UpdateCharacterCollision(this);
+	UpdateCharacterCollision(game->PlayerEntity);
 	UpdateCharacterHitbox(this);
-	UpdateAllCharacterAnimation(game, this);
-	HandleCharacterProjectileFiring(this, game);
-	HandleCharacterSwordSlash(this, game);
+	UpdateAllCharacterAnimation(game, game->PlayerEntity);
+	HandleCharacterProjectileFiring(game->PlayerEntity, game);
+	HandleCharacterSwordSlash(game->PlayerEntity, game);
 }

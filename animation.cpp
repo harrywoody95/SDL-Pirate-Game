@@ -91,14 +91,25 @@ void Animation::ResetAnimation()
 	Speed.Counter = 0;
 }
 
-void SetPlayerAnimation(Game* game, Character* Character)
+void SetPlayerAnimation(Game* game, Entity* e)
 {
+	Character* Character = nullptr;
+	if (e->Type == EntityType::Player)
+	{
+		Character = &e->Player;
+	}
+	else
+	{
+		Character = &e->NPC;
+	}
+
+
 	for (int x = 0; x < game->AnimationList.CharacterAnimations.size(); x++)
 	{
 		if (Character->Health < 1)
 		{
 
-			if (game->AnimationList.CharacterAnimations[x].direction == East && game->AnimationList.CharacterAnimations[x].state == Dead && Character->Sprites.Body->Movement.LastState != Dead)
+			if (game->AnimationList.CharacterAnimations[x].direction == East && game->AnimationList.CharacterAnimations[x].state == Dead && e->Movement.LastState != Dead)
 			{
 				game->AnimationList.CharacterAnimations[x].ResetAnimation();
 				Character->PlayerAnimations.CharacterAnimation = game->AnimationList.CharacterAnimations[x];
@@ -109,9 +120,9 @@ void SetPlayerAnimation(Game* game, Character* Character)
 				continue;
 		}
 
-		if (game->AnimationList.CharacterAnimations[x].direction == Character->Sprites.Body->Movement.CurrentDirection && game->AnimationList.CharacterAnimations[x].state == Character->Sprites.Body->Movement.CurrentState)
+		if (game->AnimationList.CharacterAnimations[x].direction == e->Movement.CurrentDirection && game->AnimationList.CharacterAnimations[x].state == e->Movement.CurrentState)
 		{
-			if (Character->Sprites.Body->Movement.CurrentState != Attack)
+			if (e->Movement.CurrentState != Attack)
 			{
 				game->AnimationList.CharacterAnimations[x].ResetAnimation();
 				Character->PlayerAnimations.CharacterAnimation = game->AnimationList.CharacterAnimations[x];
@@ -134,8 +145,19 @@ void SetPlayerAnimation(Game* game, Character* Character)
 }
 
 //change this entity parameter to entity eventually
-void SetCostumeAnimation(Game* game, Character* Character)
+void SetCostumeAnimation(Game* game, Entity* e)
 {
+	Character* Character = nullptr;
+	if (e->Type == EntityType::Player)
+	{
+		Character = &e->Player;
+	}
+	else
+	{
+		Character = &e->NPC;
+	}
+
+
 	if (Character->CurrentCostume == nullptr)
 	{
 		Character->PlayerAnimations.CostumeAnimation.reset();
@@ -150,7 +172,7 @@ void SetCostumeAnimation(Game* game, Character* Character)
 			if (game->AnimationList.CostumeAnimations[x].direction == East && game->AnimationList.CostumeAnimations[x].state == Dead &&
 				Character->CurrentCostume->Type == game->AnimationList.CostumeAnimations[x].costumeType &&
 				game->AnimationList.CostumeAnimations[x].colour == Character->CurrentCostume->Colour &&
-				Character->Sprites.Body->Movement.LastState != Dead)
+				e->Movement.LastState != Dead)
 			{
 				game->AnimationList.CostumeAnimations[x].ResetAnimation();
 				Character->PlayerAnimations.CostumeAnimation = {};
@@ -159,12 +181,12 @@ void SetCostumeAnimation(Game* game, Character* Character)
 				return;
 			}
 		}
-		if (game->AnimationList.CostumeAnimations[x].direction == Character->Sprites.Body->Movement.CurrentDirection &&
-			game->AnimationList.CostumeAnimations[x].state == Character->Sprites.Body->Movement.CurrentState &&
+		if (game->AnimationList.CostumeAnimations[x].direction == e->Movement.CurrentDirection &&
+			game->AnimationList.CostumeAnimations[x].state == e->Movement.CurrentState &&
 			Character->CurrentCostume->Type == game->AnimationList.CostumeAnimations[x].costumeType &&
 			game->AnimationList.CostumeAnimations[x].colour == Character->CurrentCostume->Colour)
 		{
-			if (Character->Sprites.Body->Movement.CurrentState != Attack)
+			if (e->Movement.CurrentState != Attack)
 			{
 				game->AnimationList.CostumeAnimations[x].ResetAnimation();
 				Character->PlayerAnimations.CostumeAnimation = {};
@@ -188,9 +210,20 @@ void SetCostumeAnimation(Game* game, Character* Character)
 	}
 }
 
-void SetEquipmentAnimation(Game* game, Character* Character)
+void SetEquipmentAnimation(Game* game, Entity* e)
 {
-	if (Character->CurrentEquipment == nullptr || Character->Sprites.Body->Movement.CurrentState == Attack || Character->Health < 1)
+	Character* Character = nullptr;
+	if (e->Type == EntityType::Player)
+	{
+		Character = &e->Player;
+	}
+	else
+	{
+		Character = &e->NPC;
+	}
+
+
+	if (Character->CurrentEquipment == nullptr || e->Movement.CurrentState == Attack || Character->Health < 1)
 	{
 		Character->PlayerAnimations.EquipmentAnimation.reset();
 		Character->Sprites.Equipment->Texture = nullptr;
@@ -198,8 +231,8 @@ void SetEquipmentAnimation(Game* game, Character* Character)
 	}
 	for (int x = 0; x < game->AnimationList.EquipmentAnimations.size(); x++)
 	{
-		if (game->AnimationList.EquipmentAnimations[x].direction == Character->Sprites.Body->Movement.CurrentDirection &&
-			game->AnimationList.EquipmentAnimations[x].state == Character->Sprites.Body->Movement.CurrentState &&
+		if (game->AnimationList.EquipmentAnimations[x].direction == e->Movement.CurrentDirection &&
+			game->AnimationList.EquipmentAnimations[x].state == e->Movement.CurrentState &&
 			Character->CurrentEquipment->Type == game->AnimationList.EquipmentAnimations[x].equipmentType)
 		{
 			game->AnimationList.EquipmentAnimations[x].ResetAnimation();
@@ -210,9 +243,21 @@ void SetEquipmentAnimation(Game* game, Character* Character)
 	}
 }
 
-void SetEffectAnimation(Game* game, Character* Character)
+void SetEffectAnimation(Game* game, Entity* e)
 {
-	if (Character->CurrentEquipment == nullptr || Character->Sprites.Body->Movement.CurrentState != Attack)
+
+	Character* Character = nullptr;
+	if (e->Type == EntityType::Player)
+	{
+		Character = &e->Player;
+	}
+	else
+	{
+		Character = &e->NPC;
+	}
+
+
+	if (Character->CurrentEquipment == nullptr || e->Movement.CurrentState != Attack)
 	{
 		if (!Character->PlayerAnimations.EffectAnimation.has_value())
 		{
@@ -224,8 +269,8 @@ void SetEffectAnimation(Game* game, Character* Character)
 	}
 	for (int x = 0; x < game->AnimationList.EffectAnimations.size(); x++)
 	{
-		if (game->AnimationList.EffectAnimations[x].direction == Character->Sprites.Body->Movement.CurrentDirection &&
-			game->AnimationList.EffectAnimations[x].state == Character->Sprites.Body->Movement.CurrentState &&
+		if (game->AnimationList.EffectAnimations[x].direction == e->Movement.CurrentDirection &&
+			game->AnimationList.EffectAnimations[x].state == e->Movement.CurrentState &&
 			Character->CurrentEquipment->Type == game->AnimationList.EffectAnimations[x].equipmentType)
 		{
 			game->AnimationList.EffectAnimations[x].ResetAnimation();
@@ -235,12 +280,21 @@ void SetEffectAnimation(Game* game, Character* Character)
 	}
 }
 
-void UpdateCharacterAnimation(Game* game, Character* Character)
+void UpdateCharacterAnimation(Game* game, Entity* e)
 {
-
-	if (Character->Sprites.Body->Movement.LastDirection != Character->Sprites.Body->Movement.CurrentDirection || Character->Sprites.Body->Movement.LastState != Character->Sprites.Body->Movement.CurrentState)
+	Character* Character = nullptr;
+	if (e->Type == EntityType::Player)
 	{
-		SetPlayerAnimation(game, Character);
+		Character = &e->Player;
+	}
+	else 
+	{
+		Character = &e->NPC;
+	}
+
+	if (e->Movement.LastDirection != e->Movement.CurrentDirection || e->Movement.LastState != e->Movement.CurrentState)
+	{
+		SetPlayerAnimation(game, e);
 	}
 	Character->PlayerAnimations.CharacterAnimation.Speed.Counter++;
 
@@ -254,7 +308,7 @@ void UpdateCharacterAnimation(Game* game, Character* Character)
 
 	if (Character->PlayerAnimations.CharacterAnimation.lastindex >= Character->PlayerAnimations.CharacterAnimation.Textures.size())
 	{
-		if (Character->Sprites.Body->Movement.CurrentState == Dead)
+		if (e->Movement.CurrentState == Dead)
 		{
 			return;
 		}
@@ -266,22 +320,32 @@ void UpdateCharacterAnimation(Game* game, Character* Character)
 
 }
 
-void UpdateEquipmentAnimation(Game* game, Character* Character)
+void UpdateEquipmentAnimation(Game* game, Entity* e)
 {
-	if (((Character->Sprites.Body->Movement.LastDirection != Character->Sprites.Body->Movement.CurrentDirection || 
-		Character->Sprites.Body->Movement.LastState != Character->Sprites.Body->Movement.CurrentState) && 
+	Character* Character = nullptr;
+	if (e->Type == EntityType::Player)
+	{
+		Character = &e->Player;
+	}
+	else 
+	{
+		Character = &e->NPC;
+	}
+
+	if (((e->Movement.LastDirection != e->Movement.CurrentDirection || 
+		e->Movement.LastState != e->Movement.CurrentState) && 
 		Character->CurrentEquipment != nullptr) 
 		|| Character->CurrentEquipment != nullptr && Character->CurrentEquipment->Type != EquipmentType::None && !Character->PlayerAnimations.EquipmentAnimation.has_value())
 	{
-		SetEquipmentAnimation(game, Character);
+		SetEquipmentAnimation(game, e);
 	}
 	if (Character->CurrentEquipment == nullptr || Character->CurrentEquipment->Type == EquipmentType::None || !Character->PlayerAnimations.EquipmentAnimation.has_value())
 	{
 		return;
 	}
-	Character->Sprites.Equipment->Movement.Velocity = Character->Sprites.Body->Movement.Velocity;
-	Character->Sprites.Equipment->Movement.Speed = Character->Sprites.Body->Movement.Speed;
-	Character->Sprites.Equipment->Movement.Position = Character->Sprites.Body->Movement.Position;
+	//e->Movement.Velocity = Character->Movement.Velocity;
+	//Character->Sprites.Equipment->Movement.Speed = Character->Movement.Speed;
+	//Character->Sprites.Equipment->Movement.Position = Character->Movement.Position;
 	Character->PlayerAnimations.EquipmentAnimation.value().Speed.Counter++;
 
 	if (!(Character->PlayerAnimations.EquipmentAnimation.value().Speed.Counter == Character->PlayerAnimations.EquipmentAnimation.value().Speed.TargetUntilChange))
@@ -302,22 +366,32 @@ void UpdateEquipmentAnimation(Game* game, Character* Character)
 
 }
 
-void UpdateCostumeAnimation(Game* game, Character* Character)
+void UpdateCostumeAnimation(Game* game, Entity* e)
 {
-	if (((Character->Sprites.Body->Movement.LastDirection != Character->Sprites.Body->Movement.CurrentDirection || 
-		Character->Sprites.Body->Movement.LastState != Character->Sprites.Body->Movement.CurrentState) &&
+	Character* Character = nullptr;
+	if (e->Type == EntityType::Player)
+	{
+		Character = &e->Player;
+	}
+	else 
+	{
+		Character = &e->NPC;
+	}
+
+	if (((e->Movement.LastDirection != e->Movement.CurrentDirection || 
+		e->Movement.LastState != e->Movement.CurrentState) &&
 		Character->CurrentCostume != nullptr) 
 		|| Character->CurrentCostume != nullptr && Character->CurrentCostume->Type != CostumeType::None && !Character->PlayerAnimations.CostumeAnimation.has_value())
 	{
-		SetCostumeAnimation(game, Character);
+		SetCostumeAnimation(game, e);
 	}
 	if (Character->CurrentCostume == nullptr || Character->CurrentCostume->Type == CostumeType::None || !Character->PlayerAnimations.CostumeAnimation.has_value())
 	{
 		return;
 	}
-	Character->Sprites.Costume->Movement.Velocity = Character->Sprites.Body->Movement.Velocity;
-	Character->Sprites.Costume->Movement.Speed = Character->Sprites.Body->Movement.Speed;
-	Character->Sprites.Costume->Movement.Position = Character->Sprites.Body->Movement.Position;
+	//Character->Sprites.Costume->Movement.Velocity = Character->Movement.Velocity;
+	//Character->Sprites.Costume->Movement.Speed = Character->Movement.Speed;
+	//Character->Sprites.Costume->Movement.Position = Character->Movement.Position;
 	Character->PlayerAnimations.CostumeAnimation.value().Speed.Counter++;
 
 	if (!(Character->PlayerAnimations.CostumeAnimation.value().Speed.Counter == Character->PlayerAnimations.CostumeAnimation.value().Speed.TargetUntilChange))
@@ -330,7 +404,7 @@ void UpdateCostumeAnimation(Game* game, Character* Character)
 
 	if (Character->PlayerAnimations.CostumeAnimation.value().lastindex >= Character->PlayerAnimations.CostumeAnimation.value().Textures.size())
 	{
-		if (Character->Sprites.Body->Movement.CurrentState == Dead)
+		if (e->Movement.CurrentState == Dead)
 		{
 			return;
 		}
@@ -342,20 +416,33 @@ void UpdateCostumeAnimation(Game* game, Character* Character)
 
 }
 
-void UpdateEffectAnimation(Game* game, Character* Character)
+void UpdateEffectAnimation(Game* game, Entity* e)
 {
-	if ((Character->Sprites.Body->Movement.LastDirection != Character->Sprites.Body->Movement.CurrentDirection || Character->Sprites.Body->Movement.LastState != Character->Sprites.Body->Movement.CurrentState) && Character->CurrentEquipment != nullptr)
+	Character* Character = nullptr;
+	if (e->Type == EntityType::Player)
 	{
-		SetEffectAnimation(game, Character);
+		Character = &e->Player;
 	}
-	if (Character->CurrentEquipment == nullptr || Character->CurrentEquipment->Type == EquipmentType::None || Character->Sprites.Body->Movement.CurrentState != Attack)
+	else
+	{
+		Character = &e->NPC;
+	}
+
+	if ((e->Movement.LastDirection != e->Movement.CurrentDirection || e->Movement.LastState != e->Movement.CurrentState) && Character->CurrentEquipment != nullptr)
+	{
+		SetEffectAnimation(game, e);
+	}
+	if (Character->CurrentEquipment == nullptr || Character->CurrentEquipment->Type == EquipmentType::None || e->Movement.CurrentState != Attack)
 	{
 		return;
 	}
 
-	Character->EffectSprite->Movement.Velocity = Character->Sprites.Body->Movement.Velocity;
-	Character->EffectSprite->Movement.Speed = Character->Sprites.Body->Movement.Speed;
-	Character->EffectSprite->Movement.Position = Character->Sprites.Body->Movement.Position;
+	if (!Character->PlayerAnimations.EffectAnimation.has_value())
+	{
+		return;
+	}
+
+	Character->EffectSprite->Position = e->Movement.Position;
 	Character->PlayerAnimations.EffectAnimation.value().Speed.Counter++;
 
 	if (!(Character->PlayerAnimations.EffectAnimation.value().Speed.Counter == Character->PlayerAnimations.EffectAnimation.value().Speed.TargetUntilChange))

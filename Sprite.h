@@ -2,13 +2,16 @@
 #include "SDL.h"
 #include "Movement.h"
 #include <vector>
-#include <String>
+#include <string>
 struct Camera;
 struct SpriteList;
+struct Entity;
 struct Sprite
 {
 	std::string Name;
-	Movement Movement;
+	//Movement Movement;
+	Vec2 Position = {0,0};
+	//Vec2 Velocity = { 0,0 };
 	SDL_Texture* Texture = nullptr;
 	int Scale;
 	int BitSize;
@@ -28,3 +31,5 @@ struct CharacterSprites
 	Sprite* Costume;
 	Sprite* Equipment;
 };
+
+void UpdateSpritePosition(Entity* e);

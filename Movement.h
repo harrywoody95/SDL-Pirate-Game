@@ -2,6 +2,8 @@
 #include "Vec2.h"
 #include <string>
 
+struct Entity;
+
 enum Direction {
 	North,
 	East,
@@ -38,24 +40,14 @@ struct Movement {
 	Direction CurrentDirection = East;
 	int Speed = WalkingSpeed;
 
-	void init(float PosX, float PosY)
-	{
-		Position.x = PosX;
-		Position.y = PosY;
-		Velocity.x = 0.0;
-		Velocity.y = 0.0;
-	}
-	void SetPosition(float PosX, float PosY)
-	{
-		Position.x = PosX;
-		Position.y = PosY;
-	}
+	void init(Entity* e, float PosX, float PosY);
 
-	void Update()
-	{
-		Position.x = Position.x + (Velocity.x * Speed);
-		Position.y = Position.y + (Velocity.y * Speed);
-	}
+	void SetPosition(Entity* e, float PosX, float PosY);
+
+	void Update(Entity* e);
+
+	void SetSpeed(int speed);
+
 };
 
 State StringToState(std::string state);

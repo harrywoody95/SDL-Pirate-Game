@@ -38,15 +38,15 @@ SpriteList* SortSpriteDrawingOrder(SpriteList list)
 			else
 			{
 				Box a, b;
-				a.Top = Lowest->Movement.Position.y;
-				a.Left = Lowest->Movement.Position.x;
-				a.Right = Lowest->Movement.Position.x + Lowest->BitSize * Lowest->Scale;
-				a.Bottom = Lowest->Movement.Position.y + Lowest->BitSize * Lowest->Scale;
+				a.Top = Lowest->Position.y;
+				a.Left = Lowest->Position.x;
+				a.Right = Lowest->Position.x + Lowest->BitSize * Lowest->Scale;
+				a.Bottom = Lowest->Position.y + Lowest->BitSize * Lowest->Scale;
 
-				b.Top = list.Sprites[x]->Movement.Position.y;
-				b.Left = list.Sprites[x]->Movement.Position.x;
-				b.Right = list.Sprites[x]->Movement.Position.x + Lowest->BitSize * Lowest->Scale;
-				b.Bottom = list.Sprites[x]->Movement.Position.y + Lowest->BitSize * Lowest->Scale;
+				b.Top = list.Sprites[x]->Position.y;
+				b.Left = list.Sprites[x]->Position.x;
+				b.Right = list.Sprites[x]->Position.x + Lowest->BitSize * Lowest->Scale;
+				b.Bottom = list.Sprites[x]->Position.y + Lowest->BitSize * Lowest->Scale;
 
 				if (b.Bottom < a.Bottom )
 				{

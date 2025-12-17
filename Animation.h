@@ -16,6 +16,8 @@ struct Character;
 // **** This should be characterstate ****
 //**** Need animation type (costume, character, effect) and store that ****
 // **** Animation are game engine. do i really need to know what the animation is? can i not just play all animations when needed? ****
+
+//**** ANIMATION IS GAME ENGINE I SHOULD NOT CARE WHAT ANIMATION IS PLAYING **** 
 enum AnimationType {
 	IdleUp,
 	IdleDown,
@@ -67,14 +69,14 @@ struct Animation {
 	//need a function to control animation speed based on running/walking etc
 };
 
-void SetPlayerAnimation(Game* game, Character* Character);
-void SetCostumeAnimation(Game* game, Character* Character);
-void SetEquipmentAnimation(Game* game, Character* Character);
-void SetEffectAnimation(Game* game, Character* Character);
-void UpdateCharacterAnimation(Game* game, Character* Character);
-void UpdateCostumeAnimation(Game* game, Character* Character);
-void UpdateEquipmentAnimation(Game* game, Character* Character);
-void UpdateEffectAnimation(Game* game, Character* Character);
+void SetPlayerAnimation(Game* game, Entity* Character);
+void SetCostumeAnimation(Game* game, Entity* Character);
+void SetEquipmentAnimation(Game* game, Entity* Character);
+void SetEffectAnimation(Game* game, Entity* Character);
+void UpdateCharacterAnimation(Game* game, Entity* Character);
+void UpdateCostumeAnimation(Game* game, Entity* Character);
+void UpdateEquipmentAnimation(Game* game, Entity* Character);
+void UpdateEffectAnimation(Game* game, Entity* Character);
 
 struct AnimationList {
 	std::vector <Animation> CharacterAnimations;

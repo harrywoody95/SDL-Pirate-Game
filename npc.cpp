@@ -1,6 +1,6 @@
 #include "NPC.h"
 #include "Game.h"
-
+// **** should make these function not members of NPC and instead get a list of all NPC and do it for all of them.
 Entity* CreateNPC(float x, float y, Game* game)
 {
 	Entity* entity = CreateEntity(x, y, game, EntityType::NPC);
@@ -17,230 +17,233 @@ Entity* CreateNPC(float x, float y, Game* game)
 	NPC->Sprites.Costume->Name = "Sprites.Costume";
 	NPC->Sprites.Equipment->Name = "Sprites.Equipment";
 	NPC->EffectSprite->Name = "EffectSprite";
-	SetPlayerAnimation(game, NPC);
-	SetCostumeAnimation(game, NPC);
-	SetEquipmentAnimation(game, NPC);
+	SetPlayerAnimation(game, entity);
+	SetCostumeAnimation(game, entity);
+	SetEquipmentAnimation(game, entity);
 	return entity;
 }
 
-void NPC::UpdatePatrolRoute()
+void UpdatePatrolRoute(Game* game, Entity* Patroller)
 {
-	if (Target != nullptr)
-	{
-		return;
-	}
+	NPC* Character = &Patroller->NPC;
 
-	int travelDistance = (Sprites.Body->BitSize * Sprites.Body->Scale) * 2;
-	int nextIndex;
+		int travelDistance = (Character->Sprites.Body->BitSize * Character->Sprites.Body->Scale) * 2;
+		int nextIndex;
 
-	SetSpeed(1);
-	if (PatrolRoute.Route.size() == 0 || Target != nullptr)
-	{
-		return;
-	}
-	if (PatrolRoute.Counter == 0)
-	{
-		
-		Sprites.Body->Movement.CurrentDirection = PatrolRoute.Route[PatrolRoute.Currentindex];
-		Sprites.Body->Movement.CurrentState = State::Walking;
-		Sprites.Body->Movement.Velocity = DirectionToVelocity(PatrolRoute.Route[PatrolRoute.Currentindex]);
-		nextIndex = PatrolRoute.Currentindex + 1;
-		if (PatrolRoute.Currentindex >= PatrolRoute.Route.size() - 1)
+		Patroller->Movement.SetSpeed(1);
+
+		if (Character->PatrolRoute.Route.size() == 0 || Character->Target != nullptr)
 		{
-			nextIndex = 0;
+			return;
 		}
-		if (PatrolRoute.Route[PatrolRoute.Currentindex] == PatrolRoute.Route[nextIndex])
+		if (Character->PatrolRoute.Counter == 0)
 		{
-			travelDistance = travelDistance * 2;
-			PatrolRoute.Currentindex = nextIndex;
+
+			Patroller->Movement.CurrentDirection = Character->PatrolRoute.Route[Character->PatrolRoute.Currentindex];
+			Patroller->Movement.CurrentState = State::Walking;
+			Patroller->Movement.Velocity = DirectionToVelocity(Character->PatrolRoute.Route[Character->PatrolRoute.Currentindex]);
+			nextIndex = Character->PatrolRoute.Currentindex + 1;
+			if (Character->PatrolRoute.Currentindex >= Character->PatrolRoute.Route.size() - 1)
+			{
+				nextIndex = 0;
+			}
+			if (Character->PatrolRoute.Route[Character->PatrolRoute.Currentindex] == Character->PatrolRoute.Route[nextIndex])
+			{
+				travelDistance = travelDistance * 2;
+				Character->PatrolRoute.Currentindex = nextIndex;
+			}
 		}
-	}
-	if ((PatrolRoute.LastPosition.x + travelDistance < Sprites.Body->Movement.Position.x ||
-		PatrolRoute.LastPosition.y + travelDistance < Sprites.Body->Movement.Position.y ||
-		PatrolRoute.LastPosition.x - travelDistance > Sprites.Body->Movement.Position.x ||
-		PatrolRoute.LastPosition.y - travelDistance > Sprites.Body->Movement.Position.y )&&
-		PatrolRoute.Counter == 0
-		)
-	{
-		Sprites.Body->Movement.CurrentState = State::Idle;
-		Sprites.Body->Movement.Velocity = { 0,0 };
-		PatrolRoute.Counter++;
-		PatrolRoute.Currentindex++;
-		if (PatrolRoute.Currentindex >= PatrolRoute.Route.size() - 1)
+		if ((Character->PatrolRoute.LastPosition.x + travelDistance < Patroller->Movement.Position.x ||
+			Character->PatrolRoute.LastPosition.y + travelDistance < Patroller->Movement.Position.y ||
+			Character->PatrolRoute.LastPosition.x - travelDistance > Patroller->Movement.Position.x ||
+			Character->PatrolRoute.LastPosition.y - travelDistance > Patroller->Movement.Position.y) &&
+			Character->PatrolRoute.Counter == 0
+			)
 		{
-			PatrolRoute.Currentindex = 0;
+			Patroller->Movement.CurrentState = State::Idle;
+			Patroller->Movement.Velocity = { 0,0 };
+			Character->PatrolRoute.Counter++;
+			Character->PatrolRoute.Currentindex++;
+			if (Character->PatrolRoute.Currentindex >= Character->PatrolRoute.Route.size() - 1)
+			{
+				Character->PatrolRoute.Currentindex = 0;
+			}
 		}
-	}
-	if (PatrolRoute.Counter != 0)
-	{
-		PatrolRoute.Counter++;
-	}
-	if (PatrolRoute.Counter > PatrolRoute.WaitTick)
-	{
-		PatrolRoute.Counter = 0;
-		PatrolRoute.LastPosition = Sprites.Body->Movement.Position;
-	}
+		if (Character->PatrolRoute.Counter != 0)
+		{
+			Character->PatrolRoute.Counter++;
+		}
+		if (Character->PatrolRoute.Counter > Character->PatrolRoute.WaitTick)
+		{
+			Character->PatrolRoute.Counter = 0;
+			Character->PatrolRoute.LastPosition = Patroller->Movement.Position;
+		}
+	
 }
 
-void NPC::UpdateHostile(Game* game)
+void UpdateHostile(Game* game, Entity* e)
 {
-	if (!Hostile)
-	{
-		return;
-	}
-	Sprites.Body->Movement.LastState = Sprites.Body->Movement.CurrentState;
-	if (CurrentEquipment->Type != EquipmentType::Gun && CurrentEquipment->Type != EquipmentType::Sword)
-	{
-		return;
-	}
-	
-	if (CurrentEquipment->Type == EquipmentType::Gun)
-	{
-		ScanforTarget(game, 500);
-		if(Target == nullptr)
+
+		NPC* Character = &e->NPC;
+		if (!Character->Hostile)
+		{
+			return;
+		}
+		e->Movement.LastState = e->Movement.CurrentState;
+		if (Character->CurrentEquipment->Type != EquipmentType::Gun && Character->CurrentEquipment->Type != EquipmentType::Sword)
 		{
 			return;
 		}
 
-		if (LineOfSight(this->Target))
+		if (Character->CurrentEquipment->Type == EquipmentType::Gun)
 		{
-			//dont move.. attack
-			AttackTarget(this->Target);
-			return;
-		}
-
-		if (HostileDirection != nullptr && game->PlayerEntity->Player.Sprites.Body->Movement.CurrentDirection == game->PlayerEntity->Player.Sprites.Body->Movement.LastDirection)
-		{
-			return;
-		}
-
-		Vec2* HostilePosition = &this->Sprites.Body->Movement.Position;
-		Vec2* TargetPosition = &game->PlayerEntity->Player.Sprites.Body->Movement.Position;
-		int distanceX = abs(TargetPosition->x - HostilePosition->x);
-		int distanceY = abs(TargetPosition->y - HostilePosition->y);
-
-		if (distanceY > distanceX)
-		{
-			SetSpeed(1);
-			if (HostilePosition->y > TargetPosition->y)
+			ScanforTarget(game, e, 500);
+			if (Character->Target == nullptr)
 			{
-				MoveInDirection(North);
 				return;
 			}
-			else
+
+			if (LineOfSight(Character->Target, e))
 			{
-				MoveInDirection(South);
+				//dont move.. attack
+				AttackTarget(Character->Target, e);
 				return;
 			}
-		}
-		else
-		{
-			SetSpeed(1);
-			if (HostilePosition->x > TargetPosition->x)
+
+			if (Character->HostileDirection != nullptr && game->PlayerEntity->Movement.CurrentDirection == game->PlayerEntity->Movement.LastDirection)
 			{
-				MoveInDirection(West);
 				return;
 			}
-			else
-			{
-				MoveInDirection(East);
-				return;
-			}
-		}
-	}
 
-	if (CurrentEquipment->Type == EquipmentType::Sword)
-	{
-		ScanforTarget(game, 500);
-		if (Target == nullptr)
-		{
-			return;
-		}
-		if (PlayerInRange(game, 40))
-		{
-			//dont move.. attack
-			AttackTarget(Target);
-		}
-
-		if (HostileDirection == nullptr || game->PlayerEntity->Player.Sprites.Body->Movement.CurrentDirection != game->PlayerEntity->Player.Sprites.Body->Movement.LastDirection || !PlayerInRange(game, 20))
-		{
-
-			Vec2* HostilePosition = &this->Sprites.Body->Movement.Position;
-			Vec2* TargetPosition = &game->PlayerEntity->Player.Sprites.Body->Movement.Position;
-
-			int distanceX = abs(TargetPosition->x - HostilePosition->x);   
+			Vec2* HostilePosition = &e->Movement.Position;
+			Vec2* TargetPosition = &game->PlayerEntity->Movement.Position;
+			int distanceX = abs(TargetPosition->x - HostilePosition->x);
 			int distanceY = abs(TargetPosition->y - HostilePosition->y);
-
-
-			int threshold = 50;
-
-			if (abs(distanceX - distanceY) < threshold)
-			{
-
-				if (!MoveBlocked)
-				{
-					Sprites.Body->Movement.Velocity = DirectionToVelocity(Sprites.Body->Movement.CurrentDirection);
-				}
-				return;
-			}
 
 			if (distanceY > distanceX)
 			{
-				SetSpeed(2);
-
+				e->Movement.SetSpeed(1);
 				if (HostilePosition->y > TargetPosition->y)
 				{
-					MoveInDirection(North);
+					NPCMoveInDirection(North, e);
 					return;
 				}
 				else
 				{
-					MoveInDirection(South);
+					NPCMoveInDirection(South, e);
 					return;
 				}
 			}
 			else
 			{
-				SetSpeed(2);
-
+				e->Movement.SetSpeed(1);
 				if (HostilePosition->x > TargetPosition->x)
 				{
-					MoveInDirection(West);
+					NPCMoveInDirection(West, e);
 					return;
 				}
 				else
 				{
-					MoveInDirection(East);
+					NPCMoveInDirection(East, e);
 					return;
 				}
 			}
 		}
-	}
+
+		if (Character->CurrentEquipment->Type == EquipmentType::Sword)
+		{
+			ScanforTarget(game, e, 500);
+			if (Character->Target == nullptr)
+			{
+				return;
+			}
+			if (PlayerInRange(game, e, 40))
+			{
+				//dont move.. attack
+				AttackTarget(Character->Target, e);
+			}
+
+			if (Character->HostileDirection == nullptr || game->PlayerEntity->Movement.CurrentDirection != game->PlayerEntity->Movement.LastDirection || !PlayerInRange(game, e, 20))
+			{
+
+				Vec2* HostilePosition = &e->Movement.Position;
+				Vec2* TargetPosition = &game->PlayerEntity->Movement.Position;
+
+				int distanceX = abs(TargetPosition->x - HostilePosition->x);
+				int distanceY = abs(TargetPosition->y - HostilePosition->y);
+
+
+				int threshold = 50;
+
+				if (abs(distanceX - distanceY) < threshold)
+				{
+
+					if (!Character->MoveBlocked)
+					{
+						e->Movement.Velocity = DirectionToVelocity(e->Movement.CurrentDirection);
+					}
+					return;
+				}
+
+				if (distanceY > distanceX)
+				{
+					e->Movement.SetSpeed(2);
+
+					if (HostilePosition->y > TargetPosition->y)
+					{
+						NPCMoveInDirection(North, e);
+						return;
+					}
+					else
+					{
+						NPCMoveInDirection(South, e);
+						return;
+					}
+				}
+				else
+				{
+					e->Movement.SetSpeed(2);
+
+					if (HostilePosition->x > TargetPosition->x)
+					{
+						NPCMoveInDirection(West, e);
+						return;
+					}
+					else
+					{
+						NPCMoveInDirection(East, e);
+						return;
+					}
+				}
+			}
+		}
+	
 }
 
-void NPC::UpdateNPC(Game* game)
+void NPC::UpdateNPC(Game* game, Entity* NPC)
 {
 	if (Health <= 0)
 	{
-		Die(game);
+		Die(game, NPC);
 		return;
 	}
 	if (BeenAttacked)
 	{
 		Hostile = true;
 	}
-	UpdatePatrolRoute();
-	UpdateCharacterCollision(this);
+	UpdatePatrolRoute(game, NPC);
+	UpdateCharacterCollision(NPC);
 	UpdateCharacterHitbox(this);
-	NPCBoxCollision(game);
-	UpdateAllCharacterAnimation(game, this);
-	UpdateHostile(game);
-	HandleCharacterProjectileFiring(this, game);
+	NPCBoxCollision(game, NPC);
+	UpdateHostile(game, NPC);
+	UpdateAllCharacterAnimation(game, NPC);
+	HandleCharacterProjectileFiring(NPC, game);
 }
 
-void NPC::NPCBoxCollision(Game* Game)
+void NPCBoxCollision(Game* Game, Entity* e)
 {
 	std::vector <Box> CollisionBoxes;
+	NPC* character = &e->NPC;
 
 	for (int x = 0; x < Game->Map.LayerOne.size(); x++)
 	{
@@ -266,7 +269,7 @@ void NPC::NPCBoxCollision(Game* Game)
 	std::vector <Entity*> list = GetEntitites(Game, EntityType::NPC);
 	for (int x = 0; x < list.size(); x++)
 	{
-		if (this != &list[x]->NPC)
+		if (character != &list[x]->NPC)
 		{
 			CollisionBoxes.push_back(list[x]->NPC.Collision);
 		}
@@ -275,48 +278,48 @@ void NPC::NPCBoxCollision(Game* Game)
 
 	Vec2 OutVelocity = { 0.0, 0.0 };
 
-	if (BoxCollision(this->Collision, CollisionBoxes, this->Sprites.Body->Movement.Speed, &this->Sprites.Body->Movement.CurrentDirection, this->Sprites.Body->Movement.Velocity, &OutVelocity))
+	if (BoxCollision(character->Collision, CollisionBoxes, e->Movement.Speed, &e->Movement.CurrentDirection, e->Movement.Velocity, &OutVelocity))
 	{
-		this->Sprites.Body->Movement.Velocity = OutVelocity;
-		if (this->Sprites.Body->Movement.CurrentState != Attack)
+		e->Movement.Velocity = OutVelocity;
+		if (e->Movement.CurrentState != Attack)
 		{
-			this->Sprites.Body->Movement.CurrentState = Idle;
+			e->Movement.CurrentState = Idle;
 		}
-		MoveBlocked = true;
+		character->MoveBlocked = true;
 	}
 	else
 	{
-		MoveBlocked = false;
+		character->MoveBlocked = false;
 	}
 
 }
 
-bool NPC::PlayerInRange(Game* game, int Tolerence)
+bool PlayerInRange(Game* game, Entity* SearchingEntity, int Tolerence)
 {
 	Entity* player = game->PlayerEntity;
 	
 	int DistanceX = 0;
 	int DistanceY = 0;
 
-	if (player->Player.Sprites.Body->Movement.Position.x > this->Sprites.Body->Movement.Position.x)
+	if (player->Movement.Position.x > SearchingEntity->Movement.Position.x)
 	{
-		DistanceX = player->Player.Sprites.Body->Movement.Position.x - this->Sprites.Body->Movement.Position.x;
+		DistanceX = player->Movement.Position.x - SearchingEntity->Movement.Position.x;
 	}
 	else
 	{
-		DistanceX = this->Sprites.Body->Movement.Position.x - player->Player.Sprites.Body->Movement.Position.x;
+		DistanceX = SearchingEntity->Movement.Position.x - player->Movement.Position.x;
 	}
 
-	if (player->Player.Sprites.Body->Movement.Position.y > this->Sprites.Body->Movement.Position.y)
+	if (player->Movement.Position.y > SearchingEntity->Movement.Position.y)
 	{
-		if(player->Player.Sprites.Body->Movement.Position.y - this->Sprites.Body->Movement.Position.y)
+		if(player->Movement.Position.y - SearchingEntity->Movement.Position.y)
 		{
-			DistanceY = player->Player.Sprites.Body->Movement.Position.y - this->Sprites.Body->Movement.Position.y;
+			DistanceY = player->Movement.Position.y - SearchingEntity->Movement.Position.y;
 		}
 	}
 	else
 	{
-		DistanceY = this->Sprites.Body->Movement.Position.y - player->Player.Sprites.Body->Movement.Position.y;
+		DistanceY = SearchingEntity->Movement.Position.y - player->Movement.Position.y;
 	}
 
 	if (DistanceX < 0)
@@ -337,36 +340,37 @@ bool NPC::PlayerInRange(Game* game, int Tolerence)
 	return false;
 }
 
-void NPC::Die(Game* game)
+void Die(Game* game, Entity* e)
 {
-	if (DeadBodyDisappearCounter > 2000)
+	NPC* character = &e->NPC;
+	if (character->DeadBodyDisappearCounter > 2000)
 	{
-		Sprites.Body->DeleteSprite(&game->SpriteList);
-		Sprites.Costume->DeleteSprite(&game->SpriteList);
-		Sprites.Equipment->DeleteSprite(&game->SpriteList);
-		EffectSprite->DeleteSprite(&game->SpriteList);
+		character->Sprites.Body->DeleteSprite(&game->SpriteList);
+		character->Sprites.Costume->DeleteSprite(&game->SpriteList);
+		character->Sprites.Equipment->DeleteSprite(&game->SpriteList);
+		character->EffectSprite->DeleteSprite(&game->SpriteList);
 		for (int x = 0; x < game->EntityList.size(); x++)
 		{
-			if (&game->EntityList[x]->NPC == this)
+			if (&game->EntityList[x]->NPC == character)
 			{
 				DestroyEntity(game, game->EntityList[x]);
 				return;
 			}
 		}
 	}
-	Sprites.Body->Movement.Speed = 0;
-	Sprites.Body->Movement.CurrentState = Dead;
-	UpdateAllCharacterAnimation(game, this);
-	Sprites.Body->Movement.LastState = Dead;
-	Collision = { 0,0,0,0 };
-	DeadBodyDisappearCounter++;
+	e->Movement.Speed = 0;
+	e->Movement.CurrentState = Dead;
+	UpdateAllCharacterAnimation(game, e);
+	e->Movement.LastState = Dead;
+	character->Collision = { 0,0,0,0 };
+	character->DeadBodyDisappearCounter++;
 	return;
 }
 
-bool NPC::LineOfSight(Character* Target)
+bool LineOfSight(Entity* Target, Entity* Attacker)
 {
-	Vec2* HostilePosition = &this->Sprites.Body->Movement.Position;
-	Vec2* TargetPosition = &Target->Sprites.Body->Movement.Position;
+	Vec2* HostilePosition = &Attacker->Movement.Position;
+	Vec2* TargetPosition = &Target->Movement.Position;
 	int distanceX = 0;
 	int distanceY = 0;
 
@@ -413,10 +417,10 @@ bool NPC::LineOfSight(Character* Target)
 	}
 }
 
-void NPC::FaceTarget(Character* Target)
+void FaceTarget(Entity* Target, Entity* Attacker)
 {
-	Vec2* HostilePosition = &this->Sprites.Body->Movement.Position;
-	Vec2* TargetPosition = &Target->Sprites.Body->Movement.Position;
+	Vec2* HostilePosition = &Attacker->Movement.Position;
+	Vec2* TargetPosition = &Target->Movement.Position;
 	int distanceX = 0;
 	int distanceY = 0;
 
@@ -456,87 +460,81 @@ void NPC::FaceTarget(Character* Target)
 	{
 		if (HostilePosition->y > TargetPosition->y)
 		{
-			Sprites.Body->Movement.LastDirection = Sprites.Body->Movement.CurrentDirection;
-			Sprites.Body->Movement.CurrentDirection = North;
+			Attacker->Movement.LastDirection = Attacker->Movement.CurrentDirection;
+			Attacker->Movement.CurrentDirection = North;
 		}
 		else
 		{
-			Sprites.Body->Movement.LastDirection = Sprites.Body->Movement.CurrentDirection;
-			Sprites.Body->Movement.CurrentDirection = South;
+			Attacker->Movement.LastDirection = Attacker->Movement.CurrentDirection;
+			Attacker->Movement.CurrentDirection = South;
 		}
 	}
 	else
 	{
 		if (HostilePosition->x > TargetPosition->x)
 		{
-			Sprites.Body->Movement.LastDirection = Sprites.Body->Movement.CurrentDirection;
-			Sprites.Body->Movement.CurrentDirection = West;
+			Attacker->Movement.LastDirection = Attacker->Movement.CurrentDirection;
+			Attacker->Movement.CurrentDirection = West;
 		}
 		else
 		{
-			Sprites.Body->Movement.LastDirection = Sprites.Body->Movement.CurrentDirection;
-			Sprites.Body->Movement.CurrentDirection = East;
+			Attacker->Movement.LastDirection = Attacker->Movement.CurrentDirection;
+			Attacker->Movement.CurrentDirection = East;
 		}
 	}
 }
 
-void NPC::AttackTarget(Character* Target)
+void AttackTarget(Entity* Target, Entity* Attacker)
 {
-	Sprites.Body->Movement.LastState = Sprites.Body->Movement.CurrentState;
-	FaceTarget(Target);
-	Sprites.Body->Movement.CurrentState = Attack;
-	Sprites.Body->Movement.Velocity = { 0,0 };
-	if (HostileDirection != nullptr)
+	Attacker->Movement.LastState = Attacker->Movement.CurrentState;
+	FaceTarget(Target, Attacker);
+	Attacker->Movement.CurrentState = Attack;
+	Attacker->Movement.Velocity = { 0,0 };
+	if (Attacker->NPC.HostileDirection != nullptr)
 	{
-		delete HostileDirection;
-		HostileDirection = nullptr;
+		delete Attacker->NPC.HostileDirection;
+		Attacker->NPC.HostileDirection = nullptr;
 	}
 	return;
 }
 
-void NPC::MoveInDirection(Direction direction)
+void NPCMoveInDirection(Direction direction, Entity* e)
 {
-	Sprites.Body->Movement.CurrentDirection = direction;
-	Sprites.Body->Movement.CurrentState = State::Walking;
-	if (!MoveBlocked)
+	e->Movement.CurrentDirection = direction;
+	e->Movement.CurrentState = State::Walking;
+	if (!e->NPC.MoveBlocked)
 	{
-		Sprites.Body->Movement.Velocity = DirectionToVelocity(Sprites.Body->Movement.CurrentDirection);
+		e->Movement.Velocity = DirectionToVelocity(e->Movement.CurrentDirection);
 	}
-	if (HostileDirection != nullptr)
+	if (e->NPC.HostileDirection != nullptr)
 	{
-		delete HostileDirection;
-		HostileDirection = nullptr;
+		delete e->NPC.HostileDirection;
+		e->NPC.HostileDirection = nullptr;
 	}
-	if (Hostile)
+	if (e->NPC.Hostile)
 	{
 		Direction* d = new Direction(direction);
-		HostileDirection = d;
+		e->NPC.HostileDirection = d;
 	}
 	// if move blocked find a path around
 	return;
 }
 
-bool NPC::ScanforTarget(Game* game, int range)
+bool ScanforTarget(Game* game, Entity* Scanner, int range)
 {
-	if (PlayerInRange(game, range) && Target == nullptr)
+	if (PlayerInRange(game, Scanner, range) && Scanner->NPC.Target == nullptr)
 	{
-		Target = &game->PlayerEntity->Player;
+		Scanner->NPC.Target = game->PlayerEntity;
 		return true;
 	}
-	if (!PlayerInRange(game, range))
+	if (!PlayerInRange(game, Scanner, range))
 	{
-		Target = nullptr;
+		Scanner->NPC.Target = nullptr;
 		return false;
 	}
-	if (Target == nullptr)
+	if (Scanner->NPC.Target == nullptr)
 	{
 		return false;
 	}
 }
 
-void NPC::SetSpeed(int speed)
-{
-	Sprites.Body->Movement.Speed = speed;
-	Sprites.Body->Movement.LastState = Sprites.Body->Movement.CurrentState;
-	Sprites.Body->Movement.LastDirection = Sprites.Body->Movement.CurrentDirection;
-}

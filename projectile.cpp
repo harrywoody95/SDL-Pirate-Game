@@ -12,11 +12,11 @@ Entity* CreateProjectile(float x, float y, ProjectileType Type, Direction Direct
 	Projectile->ProjectileSprite = new Sprite();
 	Projectile->ProjectileSprite->CreateSprite(x, y, GetProjectileFileName(Type, Direction).c_str(), 16, 4, &game->SpriteList);
 	Projectile->ProjectileSprite->Name = "Projectile";
-	Projectile->ProjectileSprite->Movement.CurrentDirection = Direction;
+	entity->Movement.CurrentDirection = Direction;
 	Projectile->Damage = Damage;
 	Projectile->Type = Type;
-	Projectile->ProjectileSprite->Movement.Velocity = DirectionToVelocity(Direction);
-	Projectile->ProjectileSprite->Movement.Speed = Projectile->ProjectileSprite->Movement.ProjectileSpeed;
+	entity->Movement.Velocity = DirectionToVelocity(Direction);
+	entity->Movement.Speed = Projectile->Movement.ProjectileSpeed;
 	return entity;
 }
 
@@ -30,8 +30,8 @@ void UpdateProjectile(Game* game, Entity* projectile)
 void RemoveDistantProjectile(Game* game, Entity* projectile)
 {
 	int DestroyDistance = 1500;
-	Vec2 ProjectilePosition = projectile->Projectile.ProjectileSprite->Movement.Position;
-	Vec2 PlayerPosition = game->PlayerEntity->Player.Sprites.Body->Movement.Position;
+	Vec2 ProjectilePosition = projectile->Movement.Position;
+	Vec2 PlayerPosition = game->PlayerEntity->Movement.Position;
 	if (ProjectilePosition.x > PlayerPosition.x + DestroyDistance || ProjectilePosition.x < PlayerPosition.x - DestroyDistance ||
 		ProjectilePosition.y > PlayerPosition.y + DestroyDistance || ProjectilePosition.y < PlayerPosition.y - DestroyDistance)
 	{
@@ -62,13 +62,13 @@ void HandleProjectileHit(Game* game, Entity* projectile)
 
 void UpdateHitBox(Entity* Entity)
 {
-	Entity->Projectile.HitBox.Left = (Entity->Projectile.ProjectileSprite->Movement.Position.x + ((Entity->Projectile.ProjectileSprite->BitSize * Entity->Projectile.ProjectileSprite->Scale) * BulletHitBoxScale.Left));
-	Entity->Projectile.HitBox.Top = (Entity->Projectile.ProjectileSprite->Movement.Position.y + ((Entity->Projectile.ProjectileSprite->BitSize * Entity->Projectile.ProjectileSprite->Scale) * BulletHitBoxScale.Top));
+	Entity->Projectile.HitBox.Left = (Entity->Movement.Position.x + ((Entity->Projectile.ProjectileSprite->BitSize * Entity->Projectile.ProjectileSprite->Scale) * BulletHitBoxScale.Left));
+	Entity->Projectile.HitBox.Top = (Entity->Movement.Position.y + ((Entity->Projectile.ProjectileSprite->BitSize * Entity->Projectile.ProjectileSprite->Scale) * BulletHitBoxScale.Top));
 
-	Entity->Projectile.HitBox.Bottom = (Entity->Projectile.ProjectileSprite->Movement.Position.y + ((Entity->Projectile.ProjectileSprite->BitSize * Entity->Projectile.ProjectileSprite->Scale) -
+	Entity->Projectile.HitBox.Bottom = (Entity->Movement.Position.y + ((Entity->Projectile.ProjectileSprite->BitSize * Entity->Projectile.ProjectileSprite->Scale) -
 		((Entity->Projectile.ProjectileSprite->BitSize * Entity->Projectile.ProjectileSprite->Scale) * BulletHitBoxScale.Bottom)));
 
-	Entity->Projectile.HitBox.Right = (Entity->Projectile.ProjectileSprite->Movement.Position.x + ((Entity->Projectile.ProjectileSprite->BitSize * Entity->Projectile.ProjectileSprite->Scale) -
+	Entity->Projectile.HitBox.Right = (Entity->Movement.Position.x + ((Entity->Projectile.ProjectileSprite->BitSize * Entity->Projectile.ProjectileSprite->Scale) -
 		((Entity->Projectile.ProjectileSprite->BitSize * Entity->Projectile.ProjectileSprite->Scale) * BulletHitBoxScale.Right)));
 }
 

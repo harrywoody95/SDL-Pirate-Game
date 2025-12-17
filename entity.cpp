@@ -23,6 +23,7 @@ Entity* CreateEntity(float x, float y, Game* game, EntityType Type)
 	case EntityType::Projectile:
 	{
 		entity->Projectile = {};
+		entity->Movement.Position = { x,y };
 		break;
 	}
 	case EntityType::Item:
@@ -55,6 +56,9 @@ void UpdateEntities(Game* game)
 {
 	for (int x = 0; x < game->EntityList.size(); x++)
 	{
+		game->EntityList[x]->Movement.Update(game->EntityList[x]);
+		UpdateSpritePosition(game->EntityList[x]);
+
 		switch (game->EntityList[x]->Type) {
 		case EntityType::Player:
 		{
@@ -63,7 +67,7 @@ void UpdateEntities(Game* game)
 		}
 		case EntityType::NPC:
 		{
-			game->EntityList[x]->NPC.UpdateNPC(game);
+			game->EntityList[x]->NPC.UpdateNPC(game, game->EntityList[x]);
 			break;
 		}
 		case EntityType::Projectile:

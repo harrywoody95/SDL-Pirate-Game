@@ -1,5 +1,6 @@
 #include "Movement.h"
 #include <string>
+#include "Entity.h"
 
 State StringToState(std::string state)
 {
@@ -55,4 +56,30 @@ Direction StringToDirection(std::string direction)
 	{
 		return Direction::East;
 	}
+}
+
+void Movement::init(Entity* e, float PosX, float PosY)
+{
+	e->Movement.Position.x = PosX;
+	e->Movement.Position.y = PosY;
+	Velocity.x = 0.0;
+	Velocity.y = 0.0;
+}
+void Movement::SetPosition(Entity* e, float PosX, float PosY)
+{
+	e->Movement.Position.x = PosX;
+	e->Movement.Position.y = PosY;
+}
+
+void Movement::Update(Entity* e)
+{
+	e->Movement.Position.x = e->Movement.Position.x + (e->Movement.Velocity.x * Speed);
+	e->Movement.Position.y = e->Movement.Position.y + (e->Movement.Velocity.y * Speed);
+}
+
+void Movement::SetSpeed(int speed)
+{
+	Speed = speed;
+	LastState = CurrentState;
+	LastDirection = CurrentDirection;
 }

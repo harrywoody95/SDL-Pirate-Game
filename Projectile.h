@@ -14,6 +14,7 @@ struct Projectile {
 	Sprite* ProjectileSprite;
 	Entity* ShooterPtr;
 	ProjectileType Type;
+	Movement Movement;
 	int Damage;
 	// **** collision box instead? ****
 	Box HitBox;

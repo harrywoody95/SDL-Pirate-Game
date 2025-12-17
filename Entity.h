@@ -3,6 +3,7 @@
 #include "Item.h"
 #include "Projectile.h"
 #include "NPC.h"
+#include "Movement.h"
 
 struct Game;
 struct NoEntity {};
@@ -18,6 +19,7 @@ enum class EntityType {
 struct Entity {
 	EntityType Type;
 	int id;
+	Movement Movement;
 
 	union {
 		NoEntity NoEntity;
