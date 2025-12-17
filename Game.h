@@ -12,6 +12,7 @@
 #include <vector>
 #include "Map.h"
 #include "Entity.h"
+#include "Editor.h"
 
 struct Game {
 
@@ -28,6 +29,7 @@ struct Game {
 	Audio Audio;
 	Camera Camera;
 	Map Map;
+	Editor Editor;
 
 	bool IsRunning = false;
 	
