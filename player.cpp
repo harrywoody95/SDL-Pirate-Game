@@ -6,6 +6,8 @@
 Entity* CreatePlayer(float x, float y, Game* game)
 {
 	Entity* entity = CreateEntity(x, y, game, EntityType::Player);
+	entity->Movement.CurrentDirection = East;
+	entity->Movement.LastDirection = West;
 	Player* Player = &entity->Player;
 	Player->Sprites.Body = new Sprite();
 	Player->Sprites.Body->CreateSprite(x, y, "Assets/Sprites/Character/transparent.png", 16, 4, &game->SpriteList);
@@ -30,6 +32,11 @@ void Player::UpdatePlayer(Game* game)
 	if (Health <= 0)
 	{
 		return;
+	}
+
+	if (!CanAttack)
+	{
+		AttackCooldown++;
 	}
 	UpdateCharacterCollision(game->PlayerEntity);
 	UpdateCharacterHitbox(this);

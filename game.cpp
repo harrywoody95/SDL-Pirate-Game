@@ -6,6 +6,7 @@
 #include "SDL_mixer.h"
 #include <fstream>
 #include "DebugBox.h"
+#include "Movement.h"
 
 
 SDL_Event Game::Event;
@@ -146,15 +147,46 @@ void Game::LoadAnimations()
 			{
 				std::string FileName = "";
 				FileName = DirectionText + "-" + StateText;
-				Animation a = Animation(Path, FileName, 4, StringToDirection(DirectionText), StringToState(StateText));
-				AnimationList.CharacterAnimations.push_back(a);
+				//Animation a = Animation(Path, FileName, 4, StringToDirection(DirectionText), StringToState(StateText));
+				//AnimationList.CharacterAnimations.push_back(a);
+
+				
+
+				std::vector <SDL_Texture*> Textures;
+
+				for (int Index = 1; Index < 5; Index++)
+				{
+					std::string FullFilePath = Path + FileName + "-" + std::to_string(Index) + ".png";
+					const char* File = FullFilePath.c_str();
+					SDL_Texture* Tex = TextureManager::LoadTexture(File);
+					Textures.push_back(Tex);
+				}
+				
+				SpriteAnimation* ani = CreateSpriteAnimation(FileName, Textures, 30);
+				AnimationList.push_back(ani);
+
 			}
 			if (StateText == "Idle")
 			{
 				std::string FileName = "";
 				FileName = DirectionText + "-" + StateText;
-				Animation a = Animation(Path, FileName, 3, StringToDirection(DirectionText), StringToState(StateText));
-				AnimationList.CharacterAnimations.push_back(a);
+				/*Animation a = Animation(Path, FileName, 3, StringToDirection(DirectionText), StringToState(StateText));
+				AnimationList.CharacterAnimations.push_back(a);*/
+
+				
+
+				std::vector <SDL_Texture*> Textures;
+
+				for (int Index = 1; Index < 4; Index++)
+				{
+					std::string FullFilePath = Path + FileName + "-" + std::to_string(Index) + ".png";
+					const char* File = FullFilePath.c_str();
+					SDL_Texture* Tex = TextureManager::LoadTexture(File);
+					Textures.push_back(Tex);
+				}
+
+				SpriteAnimation* ani = CreateSpriteAnimation(FileName, Textures, 30);
+				AnimationList.push_back(ani);
 			}
 			// ATTACK CREATION
 			if (StateText == "Attack")
@@ -177,9 +209,25 @@ void Game::LoadAnimations()
 					}
 					std::string FileName = "";
 					FileName = DirectionText + "-" + StateText + "-" + EquipmentText;
-					Animation a = Animation(Path, FileName, 3, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType(EquipmentText));
-					AnimationList.CharacterAnimations.push_back(a);
+					/*Animation a = Animation(Path, FileName, 3, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType(EquipmentText));
+					AnimationList.CharacterAnimations.push_back(a);*/
 					//make files for attack gun and sword
+
+
+					
+
+					std::vector <SDL_Texture*> Textures;
+
+					for (int Index = 1; Index < 4; Index++)
+					{
+						std::string FullFilePath = Path + FileName + "-" + std::to_string(Index) + ".png";
+						const char* File = FullFilePath.c_str();
+						SDL_Texture* Tex = TextureManager::LoadTexture(File);
+						Textures.push_back(Tex);
+					}
+
+					SpriteAnimation* ani = CreateSpriteAnimation(FileName, Textures, 30);
+					AnimationList.push_back(ani);
 				}
 			}
 			// DIG CREATION
@@ -188,9 +236,26 @@ void Game::LoadAnimations()
 				std::string Shovel = "Shovel";
 				std::string FileName = "";
 				FileName = DirectionText + "-" + StateText + "-" + Shovel;
-				Animation a = Animation(Path, FileName, 3, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType(Shovel));
-				AnimationList.CharacterAnimations.push_back(a);
+				//Animation a = Animation(Path, FileName, 3, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType(Shovel));
+				//AnimationList.CharacterAnimations.push_back(a);
 				//make files for dig shovel
+
+
+
+				
+
+				std::vector <SDL_Texture*> Textures;
+
+				for (int Index = 1; Index < 4; Index++)
+				{
+					std::string FullFilePath = Path + FileName + "-" + std::to_string(Index) + ".png";
+					const char* File = FullFilePath.c_str();
+					SDL_Texture* Tex = TextureManager::LoadTexture(File);
+					Textures.push_back(Tex);
+				}
+
+				SpriteAnimation* ani = CreateSpriteAnimation(FileName, Textures, 30);
+				AnimationList.push_back(ani);
 			}
 
 		}
@@ -199,9 +264,24 @@ void Game::LoadAnimations()
 
 		std::string FileName = "";
 		FileName = "Player-Die";
-		Animation a = Animation(Path, FileName, 4, Direction::East, State::Dead);
-		AnimationList.CharacterAnimations.push_back(a);
+		//Animation a = Animation(Path, FileName, 4, Direction::East, State::Dead);
+		//AnimationList.CharacterAnimations.push_back(a);
 		//do player die here
+
+		
+
+		std::vector <SDL_Texture*> Textures;
+
+		for (int Index = 1; Index < 5; Index++)
+		{
+			std::string FullFilePath = Path + FileName + "-" + std::to_string(Index) + ".png";
+			const char* File = FullFilePath.c_str();
+			SDL_Texture* Tex = TextureManager::LoadTexture(File);
+			Textures.push_back(Tex);
+		}
+
+		SpriteAnimation* ani = CreateSpriteAnimation(FileName, Textures, 30);
+		AnimationList.push_back(ani);
 	
 
 	//COSTUME
@@ -301,13 +381,39 @@ void Game::LoadAnimations()
 						if (StateText == "Idle")
 						{
 							Animation a = Animation(BasePath, FileName, 3, StringToDirection(DirectionText), StringToState(StateText), StringToCostumeType(CostumeText), StringToColour(ColourText));
-							AnimationList.CostumeAnimations.push_back(a);
+							//AnimationList.CostumeAnimations.push_back(a);
+
+							std::vector <SDL_Texture*> Textures;
+
+							for (int Index = 1; Index < 4; Index++)
+							{
+								std::string FullFilePath = Path + ColourText + "/" + FileName + "-" + std::to_string(Index) + ".png";
+								const char* File = FullFilePath.c_str();
+								SDL_Texture* Tex = TextureManager::LoadTexture(File);
+								Textures.push_back(Tex);
+							}
+
+							SpriteAnimation* ani = CreateSpriteAnimation(FileName, Textures, 30);
+							AnimationList.push_back(ani);
 						}
 						else
 						{
-							Animation a = Animation(BasePath, FileName, 4, StringToDirection(DirectionText), StringToState(StateText), StringToCostumeType(CostumeText), StringToColour(ColourText));
-							AnimationList.CostumeAnimations.push_back(a);
+							//Animation a = Animation(BasePath, FileName, 4, StringToDirection(DirectionText), StringToState(StateText), StringToCostumeType(CostumeText), StringToColour(ColourText));
+							//AnimationList.CostumeAnimations.push_back(a);
 							// make files for costumes idle or walk
+
+							std::vector <SDL_Texture*> Textures;
+
+							for (int Index = 1; Index < 5; Index++)
+							{
+								std::string FullFilePath = Path + ColourText + "/" + FileName + "-" + std::to_string(Index) + ".png";
+								const char* File = FullFilePath.c_str();
+								SDL_Texture* Tex = TextureManager::LoadTexture(File);
+								Textures.push_back(Tex);
+							}
+
+							SpriteAnimation* ani = CreateSpriteAnimation(FileName, Textures, 30);
+							AnimationList.push_back(ani);
 						}
 					}
 				}
@@ -376,9 +482,22 @@ void Game::LoadAnimations()
 							std::string FileName = "";
 							std::string BasePath = Path + ColourText + "/";
 							FileName = DirectionText + "-" + StateText + "-" + EquipmentText + "-" + CostumeText + "-" + ColourText;
-							Animation a = Animation(BasePath, FileName, 3, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType(EquipmentText), StringToCostumeType(CostumeText), StringToColour(ColourText));
-							AnimationList.CostumeAnimations.push_back(a);
+							//Animation a = Animation(BasePath, FileName, 3, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType(EquipmentText), StringToCostumeType(CostumeText), StringToColour(ColourText));
+							//AnimationList.CostumeAnimations.push_back(a);
 							//make files for attack gun and sword
+
+							std::vector <SDL_Texture*> Textures;
+
+							for (int Index = 1; Index < 4; Index++)
+							{
+								std::string FullFilePath = Path + ColourText + "/" + FileName + "-" + std::to_string(Index) + ".png";
+								const char* File = FullFilePath.c_str();
+								SDL_Texture* Tex = TextureManager::LoadTexture(File);
+								Textures.push_back(Tex);
+							}
+
+							SpriteAnimation* ani = CreateSpriteAnimation(FileName, Textures, 30);
+							AnimationList.push_back(ani);
 						}
 					}
 				}
@@ -434,9 +553,22 @@ void Game::LoadAnimations()
 						std::string FileName = "";
 						std::string BasePath = Path + ColourText + "/";
 						FileName = DirectionText + "-" + StateText + "-" + Shovel + "-" + CostumeText + "-" + ColourText;
-						Animation a = Animation(BasePath, FileName, 3, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType(Shovel), StringToCostumeType(CostumeText), StringToColour(ColourText));
-						AnimationList.CostumeAnimations.push_back(a);
+						//Animation a = Animation(BasePath, FileName, 3, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType(Shovel), StringToCostumeType(CostumeText), StringToColour(ColourText));
+						//AnimationList.CostumeAnimations.push_back(a);
 						//make files for dig shovel
+
+						std::vector <SDL_Texture*> Textures;
+
+						for (int Index = 1; Index < 4; Index++)
+						{
+							std::string FullFilePath = Path + ColourText + "/" + FileName + "-" + std::to_string(Index) + ".png";
+							const char* File = FullFilePath.c_str();
+							SDL_Texture* Tex = TextureManager::LoadTexture(File);
+							Textures.push_back(Tex);
+						}
+
+						SpriteAnimation* ani = CreateSpriteAnimation(FileName, Textures, 30);
+						AnimationList.push_back(ani);
 					}
 				}
 			}
@@ -489,9 +621,22 @@ void Game::LoadAnimations()
 			std::string FileName = "";
 			std::string BasePath = Path + ColourText + "/";
 			FileName = "Player-Die-" + CostumeText + "-" + ColourText;
-			Animation a = Animation(BasePath, FileName, 4, Direction::East, State::Dead, StringToCostumeType(CostumeText), StringToColour(ColourText));
-			AnimationList.CostumeAnimations.push_back(a);
+			//Animation a = Animation(BasePath, FileName, 4, Direction::East, State::Dead, StringToCostumeType(CostumeText), StringToColour(ColourText));
+			//AnimationList.CostumeAnimations.push_back(a);
 			//player die here
+
+			std::vector <SDL_Texture*> Textures;
+
+			for (int Index = 1; Index < 5; Index++)
+			{
+				std::string FullFilePath = Path + ColourText + "/" + FileName + "-" + std::to_string(Index) + ".png";
+				const char* File = FullFilePath.c_str();
+				SDL_Texture* Tex = TextureManager::LoadTexture(File);
+				Textures.push_back(Tex);
+			}
+
+			SpriteAnimation* ani = CreateSpriteAnimation(FileName, Textures, 30);
+			AnimationList.push_back(ani);
 
 		}
 	}
@@ -564,9 +709,22 @@ void Game::LoadAnimations()
 					}
 					std::string FileName = "";
 					FileName = DirectionText + "-" + StateText + "-" + EquipmentText;
-					Animation a = Animation(Path, FileName, 3, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType(EquipmentText));
-					AnimationList.EquipmentAnimations.push_back(a);
+					//Animation a = Animation(Path, FileName, 3, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType(EquipmentText));
+					//AnimationList.EquipmentAnimations.push_back(a);
 					//make files for equipment animations
+
+					std::vector <SDL_Texture*> Textures;
+
+					for (int Index = 1; Index < 4; Index++)
+					{
+						std::string FullFilePath = Path + FileName + "-" + std::to_string(Index) + ".png";
+						const char* File = FullFilePath.c_str();
+						SDL_Texture* Tex = TextureManager::LoadTexture(File);
+						Textures.push_back(Tex);
+					}
+
+					SpriteAnimation* ani = CreateSpriteAnimation(FileName, Textures, 30);
+					AnimationList.push_back(ani);
 				}
 			}
 			if (StateText == "Walk")
@@ -589,9 +747,22 @@ void Game::LoadAnimations()
 					}
 					std::string FileName = "";
 					FileName = DirectionText + "-" + StateText + "-" + EquipmentText;
-					Animation a = Animation(Path, FileName, 4, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType(EquipmentText));
-					AnimationList.EquipmentAnimations.push_back(a);
+					//Animation a = Animation(Path, FileName, 4, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType(EquipmentText));
+					//AnimationList.EquipmentAnimations.push_back(a);
 					//make files for equipment animations
+
+					std::vector <SDL_Texture*> Textures;
+
+					for (int Index = 1; Index < 5; Index++)
+					{
+						std::string FullFilePath = Path + FileName + "-" + std::to_string(Index) + ".png";
+						const char* File = FullFilePath.c_str();
+						SDL_Texture* Tex = TextureManager::LoadTexture(File);
+						Textures.push_back(Tex);
+					}
+
+					SpriteAnimation* ani = CreateSpriteAnimation(FileName, Textures, 30);
+					AnimationList.push_back(ani);
 				}
 			}
 		}
@@ -665,9 +836,22 @@ void Game::LoadAnimations()
 					}
 					std::string FileName = "";
 					FileName = DirectionText + "-" + StateText + "-" + EquipmentText + "-Effect";
-					Animation a = Animation(Path, FileName, 2, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType(EquipmentText));
-					AnimationList.EffectAnimations.push_back(a);
+					//Animation a = Animation(Path, FileName, 2, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType(EquipmentText));
+					//AnimationList.EffectAnimations.push_back(a);
 					//make files for sword/gun effect animations
+
+					std::vector <SDL_Texture*> Textures;
+
+					for (int Index = 1; Index < 3; Index++)
+					{
+						std::string FullFilePath = Path + FileName + "-" + std::to_string(Index) + ".png";
+						const char* File = FullFilePath.c_str();
+						SDL_Texture* Tex = TextureManager::LoadTexture(File);
+						Textures.push_back(Tex);
+					}
+
+					SpriteAnimation* ani = CreateSpriteAnimation(FileName, Textures, 30);
+					AnimationList.push_back(ani);
 				}
 
 			}
@@ -675,12 +859,77 @@ void Game::LoadAnimations()
 			{
 				std::string FileName = "";
 				FileName = DirectionText + "-" + StateText + "-" + "Shovel" + "-Effect";
-				Animation a = Animation(Path, FileName, 2, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType("Shovel"));
-				AnimationList.EffectAnimations.push_back(a);
+				//Animation a = Animation(Path, FileName, 2, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType("Shovel"));
+				//AnimationList.EffectAnimations.push_back(a);
 				//make files for shovel effect animations
+
+				std::vector <SDL_Texture*> Textures;
+
+				for (int Index = 1; Index < 3; Index++)
+				{
+					std::string FullFilePath = Path + FileName + "-" + std::to_string(Index) + ".png";
+					const char* File = FullFilePath.c_str();
+					SDL_Texture* Tex = TextureManager::LoadTexture(File);
+					Textures.push_back(Tex);
+				}
+
+				SpriteAnimation* ani = CreateSpriteAnimation(FileName, Textures, 30);
+				AnimationList.push_back(ani);
 			}
 		}
 	}
+
+	std::vector <SDL_Texture*> Textures1;
+	std::string FullFilePath = "Assets/Sprites/Projectile/Down-Gun-Projectile.png";
+	const char* File = FullFilePath.c_str();
+	
+	SDL_Texture* Tex = TextureManager::LoadTexture(File);
+	Textures1.push_back(Tex);
+	
+	std::string name = "Down-Gun-Projectile";
+
+	SpriteAnimation* ani0 = CreateSpriteAnimation(name, Textures1, 30);
+	AnimationList.push_back(ani0);
+
+	Textures1.clear();
+
+
+	FullFilePath = "Assets/Sprites/Projectile/Up-Gun-Projectile.png";
+	File = FullFilePath.c_str();
+
+	Tex = TextureManager::LoadTexture(File);
+	Textures1.push_back(Tex);
+	name = "Up-Gun-Projectile";
+
+	SpriteAnimation* ani1 = CreateSpriteAnimation(name, Textures, 30);
+	AnimationList.push_back(ani1);
+
+	Textures1.clear();
+
+	FullFilePath = "Assets/Sprites/Projectile/Left-Gun-Projectile.png";
+	File = FullFilePath.c_str();
+
+	Tex = TextureManager::LoadTexture(File);
+	Textures1.push_back(Tex);
+	name = "Left-Gun-Projectile";
+
+	SpriteAnimation* ani2 = CreateSpriteAnimation(name, Textures, 30);
+	AnimationList.push_back(ani2);
+
+	Textures1.clear();
+
+	FullFilePath = "Assets/Sprites/Projectile/Right-Gun-Projectile.png";
+	File = FullFilePath.c_str();
+
+	Tex = TextureManager::LoadTexture(File);
+	Textures1.push_back(Tex);
+	name = "Right-Gun-Projectile";
+
+	SpriteAnimation* ani3 = CreateSpriteAnimation(name, Textures, 30);
+	AnimationList.push_back(ani3);
+
+	Textures.clear();
+
 }
 
 void Game::HandleWindowEvent()

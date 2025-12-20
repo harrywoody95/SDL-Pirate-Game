@@ -28,3 +28,5 @@ struct Costume
 Costume* CreateCostume(CostumeType Type, Colour Colour, int DefenceStat);
 Colour StringToColour(std::string Colour);
 CostumeType StringToCostumeType(std::string Type);
+std::string ColourToString(Colour Colour);
+std::string CostumeTypeToString(CostumeType Type);

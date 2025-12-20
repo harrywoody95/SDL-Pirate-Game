@@ -1,5 +1,5 @@
 #pragma once
-
+#include <string>
 enum class EquipmentType {
 	None,
 	Sword,
@@ -13,3 +13,4 @@ struct Equipment {
 };
 
 Equipment* CreateEquipment(EquipmentType Type, int Damage);
+std::string EquipmentTypeToString(EquipmentType type);

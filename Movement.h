@@ -52,3 +52,5 @@ struct Movement {
 
 State StringToState(std::string state);
 Direction StringToDirection(std::string direction);
+std::string DirectionToString(Direction direction);
+std::string StateToString(State state);

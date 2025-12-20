@@ -231,6 +231,10 @@ void NPC::UpdateNPC(Game* game, Entity* NPC)
 	{
 		Hostile = true;
 	}
+	if (!CanAttack)
+	{
+		AttackCooldown++;
+	}
 	UpdatePatrolRoute(game, NPC);
 	UpdateCharacterCollision(NPC);
 	UpdateCharacterHitbox(this);

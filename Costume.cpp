@@ -27,6 +27,33 @@ Colour StringToColour(std::string Colour) {
 	}
 }
 
+std::string ColourToString(Colour Colour) {
+	if (Colour == Colour::Black)
+	{
+		return "Black";
+	}
+	if (Colour == Colour::White)
+	{
+		return "White";
+	}
+	if (Colour == Colour::Blue)
+	{
+		return "Blue";
+	}
+	if (Colour == Colour::Green)
+	{
+		return "Green";
+	}
+	if (Colour == Colour::Yellow)
+	{
+		return "Yellow";
+	}
+	if (Colour == Colour::Red)
+	{
+		return "Red";
+	}
+}
+
 CostumeType StringToCostumeType(std::string Type) {
 	if (Type == "Basic")
 	{
@@ -35,6 +62,17 @@ CostumeType StringToCostumeType(std::string Type) {
 	if (Type == "Advanced")
 	{
 		return CostumeType::Advanced;
+	}
+}
+
+std::string CostumeTypeToString(CostumeType Type) {
+	if (Type == CostumeType::Basic)
+	{
+		return "Basic";
+	}
+	if (Type == CostumeType::Advanced)
+	{
+		return "Advanced";
 	}
 }
 

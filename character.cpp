@@ -58,7 +58,7 @@ void HandleCharacterProjectileFiring(Entity* e, Game* game)
 
 	if (character->CanAttack)
 	{
-		if (e->Movement.CurrentState == Attack && character->PlayerAnimations.CharacterAnimation.lastindex == 2)
+		if (e->Movement.CurrentState == Attack)
 		{
 			Vec2 velocity = DirectionToVelocity(e->Movement.CurrentDirection);
 			Vec2 ProjectilePosition = {0,0};
@@ -98,9 +98,10 @@ void HandleCharacterProjectileFiring(Entity* e, Game* game)
 	else
 	{
 		
-		if (character->PlayerAnimations.CharacterAnimation.lastindex != 2)
+		if (character->AttackCooldown > 90)
 		{
 			character->CanAttack = true;
+			character->AttackCooldown = 0;
 		}
 	}
 }
@@ -129,7 +130,7 @@ void HandleCharacterSwordSlash(Entity* e, Game* game)
 	if (character->CanAttack)
 	{
 		std::vector <Character*> CharactersToSlash = NearbyCharacters(game, e);
-		if (e->Movement.CurrentState == Attack && character->PlayerAnimations.CharacterAnimation.lastindex == 2)
+		if (e->Movement.CurrentState == Attack)
 		{
 			character->CanAttack = false;
 			for (int x = 0; x < CharactersToSlash.size(); x++)
@@ -140,9 +141,10 @@ void HandleCharacterSwordSlash(Entity* e, Game* game)
 	}
 	else
 	{
-		if (character->PlayerAnimations.CharacterAnimation.lastindex != 2)
+		if (character->AttackCooldown > 90)
 		{
 			character->CanAttack = true;
+			character->AttackCooldown = 0;
 		}
 	}
 }

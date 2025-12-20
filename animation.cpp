@@ -104,44 +104,47 @@ void SetPlayerAnimation(Game* game, Entity* e)
 	}
 
 
-	for (int x = 0; x < game->AnimationList.CharacterAnimations.size(); x++)
-	{
 		if (Character->Health < 1)
 		{
 
-			if (game->AnimationList.CharacterAnimations[x].direction == East && game->AnimationList.CharacterAnimations[x].state == Dead && e->Movement.LastState != Dead)
+			if (e->Movement.LastState != Dead)
 			{
-				game->AnimationList.CharacterAnimations[x].ResetAnimation();
-				Character->PlayerAnimations.CharacterAnimation = game->AnimationList.CharacterAnimations[x];
-				Character->Sprites.Body->Texture = Character->PlayerAnimations.CharacterAnimation.Textures[0];
+				//game->AnimationList.CharacterAnimations[x].ResetAnimation();
+				//Character->PlayerAnimations.CharacterAnimation = game->AnimationList.CharacterAnimations[x];
+				//Character->Sprites.Body->Texture = Character->PlayerAnimations.CharacterAnimation.Textures[0];
+
+				StartSpriteAnimation(game, Character->Sprites.Body, "Player-Die", false);
 				return;
 			}
-			else
-				continue;
 		}
 
-		if (game->AnimationList.CharacterAnimations[x].direction == e->Movement.CurrentDirection && game->AnimationList.CharacterAnimations[x].state == e->Movement.CurrentState)
+		if (e->Movement.CurrentDirection == e->Movement.LastDirection && e->Movement.CurrentState == e->Movement.LastState)
 		{
-			if (e->Movement.CurrentState != Attack)
-			{
-				game->AnimationList.CharacterAnimations[x].ResetAnimation();
-				Character->PlayerAnimations.CharacterAnimation = game->AnimationList.CharacterAnimations[x];
-				Character->Sprites.Body->Texture = Character->PlayerAnimations.CharacterAnimation.Textures[0];
-				return;
-			}
-			if (Character->CurrentEquipment == nullptr)
-			{
-				return;
-			}
-			if (Character->CurrentEquipment->Type == game->AnimationList.CharacterAnimations[x].equipmentType)
-			{
-				game->AnimationList.CharacterAnimations[x].ResetAnimation();
-				Character->PlayerAnimations.CharacterAnimation = game->AnimationList.CharacterAnimations[x];
-				Character->Sprites.Body->Texture = Character->PlayerAnimations.CharacterAnimation.Textures[0];
-				return;
-			}
+			return;
 		}
-	}
+
+		if (e->Movement.CurrentState != Attack)
+		{
+			//game->AnimationList.CharacterAnimations[x].ResetAnimation();
+			//Character->PlayerAnimations.CharacterAnimation = game->AnimationList.CharacterAnimations[x];
+			//Character->Sprites.Body->Texture = Character->PlayerAnimations.CharacterAnimation.Textures[0];
+			std::string Name = DirectionToString(e->Movement.CurrentDirection) + "-" + StateToString(e->Movement.CurrentState);
+			StartSpriteAnimation(game, Character->Sprites.Body, Name, true);
+			return;
+		}
+
+		if (Character->CurrentEquipment == nullptr)
+		{
+			return;
+		}
+
+			//game->AnimationList.CharacterAnimations[x].ResetAnimation();
+			//Character->PlayerAnimations.CharacterAnimation = game->AnimationList.CharacterAnimations[x];
+			//Character->Sprites.Body->Texture = Character->PlayerAnimations.CharacterAnimation.Textures[0];
+			std::string Name = DirectionToString(e->Movement.CurrentDirection) + "-" + StateToString(e->Movement.CurrentState) + "-" + EquipmentTypeToString(Character->CurrentEquipment->Type);
+			StartSpriteAnimation(game, Character->Sprites.Body, Name, true);
+			return;
+
 }
 
 //change this entity parameter to entity eventually
@@ -160,54 +163,53 @@ void SetCostumeAnimation(Game* game, Entity* e)
 
 	if (Character->CurrentCostume == nullptr)
 	{
-		Character->PlayerAnimations.CostumeAnimation.reset();
-		Character->Sprites.Costume->Texture = nullptr;
+		if (Character->Sprites.Costume->Animation != nullptr)
+		{
+			delete(Character->Sprites.Costume->Animation);
+			Character->Sprites.Costume->Animation = nullptr;
+		}
 		return;
 	}
-	for (int x = 0; x < game->AnimationList.CostumeAnimations.size(); x++)
-	{
-		if (Character->Health < 1)
-		{
 
-			if (game->AnimationList.CostumeAnimations[x].direction == East && game->AnimationList.CostumeAnimations[x].state == Dead &&
-				Character->CurrentCostume->Type == game->AnimationList.CostumeAnimations[x].costumeType &&
-				game->AnimationList.CostumeAnimations[x].colour == Character->CurrentCostume->Colour &&
-				e->Movement.LastState != Dead)
-			{
-				game->AnimationList.CostumeAnimations[x].ResetAnimation();
-				Character->PlayerAnimations.CostumeAnimation = {};
-				Character->PlayerAnimations.CostumeAnimation = game->AnimationList.CostumeAnimations[x];
-				Character->Sprites.Costume->Texture = Character->PlayerAnimations.CostumeAnimation.value().Textures[0];
-				return;
-			}
-		}
-		if (game->AnimationList.CostumeAnimations[x].direction == e->Movement.CurrentDirection &&
-			game->AnimationList.CostumeAnimations[x].state == e->Movement.CurrentState &&
-			Character->CurrentCostume->Type == game->AnimationList.CostumeAnimations[x].costumeType &&
-			game->AnimationList.CostumeAnimations[x].colour == Character->CurrentCostume->Colour)
+	if (Character->Health < 1)
+	{
+
+		if (e->Movement.LastState != Dead)
 		{
-			if (e->Movement.CurrentState != Attack)
-			{
-				game->AnimationList.CostumeAnimations[x].ResetAnimation();
-				Character->PlayerAnimations.CostumeAnimation = {};
-				Character->PlayerAnimations.CostumeAnimation = game->AnimationList.CostumeAnimations[x];
-				Character->Sprites.Costume->Texture = Character->PlayerAnimations.CostumeAnimation.value().Textures[0];
-				return;
-			}
-			if (Character->CurrentEquipment == nullptr)
-			{
-				return;
-			}
-			if (Character->CurrentEquipment->Type == game->AnimationList.CostumeAnimations[x].equipmentType)
-			{
-				game->AnimationList.CostumeAnimations[x].ResetAnimation();
-				Character->PlayerAnimations.CostumeAnimation = {};
-				Character->PlayerAnimations.CostumeAnimation = game->AnimationList.CostumeAnimations[x];
-				Character->Sprites.Costume->Texture = Character->PlayerAnimations.CostumeAnimation.value().Textures[0];
-				return;
-			}
+			//game->AnimationList.CostumeAnimations[x].ResetAnimation();
+			//Character->PlayerAnimations.CostumeAnimation = {};
+			//Character->PlayerAnimations.CostumeAnimation = game->AnimationList.CostumeAnimations[x];
+			//Character->Sprites.Costume->Texture = Character->PlayerAnimations.CostumeAnimation.value().Textures[0];
+			std::string Name = "Player-Die-" + CostumeTypeToString(Character->CurrentCostume->Type) + "-" + ColourToString(Character->CurrentCostume->Colour);
+			StartSpriteAnimation(game, Character->Sprites.Costume, Name, false);
+			return;
 		}
 	}
+
+	if (e->Movement.CurrentState != Attack && e->Movement.CurrentState != Dead)
+	{
+		//game->AnimationList.CostumeAnimations[x].ResetAnimation();
+		//Character->PlayerAnimations.CostumeAnimation = {};
+		//Character->PlayerAnimations.CostumeAnimation = game->AnimationList.CostumeAnimations[x];
+		//Character->Sprites.Costume->Texture = Character->PlayerAnimations.CostumeAnimation.value().Textures[0];
+		std::string Name = DirectionToString(e->Movement.CurrentDirection) + "-" + StateToString(e->Movement.CurrentState) + "-" + CostumeTypeToString(Character->CurrentCostume->Type) + "-" + ColourToString(Character->CurrentCostume->Colour);
+		StartSpriteAnimation(game, Character->Sprites.Costume, Name, true);
+		return;
+	}
+	if (Character->CurrentEquipment == nullptr || e->Movement.CurrentState == Dead)
+	{
+		return;
+	}
+
+	//game->AnimationList.CostumeAnimations[x].ResetAnimation();
+	//Character->PlayerAnimations.CostumeAnimation = {};
+	//Character->PlayerAnimations.CostumeAnimation = game->AnimationList.CostumeAnimations[x];
+	//Character->Sprites.Costume->Texture = Character->PlayerAnimations.CostumeAnimation.value().Textures[0];
+	std::string Name = DirectionToString(e->Movement.CurrentDirection) + "-" + StateToString(e->Movement.CurrentState) + "-" + EquipmentTypeToString(Character->CurrentEquipment->Type) + "-" + 
+		CostumeTypeToString(Character->CurrentCostume->Type) + "-" + ColourToString(Character->CurrentCostume->Colour);
+
+	StartSpriteAnimation(game, Character->Sprites.Costume, Name, true);
+	return;
 }
 
 void SetEquipmentAnimation(Game* game, Entity* e)
@@ -225,22 +227,23 @@ void SetEquipmentAnimation(Game* game, Entity* e)
 
 	if (Character->CurrentEquipment == nullptr || e->Movement.CurrentState == Attack || Character->Health < 1)
 	{
-		Character->PlayerAnimations.EquipmentAnimation.reset();
-		Character->Sprites.Equipment->Texture = nullptr;
+		//Character->PlayerAnimations.EquipmentAnimation.reset();
+		//Character->Sprites.Equipment->Texture = nullptr;
+		delete(Character->Sprites.Equipment->Animation);
+		Character->Sprites.Equipment->Animation = nullptr;
+		Character->Sprites.Equipment->Texture = TextureManager::LoadTexture("Assets/Sprites/Character/transparent.png");
 		return;
 	}
-	for (int x = 0; x < game->AnimationList.EquipmentAnimations.size(); x++)
-	{
-		if (game->AnimationList.EquipmentAnimations[x].direction == e->Movement.CurrentDirection &&
-			game->AnimationList.EquipmentAnimations[x].state == e->Movement.CurrentState &&
-			Character->CurrentEquipment->Type == game->AnimationList.EquipmentAnimations[x].equipmentType)
-		{
-			game->AnimationList.EquipmentAnimations[x].ResetAnimation();
-			Character->PlayerAnimations.EquipmentAnimation = {};
-			Character->PlayerAnimations.EquipmentAnimation = game->AnimationList.EquipmentAnimations[x];
-			Character->Sprites.Equipment->Texture = Character->PlayerAnimations.EquipmentAnimation.value().Textures[0];
-		}
-	}
+
+
+			//game->AnimationList.EquipmentAnimations[x].ResetAnimation();
+			//Character->PlayerAnimations.EquipmentAnimation = {};
+			//Character->PlayerAnimations.EquipmentAnimation = game->AnimationList.EquipmentAnimations[x];
+			//Character->Sprites.Equipment->Texture = Character->PlayerAnimations.EquipmentAnimation.value().Textures[0];
+			std::string Name = DirectionToString(e->Movement.CurrentDirection) + "-" + StateToString(e->Movement.CurrentState) + "-" + EquipmentTypeToString(Character->CurrentEquipment->Type);
+			StartSpriteAnimation(game, Character->Sprites.Equipment, Name, true);
+		
+	
 }
 
 void SetEffectAnimation(Game* game, Entity* e)
@@ -259,25 +262,23 @@ void SetEffectAnimation(Game* game, Entity* e)
 
 	if (Character->CurrentEquipment == nullptr || e->Movement.CurrentState != Attack)
 	{
-		if (!Character->PlayerAnimations.EffectAnimation.has_value())
+		if (Character->EffectSprite->Animation == nullptr)
 		{
 			return;
 		}
-		Character->PlayerAnimations.EffectAnimation.reset();
-		Character->EffectSprite->Texture = nullptr;
+		delete (Character->EffectSprite->Animation);
+		Character->EffectSprite->Animation = nullptr;
 		return;
 	}
-	for (int x = 0; x < game->AnimationList.EffectAnimations.size(); x++)
-	{
-		if (game->AnimationList.EffectAnimations[x].direction == e->Movement.CurrentDirection &&
-			game->AnimationList.EffectAnimations[x].state == e->Movement.CurrentState &&
-			Character->CurrentEquipment->Type == game->AnimationList.EffectAnimations[x].equipmentType)
-		{
-			game->AnimationList.EffectAnimations[x].ResetAnimation();
-			Character->PlayerAnimations.EffectAnimation = game->AnimationList.EffectAnimations[x];
-			//normally set the first texture to sprite but this one only has two. i either handle it in code or add a transparent sprite to each effect animation.
-		}
-	}
+
+
+	//game->AnimationList.EffectAnimations[x].ResetAnimation();
+	//Character->PlayerAnimations.EffectAnimation = game->AnimationList.EffectAnimations[x];
+	//normally set the first texture to sprite but this one only has two. i either handle it in code or add a transparent sprite to each effect animation.
+	std::string Name = DirectionToString(e->Movement.CurrentDirection) + "-" + StateToString(e->Movement.CurrentState) + "-" + EquipmentTypeToString(Character->CurrentEquipment->Type) + "-" + "Effect";
+	StartSpriteAnimation(game, Character->EffectSprite, Name, true);
+		
+	
 }
 
 void UpdateCharacterAnimation(Game* game, Entity* e)
@@ -296,7 +297,7 @@ void UpdateCharacterAnimation(Game* game, Entity* e)
 	{
 		SetPlayerAnimation(game, e);
 	}
-	Character->PlayerAnimations.CharacterAnimation.Speed.Counter++;
+	/*Character->PlayerAnimations.CharacterAnimation.Speed.Counter++;
 
 	if (!(Character->PlayerAnimations.CharacterAnimation.Speed.Counter == Character->PlayerAnimations.CharacterAnimation.Speed.TargetUntilChange))
 	{
@@ -316,7 +317,7 @@ void UpdateCharacterAnimation(Game* game, Entity* e)
 		Character->PlayerAnimations.CharacterAnimation.lastindex = 0;
 	}
 
-	Character->PlayerAnimations.CharacterAnimation.Speed.Counter = 0;
+	Character->PlayerAnimations.CharacterAnimation.Speed.Counter = 0;*/
 
 }
 
@@ -335,34 +336,34 @@ void UpdateEquipmentAnimation(Game* game, Entity* e)
 	if (((e->Movement.LastDirection != e->Movement.CurrentDirection || 
 		e->Movement.LastState != e->Movement.CurrentState) && 
 		Character->CurrentEquipment != nullptr) 
-		|| Character->CurrentEquipment != nullptr && Character->CurrentEquipment->Type != EquipmentType::None && !Character->PlayerAnimations.EquipmentAnimation.has_value())
+		|| Character->CurrentEquipment != nullptr && Character->CurrentEquipment->Type != EquipmentType::None && Character->Sprites.Equipment->Animation == nullptr)
 	{
 		SetEquipmentAnimation(game, e);
 	}
-	if (Character->CurrentEquipment == nullptr || Character->CurrentEquipment->Type == EquipmentType::None || !Character->PlayerAnimations.EquipmentAnimation.has_value())
-	{
-		return;
-	}
-	//e->Movement.Velocity = Character->Movement.Velocity;
-	//Character->Sprites.Equipment->Movement.Speed = Character->Movement.Speed;
-	//Character->Sprites.Equipment->Movement.Position = Character->Movement.Position;
-	Character->PlayerAnimations.EquipmentAnimation.value().Speed.Counter++;
+	//if (Character->CurrentEquipment == nullptr || Character->CurrentEquipment->Type == EquipmentType::None || !Character->PlayerAnimations.EquipmentAnimation.has_value())
+	//{
+	//	return;
+	//}
+	////e->Movement.Velocity = Character->Movement.Velocity;
+	////Character->Sprites.Equipment->Movement.Speed = Character->Movement.Speed;
+	////Character->Sprites.Equipment->Movement.Position = Character->Movement.Position;
+	//Character->PlayerAnimations.EquipmentAnimation.value().Speed.Counter++;
 
-	if (!(Character->PlayerAnimations.EquipmentAnimation.value().Speed.Counter == Character->PlayerAnimations.EquipmentAnimation.value().Speed.TargetUntilChange))
-	{
-		return;
-	}
+	//if (!(Character->PlayerAnimations.EquipmentAnimation.value().Speed.Counter == Character->PlayerAnimations.EquipmentAnimation.value().Speed.TargetUntilChange))
+	//{
+	//	return;
+	//}
 
-	Character->Sprites.Equipment->Texture = Character->PlayerAnimations.EquipmentAnimation.value().Textures[Character->PlayerAnimations.EquipmentAnimation.value().lastindex];
+	//Character->Sprites.Equipment->Texture = Character->PlayerAnimations.EquipmentAnimation.value().Textures[Character->PlayerAnimations.EquipmentAnimation.value().lastindex];
 
-	Character->PlayerAnimations.EquipmentAnimation.value().lastindex++;
+	//Character->PlayerAnimations.EquipmentAnimation.value().lastindex++;
 
-	if (Character->PlayerAnimations.EquipmentAnimation.value().lastindex >= Character->PlayerAnimations.EquipmentAnimation.value().Textures.size())
-	{
-		Character->PlayerAnimations.EquipmentAnimation.value().lastindex = 0;
-	}
+	//if (Character->PlayerAnimations.EquipmentAnimation.value().lastindex >= Character->PlayerAnimations.EquipmentAnimation.value().Textures.size())
+	//{
+	//	Character->PlayerAnimations.EquipmentAnimation.value().lastindex = 0;
+	//}
 
-	Character->PlayerAnimations.EquipmentAnimation.value().Speed.Counter = 0;
+	//Character->PlayerAnimations.EquipmentAnimation.value().Speed.Counter = 0;
 
 }
 
@@ -381,38 +382,38 @@ void UpdateCostumeAnimation(Game* game, Entity* e)
 	if (((e->Movement.LastDirection != e->Movement.CurrentDirection || 
 		e->Movement.LastState != e->Movement.CurrentState) &&
 		Character->CurrentCostume != nullptr) 
-		|| Character->CurrentCostume != nullptr && Character->CurrentCostume->Type != CostumeType::None && !Character->PlayerAnimations.CostumeAnimation.has_value())
+		|| Character->CurrentCostume != nullptr && Character->CurrentCostume->Type != CostumeType::None && Character->Sprites.Costume->Animation == nullptr)
 	{
 		SetCostumeAnimation(game, e);
 	}
-	if (Character->CurrentCostume == nullptr || Character->CurrentCostume->Type == CostumeType::None || !Character->PlayerAnimations.CostumeAnimation.has_value())
-	{
-		return;
-	}
-	//Character->Sprites.Costume->Movement.Velocity = Character->Movement.Velocity;
-	//Character->Sprites.Costume->Movement.Speed = Character->Movement.Speed;
-	//Character->Sprites.Costume->Movement.Position = Character->Movement.Position;
-	Character->PlayerAnimations.CostumeAnimation.value().Speed.Counter++;
+	//if (Character->CurrentCostume == nullptr || Character->CurrentCostume->Type == CostumeType::None || !Character->PlayerAnimations.CostumeAnimation.has_value())
+	//{
+	//	return;
+	//}
+	////Character->Sprites.Costume->Movement.Velocity = Character->Movement.Velocity;
+	////Character->Sprites.Costume->Movement.Speed = Character->Movement.Speed;
+	////Character->Sprites.Costume->Movement.Position = Character->Movement.Position;
+	//Character->PlayerAnimations.CostumeAnimation.value().Speed.Counter++;
 
-	if (!(Character->PlayerAnimations.CostumeAnimation.value().Speed.Counter == Character->PlayerAnimations.CostumeAnimation.value().Speed.TargetUntilChange))
-	{
-		return;
-	}
+	//if (!(Character->PlayerAnimations.CostumeAnimation.value().Speed.Counter == Character->PlayerAnimations.CostumeAnimation.value().Speed.TargetUntilChange))
+	//{
+	//	return;
+	//}
 
-	Character->Sprites.Costume->Texture = Character->PlayerAnimations.CostumeAnimation.value().Textures[Character->PlayerAnimations.CostumeAnimation.value().lastindex];
-	Character->PlayerAnimations.CostumeAnimation.value().lastindex++;
+	//Character->Sprites.Costume->Texture = Character->PlayerAnimations.CostumeAnimation.value().Textures[Character->PlayerAnimations.CostumeAnimation.value().lastindex];
+	//Character->PlayerAnimations.CostumeAnimation.value().lastindex++;
 
-	if (Character->PlayerAnimations.CostumeAnimation.value().lastindex >= Character->PlayerAnimations.CostumeAnimation.value().Textures.size())
-	{
-		if (e->Movement.CurrentState == Dead)
-		{
-			return;
-		}
+	//if (Character->PlayerAnimations.CostumeAnimation.value().lastindex >= Character->PlayerAnimations.CostumeAnimation.value().Textures.size())
+	//{
+	//	if (e->Movement.CurrentState == Dead)
+	//	{
+	//		return;
+	//	}
 
-		Character->PlayerAnimations.CostumeAnimation.value().lastindex = 0;
-	}
+	//	Character->PlayerAnimations.CostumeAnimation.value().lastindex = 0;
+	//}
 
-	Character->PlayerAnimations.CostumeAnimation.value().Speed.Counter = 0;
+	//Character->PlayerAnimations.CostumeAnimation.value().Speed.Counter = 0;
 
 }
 
@@ -432,7 +433,7 @@ void UpdateEffectAnimation(Game* game, Entity* e)
 	{
 		SetEffectAnimation(game, e);
 	}
-	if (Character->CurrentEquipment == nullptr || Character->CurrentEquipment->Type == EquipmentType::None || e->Movement.CurrentState != Attack)
+	/*if (Character->CurrentEquipment == nullptr || Character->CurrentEquipment->Type == EquipmentType::None || e->Movement.CurrentState != Attack)
 	{
 		return;
 	}
@@ -468,5 +469,5 @@ void UpdateEffectAnimation(Game* game, Entity* e)
 		Character->EffectSprite->Texture = Character->PlayerAnimations.EffectAnimation.value().PlainTexture;
 	}
 	Character->PlayerAnimations.EffectAnimation.value().Speed.Counter = 0;
-	Character->PlayerAnimations.EffectAnimation.value().lastindex++;
+	Character->PlayerAnimations.EffectAnimation.value().lastindex++;*/
 }

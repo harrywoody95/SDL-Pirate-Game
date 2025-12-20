@@ -12,7 +12,7 @@ struct Character {
 	Sprite* EffectSprite;
 	Costume* CurrentCostume = nullptr;
 	Equipment* CurrentEquipment = nullptr;
-	PlayerAnimation PlayerAnimations;
+	//PlayerAnimation PlayerAnimations;
 	Box Collision;
 	Box HitBox;
 
@@ -20,6 +20,8 @@ struct Character {
 	int GunCooldown = 0;
 	bool CanAttack = true;
 	bool BeenAttacked = false;
+	int AttackCooldown = 0;
+
 };
 
 void UpdateCharacterCollision(Entity* character);

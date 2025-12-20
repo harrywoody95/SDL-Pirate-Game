@@ -1,17 +1,42 @@
 #pragma once
 #include "SDL.h"
+#include <iostream>
 #include "Movement.h"
 #include <vector>
 #include <string>
 struct Camera;
 struct SpriteList;
 struct Entity;
-struct Sprite
+struct Game;
+
+struct SpriteAnimation
 {
 	std::string Name;
-	//Movement Movement;
+	std::vector <SDL_Texture*> Textures;
+	int TickSpeed;
+};
+
+struct SpriteAnimationState
+{
+	SpriteAnimation* Animation;
+	int CurrentTick;
+	bool Loop;
+	int CurrentFrameIndex;
+};
+//-------------UPCOMING CHANGES------------------
+// - Add SpriteAnimation struct
+//   . Identifier
+//	 . Textutres vector
+//	 . TickSpeed
+// - Add SpriteAnimationState
+//   . SpriteAnimation* Animation
+//	 . CurrentTick
+//	 . Loop Flag
+struct Sprite
+{
+	SpriteAnimationState* Animation = nullptr;
+	std::string Name;
 	Vec2 Position = {0,0};
-	//Vec2 Velocity = { 0,0 };
 	SDL_Texture* Texture = nullptr;
 	int Scale;
 	int BitSize;
@@ -33,3 +58,7 @@ struct CharacterSprites
 };
 
 void UpdateSpritePosition(Entity* e);
+
+
+SpriteAnimation* CreateSpriteAnimation(std::string Name, std::vector <SDL_Texture*> Textures, int TickSpeed);
+void StartSpriteAnimation(Game* game, Sprite* Sprite, std::string Name, bool Loop);

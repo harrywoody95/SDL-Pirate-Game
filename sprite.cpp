@@ -48,6 +48,41 @@ void Sprite::Draw(Camera* Camera)
 
 void Sprite::Update()
 {
+
+	//need to check if its a nullptr. if so set the sprite text to transparent?
+	if (Animation == nullptr)
+	{
+		return;
+	}
+	Animation->CurrentTick++;
+
+	if (Animation->Animation->TickSpeed <= Animation->CurrentTick)
+	{
+
+		Animation->CurrentTick = 0;
+
+		if (Animation->Animation->Textures.size() == Animation->CurrentFrameIndex + 1)
+		{
+			if (Animation->Loop)
+			{
+				Animation->CurrentFrameIndex = 0;
+				Texture = Animation->Animation->Textures[0];
+				return;
+			}
+			else
+			{
+				delete (Animation);
+				Animation = nullptr;
+				return;
+			}
+		}
+		else
+		{
+			Animation->CurrentFrameIndex++;
+			Texture = Animation->Animation->Textures[Animation->CurrentFrameIndex];
+		}
+	}
+	
 }
 
 void UpdateSpritePosition(Entity* e)
@@ -82,4 +117,46 @@ void UpdateSpritePosition(Entity* e)
 
 	}
 	}
+}
+
+SpriteAnimation* CreateSpriteAnimation(std::string Name, std::vector <SDL_Texture*> Textures, int TickSpeed)
+{
+	SpriteAnimation* a = new SpriteAnimation();
+	a->Name = Name;
+	a->Textures = Textures;
+	a->TickSpeed = TickSpeed;
+	return a;
+}
+
+void StartSpriteAnimation(Game* game, Sprite* Sprite, std::string Name, bool Loop)
+{
+	SpriteAnimationState* AnimationState = new SpriteAnimationState();
+	SpriteAnimation* Animation = nullptr;
+
+	if (Sprite->Animation != nullptr)
+	{
+		delete (Sprite->Animation);
+		Sprite->Animation = nullptr;
+	}
+	for (SpriteAnimation* a : game->AnimationList)
+	{
+		if (a->Name == Name)
+		{
+			Animation = a;
+			break;
+		}
+	}
+	if(Animation == nullptr)
+	{
+		std::cout << "****ERROR**** Animation name : " + Name + "was not found" << std::endl;
+		return;
+	}
+
+	AnimationState->CurrentTick = 0;
+	AnimationState->Loop = Loop;
+	AnimationState->Animation = Animation;
+	AnimationState->CurrentFrameIndex = 0;
+
+	Sprite->Animation = AnimationState;
+	Sprite->Texture = Sprite->Animation->Animation->Textures[0];
 }
