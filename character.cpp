@@ -91,8 +91,6 @@ void HandleCharacterProjectileFiring(Entity* e, Game* game)
 			Entity* Projectile = CreateProjectile(ProjectilePosition.x, ProjectilePosition.y, ProjectileType::Bullet, e->Movement.CurrentDirection, character->CurrentEquipment->DamageStat, game);
 			
 			character->CanAttack = false;
-			//Character->Movement.LastState = Character->Movement.CurrentState;
-			//Character->Movement.CurrentState = Idle;
 		}
 	}
 	else
@@ -216,13 +214,6 @@ bool IsCharacterCloseToCharacter(Vec2 PrimaryCharacter, Vec2 SecondaryCharacter,
 
 bool IsSameCharacter(Entity* PrimaryCharacter, Entity* SecondaryCharacter)
 {
-	//if (PrimaryCharacter->Movement.Position.x == SecondaryCharacter->Movement.Position.x && PrimaryCharacter->Movement.Position.y == SecondaryCharacter->Movement.Position.y)
-	//{
-	//	if (PrimaryCharacter->Health == SecondaryCharacter->Health)
-	//	{
-	//		return true;
-	//	}
-	//}
 	if (PrimaryCharacter->id == SecondaryCharacter->id)
 	{
 		return true;

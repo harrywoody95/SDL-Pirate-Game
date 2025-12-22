@@ -7,9 +7,17 @@
 #include <fstream>
 #include "DebugBox.h"
 #include "Movement.h"
+#include <array>
 
 
 SDL_Event Game::Event;
+
+//**** --- Animation Loading Helper Functions --- ****
+std::vector<SDL_Texture*> LoadTextureSequence(std::string& basePath, std::string& fileName, int Frames);
+void LoadCharacterAnimations(Game* game);
+void LoadEquipmentAnimations(Game* game);
+void LoadEffectAnimations(Game* game);
+void LoadProjectileAnimations(Game* game);
 
 void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Height, bool Fullscreen)
 {
@@ -91,845 +99,233 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	Audio.MusicList.AddMusic("Assets/Audio/Music/m.ogg", "MainMenu");
 }
 
-void Game::LoadAnimations()
+std::vector<SDL_Texture*> LoadTextureSequence(std::string& basePath, std::string& fileName, int Frames)
 {
-	
-	//CHARACTER
+	std::vector<SDL_Texture*> textures;
+	for (int i = 1; i <= Frames; i++)
+	{
+		std::string fullPath =
+			basePath + fileName + "-" + std::to_string(i) + ".png";
+		textures.push_back(TextureManager::LoadTexture(fullPath.c_str()));
+	}
+	return textures;
+}
 
+//Static arrays for Character animation loading.
+static const std::array<std::string, 4> Directions = {
+	"Down", "Up", "Right", "Left"
+};
+
+static const std::array<std::string, 4> States = {
+	"Idle", "Walk", "Attack", "Dig"
+};
+
+static const std::array<std::string, 2> Equipments = {
+	"Sword", "Gun"
+};
+
+static const std::array<std::string, 2> Costumes = {
+	"Basic", "Advanced"
+};
+
+static const std::array<std::string, 6> Colours = {
+	"Black", "White", "Blue", "Green", "Red", "Yellow"
+};
+
+void LoadCharacterAnimations(Game* game)
+{
 	std::string Path = "Assets/Sprites/Character/";
 
-	for (int Direction = 0; Direction < 4; Direction++)
+	for (std::string Direction : Directions)
 	{
-		std::string DirectionText = "";
-		//set direction
-		switch (Direction)
+		for (std::string State : States)
 		{
-		case 0:
-			DirectionText = "Down";
-			break;
-		case 1:
-			DirectionText = "Up";
-			break;
-		case 2:
-			DirectionText = "Right";
-			break;
-		case 3:
-			DirectionText = "Left";
-			break;
-		default: 
-			return;
-		}
-
-		for (int State = 0; State < 4; State++)
-		{
-			std::string StateText = "";
-			//set state
-			switch (State)
+			if (State == "Idle")
 			{
-			case 0:
-				StateText = "Idle";
-				break;
-			case 1:
-				StateText = "Walk";
-				break;
-			case 2:
-				StateText = "Attack";
-				break;
-			case 3:
-				StateText = "Dig";
-				break;
-			default:
-				return;
+				std::string Name = Direction + "-Idle";
+				std::vector <SDL_Texture*> Textures = LoadTextureSequence(Path, Name, 3);
+				game->AddAnimation(Name, Textures, 30);
+			}
+			 
+			if (State == "Walk")
+			{
+				std::string Name = Direction + "-Walk";
+				std::vector <SDL_Texture*> Textures = LoadTextureSequence(Path, Name, 4);
+				game->AddAnimation(Name, Textures, 30);
 			}
 
-			// IDLE/WALK CREATION
-			if (StateText == "Walk")
+			if (State == "Attack")
 			{
-				std::string FileName = "";
-				FileName = DirectionText + "-" + StateText;
-				//Animation a = Animation(Path, FileName, 4, StringToDirection(DirectionText), StringToState(StateText));
-				//AnimationList.CharacterAnimations.push_back(a);
-
-				
-
-				std::vector <SDL_Texture*> Textures;
-
-				for (int Index = 1; Index < 5; Index++)
+				for (std::string equip : Equipments)
 				{
-					std::string FullFilePath = Path + FileName + "-" + std::to_string(Index) + ".png";
-					const char* File = FullFilePath.c_str();
-					SDL_Texture* Tex = TextureManager::LoadTexture(File);
-					Textures.push_back(Tex);
-				}
-				
-				SpriteAnimation* ani = CreateSpriteAnimation(FileName, Textures, 30);
-				AnimationList.push_back(ani);
-
-			}
-			if (StateText == "Idle")
-			{
-				std::string FileName = "";
-				FileName = DirectionText + "-" + StateText;
-				/*Animation a = Animation(Path, FileName, 3, StringToDirection(DirectionText), StringToState(StateText));
-				AnimationList.CharacterAnimations.push_back(a);*/
-
-				
-
-				std::vector <SDL_Texture*> Textures;
-
-				for (int Index = 1; Index < 4; Index++)
-				{
-					std::string FullFilePath = Path + FileName + "-" + std::to_string(Index) + ".png";
-					const char* File = FullFilePath.c_str();
-					SDL_Texture* Tex = TextureManager::LoadTexture(File);
-					Textures.push_back(Tex);
-				}
-
-				SpriteAnimation* ani = CreateSpriteAnimation(FileName, Textures, 30);
-				AnimationList.push_back(ani);
-			}
-			// ATTACK CREATION
-			if (StateText == "Attack")
-			{
-				for (int Equipment = 0; Equipment < 2; Equipment++)
-				{
-					//set equipment
-					std::string EquipmentText = "";
-					switch (Equipment)
-					{
-					case 0:
-						EquipmentText = "Sword";
-						break;
-					case 1:
-						EquipmentText = "Gun";
-						break;
-					default:
-						return;
-
-					}
-					std::string FileName = "";
-					FileName = DirectionText + "-" + StateText + "-" + EquipmentText;
-					/*Animation a = Animation(Path, FileName, 3, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType(EquipmentText));
-					AnimationList.CharacterAnimations.push_back(a);*/
-					//make files for attack gun and sword
-
-
-					
-
-					std::vector <SDL_Texture*> Textures;
-
-					for (int Index = 1; Index < 4; Index++)
-					{
-						std::string FullFilePath = Path + FileName + "-" + std::to_string(Index) + ".png";
-						const char* File = FullFilePath.c_str();
-						SDL_Texture* Tex = TextureManager::LoadTexture(File);
-						Textures.push_back(Tex);
-					}
-
-					SpriteAnimation* ani = CreateSpriteAnimation(FileName, Textures, 30);
-					AnimationList.push_back(ani);
-				}
-			}
-			// DIG CREATION
-			if (StateText == "Dig" && (DirectionText == "Left" || DirectionText == "Right"))
-			{
-				std::string Shovel = "Shovel";
-				std::string FileName = "";
-				FileName = DirectionText + "-" + StateText + "-" + Shovel;
-				//Animation a = Animation(Path, FileName, 3, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType(Shovel));
-				//AnimationList.CharacterAnimations.push_back(a);
-				//make files for dig shovel
-
-
-
-				
-
-				std::vector <SDL_Texture*> Textures;
-
-				for (int Index = 1; Index < 4; Index++)
-				{
-					std::string FullFilePath = Path + FileName + "-" + std::to_string(Index) + ".png";
-					const char* File = FullFilePath.c_str();
-					SDL_Texture* Tex = TextureManager::LoadTexture(File);
-					Textures.push_back(Tex);
-				}
-
-				SpriteAnimation* ani = CreateSpriteAnimation(FileName, Textures, 30);
-				AnimationList.push_back(ani);
-			}
-
-		}
-
-	}
-
-		std::string FileName = "";
-		FileName = "Player-Die";
-		//Animation a = Animation(Path, FileName, 4, Direction::East, State::Dead);
-		//AnimationList.CharacterAnimations.push_back(a);
-		//do player die here
-
-		
-
-		std::vector <SDL_Texture*> Textures;
-
-		for (int Index = 1; Index < 5; Index++)
-		{
-			std::string FullFilePath = Path + FileName + "-" + std::to_string(Index) + ".png";
-			const char* File = FullFilePath.c_str();
-			SDL_Texture* Tex = TextureManager::LoadTexture(File);
-			Textures.push_back(Tex);
-		}
-
-		SpriteAnimation* ani = CreateSpriteAnimation(FileName, Textures, 30);
-		AnimationList.push_back(ani);
-	
-
-	//COSTUME
-
-	Path = "Assets/Sprites/Costumes/";
-
-	for (int Direction = 0; Direction < 4; Direction++)
-	{
-		std::string DirectionText = "";
-		//set direction
-		switch (Direction)
-		{
-		case 0:
-			DirectionText = "Down";
-			break;
-		case 1:
-			DirectionText = "Up";
-			break;
-		case 2:
-			DirectionText = "Right";
-			break;
-		case 3:
-			DirectionText = "Left";
-			break;
-		default:
-			return;
-		}
-
-		for (int State = 0; State < 4; State++)
-		{
-			std::string StateText = "";
-			//set state
-			switch (State)
-			{
-			case 0:
-				StateText = "Idle";
-				break;
-			case 1:
-				StateText = "Walk";
-				break;
-			case 2:
-				StateText = "Attack";
-				break;
-			case 3:
-				StateText = "Dig";
-				break;
-			default:
-				return;
-			}
-
-			if (StateText == "Idle" || StateText == "Walk")
-			{
-				for (int Costume = 0; Costume < 2; Costume++)
-				{
-					//set costume type
-					std::string CostumeText = "";
-					switch (Costume)
-					{
-					case 0: 
-						CostumeText = "Basic";
-						break;
-					case 1:
-						CostumeText = "Advanced";
-						break;
-					default:
-						return;
-					}
-					for (int Colour = 0; Colour < 6; Colour++)
-					{
-						//set colour
-						std::string ColourText = "";
-						switch (Colour)
-						{
-						case 0:
-							ColourText = "Black";
-							break;
-						case 1:
-							ColourText = "White";
-							break;
-						case 2:
-							ColourText = "Blue";
-							break;
-						case 3:
-							ColourText = "Green";
-							break;
-						case 4:
-							ColourText = "Red";
-							break;
-						case 5:
-							ColourText = "Yellow";
-							break;
-
-						}
-						std::string FileName = "";
-						std::string BasePath = Path + ColourText + "/";
-						FileName = DirectionText + "-" + StateText + "-" + CostumeText + "-" + ColourText;
-						if (StateText == "Idle")
-						{
-							Animation a = Animation(BasePath, FileName, 3, StringToDirection(DirectionText), StringToState(StateText), StringToCostumeType(CostumeText), StringToColour(ColourText));
-							//AnimationList.CostumeAnimations.push_back(a);
-
-							std::vector <SDL_Texture*> Textures;
-
-							for (int Index = 1; Index < 4; Index++)
-							{
-								std::string FullFilePath = Path + ColourText + "/" + FileName + "-" + std::to_string(Index) + ".png";
-								const char* File = FullFilePath.c_str();
-								SDL_Texture* Tex = TextureManager::LoadTexture(File);
-								Textures.push_back(Tex);
-							}
-
-							SpriteAnimation* ani = CreateSpriteAnimation(FileName, Textures, 30);
-							AnimationList.push_back(ani);
-						}
-						else
-						{
-							//Animation a = Animation(BasePath, FileName, 4, StringToDirection(DirectionText), StringToState(StateText), StringToCostumeType(CostumeText), StringToColour(ColourText));
-							//AnimationList.CostumeAnimations.push_back(a);
-							// make files for costumes idle or walk
-
-							std::vector <SDL_Texture*> Textures;
-
-							for (int Index = 1; Index < 5; Index++)
-							{
-								std::string FullFilePath = Path + ColourText + "/" + FileName + "-" + std::to_string(Index) + ".png";
-								const char* File = FullFilePath.c_str();
-								SDL_Texture* Tex = TextureManager::LoadTexture(File);
-								Textures.push_back(Tex);
-							}
-
-							SpriteAnimation* ani = CreateSpriteAnimation(FileName, Textures, 30);
-							AnimationList.push_back(ani);
-						}
-					}
+					std::string Name = Direction + "-Attack-" + equip;
+					std::vector <SDL_Texture*> Textures = LoadTextureSequence(Path, Name, 3);
+					game->AddAnimation(Name, Textures, 30);
 				}
 			}
 
-			if (StateText == "Attack")
+			if (State == "Dig" && (Direction == "Left" || Direction == "Right"))
 			{
-				for (int Equipment = 0; Equipment < 2; Equipment++)
-				{
-					//set equipment
-					std::string EquipmentText = "";
-					switch (Equipment)
-					{
-					case 0:
-						EquipmentText = "Sword";
-						break;
-					case 1:
-						EquipmentText = "Gun";
-						break;
-					default:
-						return;
-
-					}
-					for (int Costume = 0; Costume < 2; Costume++)
-					{
-						//set costume type
-						std::string CostumeText = "";
-						switch (Costume)
-						{
-						case 0:
-							CostumeText = "Basic";
-							break;
-						case 1:
-							CostumeText = "Advanced";
-							break;
-						default:
-							return;
-						}
-
-						for (int Colour = 0; Colour < 6; Colour++)
-						{
-							//set colour
-							std::string ColourText = "";
-							switch (Colour)
-							{
-							case 0:
-								ColourText = "Black";
-								break;
-							case 1:
-								ColourText = "White";
-								break;
-							case 2:
-								ColourText = "Blue";
-								break;
-							case 3:
-								ColourText = "Green";
-								break;
-							case 4:
-								ColourText = "Red";
-								break;
-							case 5:
-								ColourText = "Yellow";
-								break;
-
-							}
-							std::string FileName = "";
-							std::string BasePath = Path + ColourText + "/";
-							FileName = DirectionText + "-" + StateText + "-" + EquipmentText + "-" + CostumeText + "-" + ColourText;
-							//Animation a = Animation(BasePath, FileName, 3, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType(EquipmentText), StringToCostumeType(CostumeText), StringToColour(ColourText));
-							//AnimationList.CostumeAnimations.push_back(a);
-							//make files for attack gun and sword
-
-							std::vector <SDL_Texture*> Textures;
-
-							for (int Index = 1; Index < 4; Index++)
-							{
-								std::string FullFilePath = Path + ColourText + "/" + FileName + "-" + std::to_string(Index) + ".png";
-								const char* File = FullFilePath.c_str();
-								SDL_Texture* Tex = TextureManager::LoadTexture(File);
-								Textures.push_back(Tex);
-							}
-
-							SpriteAnimation* ani = CreateSpriteAnimation(FileName, Textures, 30);
-							AnimationList.push_back(ani);
-						}
-					}
-				}
+				std::string Name = Direction + "-Dig-Shovel";
+				std::vector <SDL_Texture*> Textures = LoadTextureSequence(Path, Name, 3);
+				game->AddAnimation(Name, Textures, 30);
 			}
-
-			if (StateText == "Dig" && (DirectionText == "Left" || DirectionText == "Right"))
-			{
-				std::string Shovel = "Shovel";
-
-				for (int Costume = 0; Costume < 2; Costume++)
-				{
-					//set costume type
-					std::string CostumeText = "";
-					switch (Costume)
-					{
-					case 0:
-						CostumeText = "Basic";
-						break;
-					case 1:
-						CostumeText = "Advanced";
-						break;
-					default:
-						return;
-					}
-
-					for (int Colour = 0; Colour < 6; Colour++)
-					{
-						//set colour
-						std::string ColourText = "";
-						switch (Colour)
-						{
-						case 0:
-							ColourText = "Black";
-							break;
-						case 1:
-							ColourText = "White";
-							break;
-						case 2:
-							ColourText = "Blue";
-							break;
-						case 3:
-							ColourText = "Green";
-							break;
-						case 4:
-							ColourText = "Red";
-							break;
-						case 5:
-							ColourText = "Yellow";
-							break;
-						default:
-							return;
-						}
-						std::string FileName = "";
-						std::string BasePath = Path + ColourText + "/";
-						FileName = DirectionText + "-" + StateText + "-" + Shovel + "-" + CostumeText + "-" + ColourText;
-						//Animation a = Animation(BasePath, FileName, 3, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType(Shovel), StringToCostumeType(CostumeText), StringToColour(ColourText));
-						//AnimationList.CostumeAnimations.push_back(a);
-						//make files for dig shovel
-
-						std::vector <SDL_Texture*> Textures;
-
-						for (int Index = 1; Index < 4; Index++)
-						{
-							std::string FullFilePath = Path + ColourText + "/" + FileName + "-" + std::to_string(Index) + ".png";
-							const char* File = FullFilePath.c_str();
-							SDL_Texture* Tex = TextureManager::LoadTexture(File);
-							Textures.push_back(Tex);
-						}
-
-						SpriteAnimation* ani = CreateSpriteAnimation(FileName, Textures, 30);
-						AnimationList.push_back(ani);
-					}
-				}
-			}
-
-		}
-
-	}
-	for (int CostumeType = 0; CostumeType < 2; CostumeType++)
-	{
-		//set costume type
-		std::string CostumeText = "";
-		switch (CostumeType)
-		{
-		case 0:
-			CostumeText = "Basic";
-			break;
-		case 1:
-			CostumeText = "Advanced";
-			break;
-		default:
-			return;
-		}
-
-		for (int Colour = 0; Colour < 6; Colour++)
-		{
-			std::string ColourText = "";
-			switch (Colour)
-			{
-			case 0:
-				ColourText = "Black";
-				break;
-			case 1:
-				ColourText = "White";
-				break;
-			case 2:
-				ColourText = "Blue";
-				break;
-			case 3:
-				ColourText = "Green";
-				break;
-			case 4:
-				ColourText = "Red";
-				break;
-			case 5:
-				ColourText = "Yellow";
-				break;
-			default:
-				return;
-			}
-			std::string FileName = "";
-			std::string BasePath = Path + ColourText + "/";
-			FileName = "Player-Die-" + CostumeText + "-" + ColourText;
-			//Animation a = Animation(BasePath, FileName, 4, Direction::East, State::Dead, StringToCostumeType(CostumeText), StringToColour(ColourText));
-			//AnimationList.CostumeAnimations.push_back(a);
-			//player die here
-
-			std::vector <SDL_Texture*> Textures;
-
-			for (int Index = 1; Index < 5; Index++)
-			{
-				std::string FullFilePath = Path + ColourText + "/" + FileName + "-" + std::to_string(Index) + ".png";
-				const char* File = FullFilePath.c_str();
-				SDL_Texture* Tex = TextureManager::LoadTexture(File);
-				Textures.push_back(Tex);
-			}
-
-			SpriteAnimation* ani = CreateSpriteAnimation(FileName, Textures, 30);
-			AnimationList.push_back(ani);
-
 		}
 	}
 
-	//EQUIPMENT
-	Path = "Assets/Sprites/Equipment/";
-
-	for (int Direction = 0; Direction < 4; Direction++)
+	// Player die
 	{
-		std::string DirectionText = "";
-		//set direction
-		switch (Direction)
+		std::string Name = "Player-Die";
+		std::vector <SDL_Texture*> Textures = LoadTextureSequence(Path, Name, 4);
+		game->AddAnimation(Name, Textures, 30);
+	}
+}
+
+void LoadCostumeAnimations(Game* game)
+{
+	std::string Path = "Assets/Sprites/Costumes/";
+
+	for (std::string Direction : Directions)
+	{
+		for (std::string State : States)
 		{
-		case 0:
-			DirectionText = "Down";
-			break;
-		case 1:
-			DirectionText = "Up";
-			break;
-		case 2:
-			DirectionText = "Right";
-			break;
-		case 3:
-			DirectionText = "Left";
-			break;
-		default:
-			return;
-		}
-
-		for (int State = 0; State < 4; State++)
-		{
-			std::string StateText = "";
-			//set state
-			switch (State)
+			if (State == "Idle" || State == "Walk")
 			{
-			case 0:
-				StateText = "Idle";
-				break;
-			case 1:
-				StateText = "Walk";
-				break;
-			case 2:
-				StateText = "Attack";
-				break;
-			case 3:
-				StateText = "Dig";
-				break;
-			default:
-				return;
-			}
-
-			if (StateText == "Idle")
-			{
-
-				for (int Equipment = 0; Equipment < 2; Equipment++)
+				for (std::string Costume : Costumes)
 				{
-					//set equipment
-					std::string EquipmentText = "";
-					switch (Equipment)
+					for (std::string Colour : Colours)
 					{
-					case 0:
-						EquipmentText = "Sword";
-						break;
-					case 1:
-						EquipmentText = "Gun";
-						break;
-					default:
-						return;
-
+						std::string Name = Direction + "-" + State + "-" + Costume + "-" + Colour;
+						int EndFrame = (State == "Idle") ? 3 : 4;
+						std::string BasePath = Path + Colour + "/";
+						std::vector<SDL_Texture*> Textures = LoadTextureSequence(BasePath, Name, EndFrame);
+						game->AddAnimation(Name, Textures, 30);
 					}
-					std::string FileName = "";
-					FileName = DirectionText + "-" + StateText + "-" + EquipmentText;
-					//Animation a = Animation(Path, FileName, 3, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType(EquipmentText));
-					//AnimationList.EquipmentAnimations.push_back(a);
-					//make files for equipment animations
-
-					std::vector <SDL_Texture*> Textures;
-
-					for (int Index = 1; Index < 4; Index++)
-					{
-						std::string FullFilePath = Path + FileName + "-" + std::to_string(Index) + ".png";
-						const char* File = FullFilePath.c_str();
-						SDL_Texture* Tex = TextureManager::LoadTexture(File);
-						Textures.push_back(Tex);
-					}
-
-					SpriteAnimation* ani = CreateSpriteAnimation(FileName, Textures, 30);
-					AnimationList.push_back(ani);
 				}
 			}
-			if (StateText == "Walk")
+
+			if (State == "Attack")
 			{
-				for (int Equipment = 0; Equipment < 2; Equipment++)
+				for (std::string Equipment : Equipments)
 				{
-					//set equipment
-					std::string EquipmentText = "";
-					switch (Equipment)
+					for (std::string Costume : Costumes)
 					{
-					case 0:
-						EquipmentText = "Sword";
-						break;
-					case 1:
-						EquipmentText = "Gun";
-						break;
-					default:
-						return;
-
+						for (std::string Colour : Colours)
+						{
+							std::string Name =Direction + "-Attack-" + Equipment + "-" + Costume + "-" + Colour;
+							std::string BasePath = Path + Colour + "/";
+							std::vector<SDL_Texture*> Textures = LoadTextureSequence(BasePath, Name, 3);
+							game->AddAnimation(Name, Textures, 30);
+						}
 					}
-					std::string FileName = "";
-					FileName = DirectionText + "-" + StateText + "-" + EquipmentText;
-					//Animation a = Animation(Path, FileName, 4, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType(EquipmentText));
-					//AnimationList.EquipmentAnimations.push_back(a);
-					//make files for equipment animations
+				}
+			}
 
-					std::vector <SDL_Texture*> Textures;
-
-					for (int Index = 1; Index < 5; Index++)
+			if (State == "Dig" && (Direction == "Left" || Direction == "Right"))
+			{
+				for (std::string Costume : Costumes)
+				{
+					for (std::string Colour : Colours)
 					{
-						std::string FullFilePath = Path + FileName + "-" + std::to_string(Index) + ".png";
-						const char* File = FullFilePath.c_str();
-						SDL_Texture* Tex = TextureManager::LoadTexture(File);
-						Textures.push_back(Tex);
+						std::string Name = Direction + "-Dig-Shovel-" + Costume + "-" + Colour;
+						std::string BasePath = Path + Colour + "/";
+						std::vector<SDL_Texture*> Textures = LoadTextureSequence(BasePath, Name, 3);
+						game->AddAnimation(Name, Textures, 30);
 					}
-
-					SpriteAnimation* ani = CreateSpriteAnimation(FileName, Textures, 30);
-					AnimationList.push_back(ani);
 				}
 			}
 		}
 	}
 
-	//EFFECTS
-
-	Path = "Assets/Sprites/Effects/";
-
-	for (int Direction = 0; Direction < 4; Direction++)
+	// Costume player die
+	for (std::string Costume : Costumes)
 	{
-		std::string DirectionText = "";
-		//set direction
-		switch (Direction)
+		for (std::string Colour : Colours)
 		{
-		case 0:
-			DirectionText = "Down";
-			break;
-		case 1:
-			DirectionText = "Up";
-			break;
-		case 2:
-			DirectionText = "Right";
-			break;
-		case 3:
-			DirectionText = "Left";
-			break;
-		default:
-			return;
+			std::string Name = "Player-Die-" + Costume + "-" + Colour;
+			std::string BasePath = Path + Colour + "/";
+			std::vector<SDL_Texture*> Textures = LoadTextureSequence(BasePath, Name, 4);
+			game->AddAnimation(Name, Textures, 30);
 		}
+	}
+}
 
-		for (int State = 0; State < 4; State++)
+void LoadEquipmentAnimations(Game* game)
+{
+	std::string Path = "Assets/Sprites/Equipment/";
+
+	for (std::string Direction : Directions)
+	{
+		for (std::string State : States)
 		{
-			std::string StateText = "";
-			//set state
-			switch (State)
+			if (State != "Idle" && State != "Walk")
+				continue;
+			int EndFrame = (State == "Idle") ? 3 : 4;
+			for (std::string Equipment : Equipments)
 			{
-			case 0:
-				StateText = "Idle";
-				break;
-			case 1:
-				StateText = "Walk";
-				break;
-			case 2:
-				StateText = "Attack";
-				break;
-			case 3:
-				StateText = "Dig";
-				break;
-			default:
-				return;
-			}
-
-			if (StateText == "Attack")
-			{
-				for (int Equipment = 0; Equipment < 2; Equipment++)
-				{
-					//set equipment
-					std::string EquipmentText = "";
-					switch (Equipment)
-					{
-					case 0:
-						EquipmentText = "Sword";
-						break;
-					case 1:
-						EquipmentText = "Gun";
-						break;
-					default:
-						return;
-
-					}
-					std::string FileName = "";
-					FileName = DirectionText + "-" + StateText + "-" + EquipmentText + "-Effect";
-					//Animation a = Animation(Path, FileName, 2, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType(EquipmentText));
-					//AnimationList.EffectAnimations.push_back(a);
-					//make files for sword/gun effect animations
-
-					std::vector <SDL_Texture*> Textures;
-
-					for (int Index = 1; Index < 3; Index++)
-					{
-						std::string FullFilePath = Path + FileName + "-" + std::to_string(Index) + ".png";
-						const char* File = FullFilePath.c_str();
-						SDL_Texture* Tex = TextureManager::LoadTexture(File);
-						Textures.push_back(Tex);
-					}
-
-					SpriteAnimation* ani = CreateSpriteAnimation(FileName, Textures, 30);
-					AnimationList.push_back(ani);
-				}
-
-			}
-			if (StateText == "Dig" && (DirectionText == "Left" || DirectionText == "Right"))
-			{
-				std::string FileName = "";
-				FileName = DirectionText + "-" + StateText + "-" + "Shovel" + "-Effect";
-				//Animation a = Animation(Path, FileName, 2, StringToDirection(DirectionText), StringToState(StateText), StringToEquipmentType("Shovel"));
-				//AnimationList.EffectAnimations.push_back(a);
-				//make files for shovel effect animations
-
-				std::vector <SDL_Texture*> Textures;
-
-				for (int Index = 1; Index < 3; Index++)
-				{
-					std::string FullFilePath = Path + FileName + "-" + std::to_string(Index) + ".png";
-					const char* File = FullFilePath.c_str();
-					SDL_Texture* Tex = TextureManager::LoadTexture(File);
-					Textures.push_back(Tex);
-				}
-
-				SpriteAnimation* ani = CreateSpriteAnimation(FileName, Textures, 30);
-				AnimationList.push_back(ani);
+				std::string Name = Direction + "-" + State + "-" + Equipment;
+				std::vector<SDL_Texture*> Textures = LoadTextureSequence(Path, Name, EndFrame);
+				game->AddAnimation(Name, Textures, 30);
 			}
 		}
 	}
+}
 
-	std::vector <SDL_Texture*> Textures1;
-	std::string FullFilePath = "Assets/Sprites/Projectile/Down-Gun-Projectile.png";
-	const char* File = FullFilePath.c_str();
-	
-	SDL_Texture* Tex = TextureManager::LoadTexture(File);
-	Textures1.push_back(Tex);
-	
-	std::string name = "Down-Gun-Projectile";
+void LoadEffectAnimations(Game* game)
+{
+	std::string Path = "Assets/Sprites/Effects/";
 
-	SpriteAnimation* ani0 = CreateSpriteAnimation(name, Textures1, 30);
-	AnimationList.push_back(ani0);
+	for (std::string Direction : Directions)
+	{
+		for (std::string State : States)
+		{
+			if (State == "Attack")
+			{
+				for (std::string Equipment : Equipments)
+				{
+					std::string Name = Direction + "-Attack-" + Equipment + "-Effect";
+					std::vector<SDL_Texture*> Textures = LoadTextureSequence(Path, Name, 2);
+					game->AddAnimation(Name, Textures, 30);
+				}
+			}
 
-	Textures1.clear();
+			if (State == "Dig" && (Direction == "Left" || Direction == "Right"))
+			{
+				std::string Name = Direction + "-Dig-Shovel-Effect";
+				std::vector<SDL_Texture*> Textures = LoadTextureSequence(Path, Name, 2);
+				game->AddAnimation(Name, Textures, 30);
+			}
+		}
+	}
+}
 
+void LoadProjectileAnimations(Game* game)
+{
+	std::string Path = "Assets/Sprites/Projectile/";
 
-	FullFilePath = "Assets/Sprites/Projectile/Up-Gun-Projectile.png";
-	File = FullFilePath.c_str();
+	for (std::string Direction : Directions)
+	{
+		std::vector<SDL_Texture*> Textures;
+		std::string Name = Direction + "-Gun-Projectile";
+		std::string FullPath = Path + Name + ".png";
 
-	Tex = TextureManager::LoadTexture(File);
-	Textures1.push_back(Tex);
-	name = "Up-Gun-Projectile";
+		Textures.push_back(TextureManager::LoadTexture(FullPath.c_str()));
+		game->AddAnimation(Name, Textures, 30);
+	}
+}
 
-	SpriteAnimation* ani1 = CreateSpriteAnimation(name, Textures, 30);
-	AnimationList.push_back(ani1);
+void Game::AddAnimation(std::string& name, std::vector<SDL_Texture*>& textures, int fps)
+{
+	AnimationList.push_back(CreateSpriteAnimation(name, textures, fps));
+}
 
-	Textures1.clear();
-
-	FullFilePath = "Assets/Sprites/Projectile/Left-Gun-Projectile.png";
-	File = FullFilePath.c_str();
-
-	Tex = TextureManager::LoadTexture(File);
-	Textures1.push_back(Tex);
-	name = "Left-Gun-Projectile";
-
-	SpriteAnimation* ani2 = CreateSpriteAnimation(name, Textures, 30);
-	AnimationList.push_back(ani2);
-
-	Textures1.clear();
-
-	FullFilePath = "Assets/Sprites/Projectile/Right-Gun-Projectile.png";
-	File = FullFilePath.c_str();
-
-	Tex = TextureManager::LoadTexture(File);
-	Textures1.push_back(Tex);
-	name = "Right-Gun-Projectile";
-
-	SpriteAnimation* ani3 = CreateSpriteAnimation(name, Textures, 30);
-	AnimationList.push_back(ani3);
-
-	Textures.clear();
-
+void Game::LoadAnimations()
+{
+	LoadCharacterAnimations(this);
+	LoadCostumeAnimations(this);
+	LoadEquipmentAnimations(this);
+	LoadEffectAnimations(this);
+	LoadProjectileAnimations(this);
 }
 
 void Game::HandleWindowEvent()

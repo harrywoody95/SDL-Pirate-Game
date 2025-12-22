@@ -23,15 +23,7 @@ struct SpriteAnimationState
 	bool Loop;
 	int CurrentFrameIndex;
 };
-//-------------UPCOMING CHANGES------------------
-// - Add SpriteAnimation struct
-//   . Identifier
-//	 . Textutres vector
-//	 . TickSpeed
-// - Add SpriteAnimationState
-//   . SpriteAnimation* Animation
-//	 . CurrentTick
-//	 . Loop Flag
+
 struct Sprite
 {
 	SpriteAnimationState* Animation = nullptr;

@@ -5,7 +5,6 @@
 
 void Sprite::CreateSprite(float x, float y, const char* Filename, int SpriteBitSize, int Scale, SpriteList* SpriteList)
 {
-	//Movement.init(x, y);
 	BitSize = SpriteBitSize;
 	this->Scale = Scale;
 
@@ -49,7 +48,6 @@ void Sprite::Draw(Camera* Camera)
 void Sprite::Update()
 {
 
-	//need to check if its a nullptr. if so set the sprite text to transparent?
 	if (Animation == nullptr)
 	{
 		return;
@@ -98,6 +96,7 @@ void UpdateSpritePosition(Entity* e)
 		e->Player.Sprites.Body->Position = e->Movement.Position;
 		e->Player.Sprites.Costume->Position = e->Movement.Position;
 		e->Player.Sprites.Equipment->Position = e->Movement.Position;
+		e->Player.EffectSprite->Position = e->Movement.Position;
 		break;
 	}
 	case EntityType::NPC:
@@ -105,6 +104,7 @@ void UpdateSpritePosition(Entity* e)
 		e->NPC.Sprites.Body->Position = e->Movement.Position;
 		e->NPC.Sprites.Costume->Position = e->Movement.Position;
 		e->NPC.Sprites.Equipment->Position = e->Movement.Position;
+		e->NPC.EffectSprite->Position = e->Movement.Position;
 		break;
 	}
 	case EntityType::Projectile:

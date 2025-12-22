@@ -15,7 +15,7 @@ struct NPC : public Character
 	Entity* Target = nullptr;
 	PatrolRoute PatrolRoute;
 	Direction* HostileDirection = nullptr;
-	bool MoveBlocked =false;
+	bool MoveBlocked = false;
 	void UpdateNPC(Game* game, Entity* NPC);
 	int DeadBodyDisappearCounter = 0;
 };

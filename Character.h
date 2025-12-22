@@ -6,13 +6,10 @@ struct Game;
 struct Entity;
 struct Character {
 	int Health = 100;
-	// **** seperate effect sprites so not linked to character ****
 	CharacterSprites Sprites;
-
 	Sprite* EffectSprite;
 	Costume* CurrentCostume = nullptr;
 	Equipment* CurrentEquipment = nullptr;
-	//PlayerAnimation PlayerAnimations;
 	Box Collision;
 	Box HitBox;
 

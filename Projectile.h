@@ -16,7 +16,6 @@ struct Projectile {
 	ProjectileType Type;
 	Movement Movement;
 	int Damage;
-	// **** collision box instead? ****
 	Box HitBox;
 };
 
