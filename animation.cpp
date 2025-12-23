@@ -137,7 +137,7 @@ void SetEquipmentAnimation(Game* game, Entity* e)
 	{
 		delete(Character->Sprites.Equipment->Animation);
 		Character->Sprites.Equipment->Animation = nullptr;
-		Character->Sprites.Equipment->Texture = TextureManager::LoadTexture("Assets/Sprites/Character/transparent.png");
+		Character->Sprites.Equipment->Texture = Character->TransparentTexture;
 		return;
 	}
 
@@ -159,7 +159,7 @@ void SetEffectAnimation(Game* game, Entity* e)
 
 	delete (Character->EffectSprite->Animation);
 	Character->EffectSprite->Animation = nullptr;
-	Character->EffectSprite->Texture = TextureManager::LoadTexture("Assets/Sprites/Character/transparent.png");
+	Character->EffectSprite->Texture = Character->TransparentTexture;
 
 	if (Character->CurrentEquipment == nullptr || e->Movement.CurrentState != Attack)
 	{

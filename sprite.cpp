@@ -3,6 +3,7 @@
 #include "TextureManager.h"
 #include "Game.h"
 
+
 void Sprite::CreateSprite(float x, float y, const char* Filename, int SpriteBitSize, int Scale, SpriteList* SpriteList)
 {
 	BitSize = SpriteBitSize;
@@ -20,7 +21,9 @@ void Sprite::DeleteSprite(SpriteList* SpriteList)
 	{
 		if (this == SpriteList->Sprites[x])
 		{
+			SDL_DestroyTexture(this->Texture);
 			SpriteList->Sprites.erase(SpriteList->Sprites.begin() + x);
+			
 			delete this;
 			return;
 		}

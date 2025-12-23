@@ -165,6 +165,7 @@
     <ClCompile Include="mapTileType.cpp" />
     <ClCompile Include="movement.cpp" />
     <ClCompile Include="npc.cpp" />
+    <ClCompile Include="performance.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="projectile.cpp" />
     <ClCompile Include="renderer.cpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="MapTileType.h" />
     <ClInclude Include="Movement.h" />
     <ClInclude Include="NPC.h" />
+    <ClInclude Include="Performance.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="Renderer.h" />

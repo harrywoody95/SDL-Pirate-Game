@@ -11,4 +11,4 @@ struct SpriteList
 	void Draw(Game* game);
 };
 
-SpriteList* SortSpriteDrawingOrder(SpriteList list);
+SpriteList SortSpriteDrawingOrder(SpriteList list);

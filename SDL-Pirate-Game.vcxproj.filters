@@ -129,6 +129,9 @@
     <ClCompile Include="editor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="performance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -240,6 +243,9 @@
       <Filter>imgui\backends</Filter>
     </ClInclude>
     <ClInclude Include="Editor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Performance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

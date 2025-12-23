@@ -3,10 +3,10 @@
 
 void SpriteList::Draw(Game* game)
 {
-	SpriteList* SpriteList = SortSpriteDrawingOrder(game->SpriteList);
-	for (int x = 0; x < SpriteList->Sprites.size(); x++)
+	SpriteList SpriteList = SortSpriteDrawingOrder(game->SpriteList);
+	for (int x = 0; x < SpriteList.Sprites.size(); x++)
 	{
-		SpriteList->Sprites[x]->Draw(&game->Camera);
+		SpriteList.Sprites[x]->Draw(&game->Camera);
 	}
 }
 
@@ -18,10 +18,10 @@ void SpriteList::Update()
 	}
 }
 
-SpriteList* SortSpriteDrawingOrder(SpriteList list)
+SpriteList SortSpriteDrawingOrder(SpriteList list)
 {
-	SpriteList* OrderedSpriteList = new SpriteList();
-	Sprite* Lowest = new Sprite();
+	SpriteList OrderedSpriteList;
+	Sprite* Lowest = nullptr;
 	int size = list.Sprites.size();
 	bool foundplayer = false;
 	for (int y = 0; y < size; y++)
@@ -54,7 +54,7 @@ SpriteList* SortSpriteDrawingOrder(SpriteList list)
 				}
 			}
 		}
-		OrderedSpriteList->Sprites.push_back(Lowest);
+		OrderedSpriteList.Sprites.push_back(Lowest);
 		for (int x = 0; x < list.Sprites.size(); x++)
 		{
 			if (Lowest == list.Sprites[x])

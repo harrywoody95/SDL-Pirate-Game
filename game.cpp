@@ -69,7 +69,7 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 
 	//create costume and equipment
 	Entity* costume = CreateItem("BlackBeard's Cloak", 250, ItemType::Costume, this);
-	costume->Item.Costume = CreateCostume(CostumeType::Basic, Colour::Red, 20);
+	costume->Item.Costume = CreateCostume(CostumeType::Advanced, Colour::White, 20);
 
 	Entity* npccostume = CreateItem("BlackBeard's skipper", 250, ItemType::Costume, this);
 	npccostume->Item.Costume = CreateCostume(CostumeType::Basic, Colour::White, 5);
@@ -81,7 +81,7 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	sword->Item.Equipment = CreateEquipment(EquipmentType::Sword, 20);
 
 	PlayerEntity->Player.CurrentCostume = costume->Item.Costume; 
-	PlayerEntity->Player.CurrentEquipment = Gun->Item.Equipment;
+	PlayerEntity->Player.CurrentEquipment = sword->Item.Equipment;
 
 	Entity* npc = CreateNPC(150, 150, this);
 	npc->NPC.PatrolRoute.Route.push_back(Direction::East);
@@ -93,7 +93,7 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	npc->NPC.PatrolRoute.Route.push_back(Direction::South);
 	npc->NPC.PatrolRoute.Route.push_back(Direction::North);
 	npc->NPC.CurrentCostume = npccostume->Item.Costume;
-	npc->NPC.CurrentEquipment = sword->Item.Equipment;
+	npc->NPC.CurrentEquipment = Gun->Item.Equipment;
 
 	//add music
 	Audio.MusicList.AddMusic("Assets/Audio/Music/m.ogg", "MainMenu");
@@ -359,7 +359,10 @@ void Game::Render()
 		{
 			Editor.RenderEditor();
 		}
-
+		if (Flags.PerformanceActive)
+		{
+			Performance.RenderPerformance(this);
+		}
 		ImGui::Render();
 		ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData(), this->Renderer.MainRenderer);
 	
@@ -384,4 +387,5 @@ void Game::UpdateGame()
 		UpdateEntities(this);
 		UpdateCamera(&Camera, PlayerEntity);
 		SpriteList.Update();
+		Performance.Update();
 }

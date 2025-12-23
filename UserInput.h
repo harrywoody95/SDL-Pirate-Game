@@ -11,6 +11,7 @@ struct UserInput {
 	bool KEY_LSHIFT_PRESSED = false;
 	bool MOUSE_LBUTTON_PRESSED = false;
 	bool KEY_F5_PRESSED = false;
+	bool KEY_F4_PRESSED = false;
 
 	bool KEY_W_RELEASED = false;
 	bool KEY_A_RELEASED = false;
@@ -19,11 +20,13 @@ struct UserInput {
 	bool KEY_LSHIFT_RELEASED = false;
 	bool MOUSE_LBUTTON_RELEASED = false;
 	bool KEY_F5_RELEASED = false;
+	bool KEY_F4_RELEASED = false;
 
 	Vec2i MousePos;
 
 	void GetUserInput();
 	void HandleUserGameInput(Game* Game);
 	void HandleUserEditorInput(Game* game);
+	void HandleUserPerformanceInput(Game* game);
 	void Update(Game* Game);
 };

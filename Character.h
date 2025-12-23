@@ -2,9 +2,11 @@
 #include "Sprite.h"
 #include "Animation.h"
 #include "Collision.h"
+
 struct Game;
 struct Entity;
 struct Character {
+	SDL_Texture* TransparentTexture;
 	int Health = 100;
 	CharacterSprites Sprites;
 	Sprite* EffectSprite;
@@ -20,7 +22,6 @@ struct Character {
 	int AttackCooldown = 0;
 
 };
-
 void UpdateCharacterCollision(Entity* character);
 void UpdateCharacterHitbox(Character* character);
 void HandleCharacterProjectileFiring(Entity* character, Game* game);

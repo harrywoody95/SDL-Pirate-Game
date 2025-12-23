@@ -7,7 +7,7 @@
 
 int main(int argc, char *argv[])
 {
-    const int FPS = 165;
+    const int FPS = 167;
     const int FrameDelay = 1000 / FPS;
     Uint32 FrameStart;
     Uint32 FPSCountStartTime = SDL_GetTicks();
@@ -42,22 +42,23 @@ int main(int argc, char *argv[])
 
         Game.UpdateGame();
         Game.Render();
-
+        
         FrameTime = SDL_GetTicks() - FrameStart;
         if (FrameDelay > FrameTime)
         {
             SDL_Delay(FrameDelay - FrameTime);
         }
 
-        FrameCount++;
-        if (SDL_GetTicks() - FPSCountStartTime >= 1000)
-        {
-            ActualFPS = FrameCount; // The number of frames in the last second.
-            FrameCount = 0; // Reset the frame count for the next second.
-            FPSCountStartTime = SDL_GetTicks(); // Reset the timer for the next second.
+        //FrameCount++;
+        //if (SDL_GetTicks() - FPSCountStartTime >= 1000)
+        //{
+         //   ActualFPS = FrameCount; // The number of frames in the last second.
+         //   FrameCount = 0; // Reset the frame count for the next second.
+         //   FPSCountStartTime = SDL_GetTicks(); // Reset the timer for the next second.
 
-            std::cout << "FPS: " << ActualFPS << std::endl; // Output the FPS.
-        }
+         //   std::cout << "FPS: " << ActualFPS << std::endl; // Output the FPS.
+       // }
+        
     }
 
     //destroy IMGui

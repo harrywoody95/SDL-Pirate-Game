@@ -99,6 +99,7 @@ void DestroyEntity(Game* game, Entity* Entity)
 		if (game->EntityList[x] == Entity)
 		{
 			game->EntityList.erase(game->EntityList.begin() + x);
+			delete Entity;
 		}
 	}
 }

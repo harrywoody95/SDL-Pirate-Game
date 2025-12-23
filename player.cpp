@@ -9,11 +9,12 @@ Entity* CreatePlayer(float x, float y, Game* game)
 	entity->Movement.CurrentDirection = East;
 	entity->Movement.LastDirection = West;
 	Player* Player = &entity->Player;
+	Player->TransparentTexture = TextureManager::LoadTexture("Assets/Sprites/Character/transparent.png");
 	Player->Sprites.Body = new Sprite();
 	Player->Sprites.Body->CreateSprite(x, y, "Assets/Sprites/Character/transparent.png", 16, 4, &game->SpriteList);
 	Player->Sprites.Costume = new Sprite();
 	Player->Sprites.Costume->CreateSprite(x, y, "Assets/Sprites/Character/transparent.png", 16, 4, &game->SpriteList);
-	Player->Sprites.Equipment = new Sprite();
+	Player->Sprites.Equipment =new Sprite();
 	Player->Sprites.Equipment->CreateSprite(x, y, "Assets/Sprites/Character/transparent.png", 16, 4, &game->SpriteList);
 	Player->EffectSprite = new Sprite();
 	Player->EffectSprite->CreateSprite(x, y, "Assets/Sprites/Character/transparent.png", 16, 4, &game->SpriteList);

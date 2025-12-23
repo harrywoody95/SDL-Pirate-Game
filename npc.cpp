@@ -5,13 +5,14 @@ Entity* CreateNPC(float x, float y, Game* game)
 {
 	Entity* entity = CreateEntity(x, y, game, EntityType::NPC);
 	NPC* NPC = &entity->NPC;
+	NPC->TransparentTexture = TextureManager::LoadTexture("Assets/Sprites/Character/transparent.png");
 	NPC->Sprites.Body = new Sprite();
 	NPC->Sprites.Body->CreateSprite(x, y, "Assets/Sprites/Character/transparent.png", 16, 4, &game->SpriteList);
 	NPC->Sprites.Costume = new Sprite();
 	NPC->Sprites.Costume->CreateSprite(x, y, "Assets/Sprites/Character/transparent.png", 16, 4, &game->SpriteList);
 	NPC->Sprites.Equipment = new Sprite();
 	NPC->Sprites.Equipment->CreateSprite(x, y, "Assets/Sprites/Character/transparent.png", 16, 4, &game->SpriteList);
-	NPC->EffectSprite = new Sprite();
+	NPC->EffectSprite = new Sprite ();
 	NPC->EffectSprite->CreateSprite(x, y, "Assets/Sprites/Character/transparent.png", 16, 4, &game->SpriteList);
 	NPC->Sprites.Body->Name = "Sprites.Body";
 	NPC->Sprites.Costume->Name = "Sprites.Costume";

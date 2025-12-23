@@ -12,6 +12,7 @@
 #include "Map.h"
 #include "Entity.h"
 #include "Editor.h"
+#include "Performance.h"
 
 struct Game {
 	
@@ -28,6 +29,7 @@ struct Game {
 	Camera Camera;
 	Map Map;
 	Editor Editor;
+	Performance Performance;
 
 	bool IsRunning = false;
 	
