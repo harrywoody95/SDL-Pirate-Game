@@ -60,9 +60,12 @@ void Game::CreateGame(const char* Title, int xpos, int ypos, int Width, int Heig
 	IsRunning = true;
 
 	//create and load map
-	MapTileAssets mapass;
-	mapass.LoadMapTileAssets();
-	Map.LoadMap("Assets/Maps/Map1.txt", "", "", mapass);
+	Map.MapAssets.LoadMapTileAssets();
+	Map.LoadMap("Assets/Maps/Map1.txt", "", "", Map.MapAssets);
+
+	//Editor
+
+	//Editor.assets = &Map.MapAssets;
 	
 	//create player
 	PlayerEntity = CreatePlayer(0, 0, this);
@@ -357,7 +360,7 @@ void Game::Render()
 
 		if (Flags.EditorActive)
 		{
-			Editor.RenderEditor();
+			Editor.RenderEditor(this);
 		}
 		if (Flags.PerformanceActive)
 		{

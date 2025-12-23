@@ -1,5 +1,14 @@
 #pragma once
 #include "SDL.h"
-struct Editor {
-	void RenderEditor();
+#include "Map.h"
+struct Game;
+struct MapEditor {
+
+    //Map* map;
+    //MapTileAssets* assets; 
+    //MapTileType currentTileType = MapTileType::Water;
+    //int tileSize = 32;
+    //int columns = 16;
+
+	void RenderEditor(Game* game);
 };

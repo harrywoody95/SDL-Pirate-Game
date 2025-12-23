@@ -18,54 +18,68 @@ float ImGuiFPSGraph::Average()
 
 void Performance::RenderPerformance(Game* game)
 {
-    ImGui::SetNextWindowSize(ImVec2(500, 500), ImGuiCond_Always);
+    
+    ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Always);
+    ImGui::SetNextWindowSize(ImVec2(850, 90), ImGuiCond_Always);
 
-    ImGui::Begin("Performance");
+    ImGui::Begin("Performance", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
+
+    ImGui::BeginChild("StatsColumn", ImVec2(200, 0), false);
+    ImGui::Text("Entity Count: %d", game->EntityList.size());
+    ImGui::Text("Sprite Count: %d", game->SpriteList.Sprites.size());
+    ImGui::Text("Animation Count: %d", game->AnimationList.size());
+    ImGui::EndChild();
+
+    ImGui::SameLine();
+
+    ImGui::BeginChild("FPSColumn", ImVec2(300, 0), false);
     ImGui::Text("FPS: %.1f", FpsGraph.Latest());
-    ImGui::Text("Avg: %.1f", FpsGraph.Average());
+    ImGui::SameLine();
+    ImGui::Text("Average: %.1f", FpsGraph.Average());
 
     ImGui::PushStyleColor(ImGuiCol_PlotLines, ImVec4(0.2f, 0.9f, 0.2f, 1.0f));
     ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(0.08f, 0.08f, 0.08f, 1.0f));
-
     ImGui::PlotLines(
-        "##FPS",
+        "FPSGraph",
         FpsGraph.fps.data(),
         FpsGraph.filled ? MAXHISTORY : FpsGraph.offset,
         FpsGraph.filled ? FpsGraph.offset : 0,
         nullptr,
         0.0f,
-        144.0f,
-        ImVec2(-1, 150)
+        512.0f,
+        ImVec2(-1, 35)
     );
-
     ImGui::PopStyleColor(2);
+    ImGui::EndChild();
 
-    float memMB = GetMemoryMB();
-    MemoryGraph.Add(memMB);
+    ImGui::SameLine();
 
-    ImGui::Text("Memory: %.1f MB", memMB);
-    ImGui::Text("Avg: %.1f MB", MemoryGraph.Average());
+    float MemoryInMB = GetMemoryMB();
+    MemoryGraph.Add(MemoryInMB);
 
-    ImGui::PushStyleColor(ImGuiCol_PlotLines, ImVec4(0.9f, 0.2f, 0.2f, 1.0f));
+    ImGui::BeginChild("MemoryColumn", ImVec2(300, 0), false);
+    ImGui::Text("Usage: %.1f MB", MemoryInMB);
+    ImGui::SameLine();
+    ImGui::Text("Average: %.1f MB", MemoryGraph.Average());
+
+    ImGui::PushStyleColor(ImGuiCol_PlotLines, ImVec4(0.1f, 0.1f, 0.8f, 1.0f));
     ImGui::PushStyleColor(ImGuiCol_FrameBg, ImVec4(0.08f, 0.08f, 0.08f, 1.0f));
-
     ImGui::PlotLines(
-        "##Memory",
+        "MemoryGraph",
         MemoryGraph.mem.data(),
         MemoryGraph.filled ? MAXHISTORY : MemoryGraph.offset,
         MemoryGraph.filled ? MemoryGraph.offset : 0,
         nullptr,
         0.0f,
-        512.0f, // max memory scale (adjust as needed)
-        ImVec2(-1, 150)
+        512.0f,
+        ImVec2(-1, 35)
     );
-    ImGui::Text("Entity Count: %d", game->EntityList.size());
-    ImGui::Text("Sprite Count: %d", game->SpriteList.Sprites.size());
-    ImGui::Text("Animation Count: %d", game->AnimationList.size());
     ImGui::PopStyleColor(2);
+    ImGui::EndChild();
 
     ImGui::End();
 }
+
 
 void Performance::Update() 
 {

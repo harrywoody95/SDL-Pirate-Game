@@ -28,7 +28,7 @@ struct Game {
 	Audio Audio;
 	Camera Camera;
 	Map Map;
-	Editor Editor;
+	MapEditor Editor;
 	Performance Performance;
 
 	bool IsRunning = false;
